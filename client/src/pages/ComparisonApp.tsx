@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MapPin, Bus, Plane, Calendar, Search, Bell, User, Loader } from "lucide-react";
+import { MapPin, Bus, Plane, Calendar, Search, Bell, User, Loader, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MapWithRoutes } from "@/components/MapWithRoutes";
@@ -27,10 +27,11 @@ interface FareResult {
  * ComparisonApp - Form-First, On-Demand Map Workflow
  * 
  * Features:
+ * - Large neon lime pill button for mode selection
  * - GPS auto-fill for current location
  * - Map hidden on launch, reveals after destination entry
  * - Smooth slide-down animation for map reveal
- * - Flat, modern form UI with horizontal tab selector
+ * - Flat, modern form UI
  * - Neon lime route visualization
  */
 export default function ComparisonApp() {
@@ -47,6 +48,7 @@ export default function ComparisonApp() {
   const [mapVisible, setMapVisible] = useState(false);
   const [originCoords, setOriginCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [destCoords, setDestCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [showModeMenu, setShowModeMenu] = useState(false);
 
   // Mock data for different modes
   const mockResults: Record<TransitMode, FareResult[]> = {
@@ -124,6 +126,12 @@ export default function ComparisonApp() {
     ],
   };
 
+  const modeLabels: Record<TransitMode, { label: string; icon: React.ReactNode }> = {
+    bus: { label: "Inter-State Bus", icon: <Bus className="w-5 h-5" /> },
+    cab: { label: "Intra-City Cab", icon: <MapPin className="w-5 h-5" /> },
+    flight: { label: "Domestic Flight", icon: <Plane className="w-5 h-5" /> },
+  };
+
   // Handle GPS auto-fill
   const handleGPSClick = () => {
     setLoadingGPS(true);
@@ -168,6 +176,7 @@ export default function ComparisonApp() {
   const handleModeChange = (newMode: TransitMode) => {
     setMode(newMode);
     setSearchParams({ ...searchParams, mode: newMode });
+    setShowModeMenu(false);
   };
 
   const handleInputChange = (field: keyof SearchParams, value: string) => {
@@ -208,70 +217,67 @@ export default function ComparisonApp() {
       {/* Main Content */}
       <main className="container py-8">
         <div className="max-w-2xl mx-auto">
-          {/* Horizontal Tab Selector */}
-          <div className="mb-8 flex gap-2 border-b border-gray-800 pb-4 overflow-x-auto">
-            <button
-              onClick={() => handleModeChange("bus")}
-              className={`px-4 py-2 font-mono font-bold text-sm whitespace-nowrap transition-all duration-150 border-b-2 ${
-                mode === "bus"
-                  ? "border-lime-400 text-lime-400"
-                  : "border-transparent text-gray-500 hover:text-gray-400"
-              }`}
-            >
-              <Bus className="w-4 h-4 inline mr-2" />
-              Bus
-            </button>
-            <button
-              onClick={() => handleModeChange("cab")}
-              className={`px-4 py-2 font-mono font-bold text-sm whitespace-nowrap transition-all duration-150 border-b-2 ${
-                mode === "cab"
-                  ? "border-lime-400 text-lime-400"
-                  : "border-transparent text-gray-500 hover:text-gray-400"
-              }`}
-            >
-              <MapPin className="w-4 h-4 inline mr-2" />
-              Cab
-            </button>
-            <button
-              onClick={() => handleModeChange("flight")}
-              className={`px-4 py-2 font-mono font-bold text-sm whitespace-nowrap transition-all duration-150 border-b-2 ${
-                mode === "flight"
-                  ? "border-lime-400 text-lime-400"
-                  : "border-transparent text-gray-500 hover:text-gray-400"
-              }`}
-            >
-              <Plane className="w-4 h-4 inline mr-2" />
-              Flight
-            </button>
+          {/* Large Neon Lime Mode Selector Pill */}
+          <div className="mb-8 flex justify-center">
+            <div className="relative">
+              <button
+                onClick={() => setShowModeMenu(!showModeMenu)}
+                className="bg-lime-400 text-black hover:bg-lime-300 font-mono font-bold text-lg py-4 px-8 rounded-full flex items-center gap-3 transition-all duration-150 active:scale-95 shadow-lg hover:shadow-xl hover:shadow-lime-400/50"
+              >
+                {modeLabels[mode].icon}
+                {modeLabels[mode].label}
+                <ChevronDown className="w-5 h-5 ml-2" />
+              </button>
+
+              {/* Mode Menu Dropdown */}
+              {showModeMenu && (
+                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-10 min-w-max">
+                  {Object.entries(modeLabels).map(([modeKey, { label, icon }]) => (
+                    <button
+                      key={modeKey}
+                      onClick={() => handleModeChange(modeKey as TransitMode)}
+                      className={`w-full px-6 py-3 flex items-center gap-3 transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg ${
+                        mode === modeKey
+                          ? "bg-lime-400 text-black"
+                          : "hover:bg-gray-800 text-white"
+                      }`}
+                    >
+                      {icon}
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Search Form */}
-          <div className="bg-black border border-gray-800 p-6 rounded-lg mb-6">
+          <div className="bg-black border border-gray-800 p-6 rounded-lg mb-6 space-y-5">
             {/* FROM */}
-            <div className="mb-5">
-              <label className="block text-gray-400 font-mono text-xs mb-2 uppercase tracking-wider">
+            <div>
+              <label className="block text-gray-400 font-mono text-xs mb-3 uppercase tracking-wider">
                 From
               </label>
               <div className="relative flex items-center">
-                <MapPin className="absolute left-3 w-4 h-4 text-gray-600" />
+                <MapPin className="absolute left-4 w-5 h-5 text-gray-600" />
                 <Input
                   type="text"
                   placeholder="Departure City"
                   value={searchParams.from}
                   onChange={(e) => handleInputChange("from", e.target.value)}
-                  className="pl-10 pr-12 bg-gray-900 border border-gray-700 text-white placeholder-gray-600 h-11 rounded-lg focus:border-lime-400 focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
+                  className="pl-14 pr-12 bg-gray-900 border border-gray-700 text-white placeholder-gray-600 h-14 rounded-lg focus:border-lime-400 focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
                 />
-              <button
-              onClick={handleGPSClick}
-              disabled={loadingGPS}
-              className="absolute right-3 text-gray-600 hover:text-lime-400 transition-all duration-200 disabled:opacity-50 active:scale-90"
-              title="Use current location"
-            >
+                <button
+                  onClick={handleGPSClick}
+                  disabled={loadingGPS}
+                  className="absolute right-4 text-gray-600 hover:text-lime-400 transition-all duration-200 disabled:opacity-50 active:scale-90"
+                  title="Use current location"
+                >
                   {loadingGPS ? (
-                    <Loader className="w-4 h-4 animate-spin" />
+                    <Loader className="w-5 h-5 animate-spin" />
                   ) : (
                     <svg
-                      className="w-4 h-4"
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -289,34 +295,34 @@ export default function ComparisonApp() {
             </div>
 
             {/* TO */}
-            <div className="mb-5">
-              <label className="block text-gray-400 font-mono text-xs mb-2 uppercase tracking-wider">
+            <div>
+              <label className="block text-gray-400 font-mono text-xs mb-3 uppercase tracking-wider">
                 To
               </label>
               <div className="relative">
-                <MapPin className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" />
+                <MapPin className="absolute left-4 top-4 w-5 h-5 text-gray-600" />
                 <Input
                   type="text"
                   placeholder="Destination City"
                   value={searchParams.to}
                   onChange={(e) => handleInputChange("to", e.target.value)}
-                  className="pl-10 bg-gray-900 border border-gray-700 text-white placeholder-gray-600 h-11 rounded-lg focus:border-lime-400 focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
+                  className="pl-14 bg-gray-900 border border-gray-700 text-white placeholder-gray-600 h-14 rounded-lg focus:border-lime-400 focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
                 />
               </div>
             </div>
 
             {/* DATE */}
-            <div className="mb-6">
-              <label className="block text-gray-400 font-mono text-xs mb-2 uppercase tracking-wider">
+            <div>
+              <label className="block text-gray-400 font-mono text-xs mb-3 uppercase tracking-wider">
                 Date
               </label>
               <div className="relative">
-                <Calendar className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" />
+                <Calendar className="absolute left-4 top-4 w-5 h-5 text-gray-600" />
                 <Input
                   type="date"
                   value={searchParams.date}
                   onChange={(e) => handleInputChange("date", e.target.value)}
-                  className="pl-10 bg-gray-900 border border-gray-700 text-white h-11 rounded-lg focus:border-lime-400 focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
+                  className="pl-14 bg-gray-900 border border-gray-700 text-white h-14 rounded-lg focus:border-lime-400 focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
                 />
               </div>
             </div>
@@ -325,7 +331,7 @@ export default function ComparisonApp() {
             <Button
               onClick={handleCompare}
               disabled={!searchParams.from || !searchParams.to || !searchParams.date}
-              className="w-full bg-lime-400 text-black hover:bg-lime-300 disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed font-mono font-bold text-base py-5 rounded-lg transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:shadow-lime-400/50"
+              className="w-full bg-lime-400 text-black hover:bg-lime-300 disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed font-mono font-bold text-lg py-6 rounded-lg transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:shadow-lime-400/50"
             >
               <Search className="w-5 h-5" />
               Compare Prices
