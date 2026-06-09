@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { MapPin, Bus, Plane, Calendar, Search, Bell, User, Loader, ChevronDown } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { MapPin, Bus, Plane, Calendar, Search, Bell, User, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MapWithRoutes } from "@/components/MapWithRoutes";
@@ -24,15 +24,15 @@ interface FareResult {
 }
 
 /**
- * ComparisonApp - Form-First, On-Demand Map Workflow
+ * ComparisonApp - Horizontal Sliding Tab Bar with Swipe Gesture Support
  * 
  * Features:
- * - Large neon lime pill button for mode selection
+ * - Clean horizontal tab bar (Bus, Cab, Flight)
+ * - Swipe gesture support for seamless mode switching
+ * - Neon lime underline indicator for active tab
  * - GPS auto-fill for current location
  * - Map hidden on launch, reveals after destination entry
- * - Smooth slide-down animation for map reveal
- * - Flat, modern form UI
- * - Neon lime route visualization
+ * - Smooth animations and transitions
  */
 export default function ComparisonApp() {
   const [mode, setMode] = useState<TransitMode>("bus");
@@ -48,7 +48,16 @@ export default function ComparisonApp() {
   const [mapVisible, setMapVisible] = useState(false);
   const [originCoords, setOriginCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [destCoords, setDestCoords] = useState<{ lat: number; lng: number } | null>(null);
-  const [showModeMenu, setShowModeMenu] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const tabContainerRef = useRef<HTMLDivElement>(null);
+
+  const modes: TransitMode[] = ["bus", "cab", "flight"];
+  const modeLabels: Record<TransitMode, { label: string; icon: React.ReactNode }> = {
+    bus: { label: "Bus", icon: <Bus className="w-4 h-4" /> },
+    cab: { label: "Cab", icon: <MapPin className="w-4 h-4" /> },
+    flight: { label: "Flight", icon: <Plane className="w-4 h-4" /> },
+  };
 
   // Mock data for different modes
   const mockResults: Record<TransitMode, FareResult[]> = {
@@ -126,10 +135,38 @@ export default function ComparisonApp() {
     ],
   };
 
-  const modeLabels: Record<TransitMode, { label: string; icon: React.ReactNode }> = {
-    bus: { label: "Inter-State Bus", icon: <Bus className="w-5 h-5" /> },
-    cab: { label: "Intra-City Cab", icon: <MapPin className="w-5 h-5" /> },
-    flight: { label: "Domestic Flight", icon: <Plane className="w-5 h-5" /> },
+  // Handle swipe gestures
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      // Swipe left - move to next mode
+      const currentIndex = modes.indexOf(mode);
+      if (currentIndex < modes.length - 1) {
+        setMode(modes[currentIndex + 1]);
+      }
+    }
+
+    if (isRightSwipe) {
+      // Swipe right - move to previous mode
+      const currentIndex = modes.indexOf(mode);
+      if (currentIndex > 0) {
+        setMode(modes[currentIndex - 1]);
+      }
+    }
   };
 
   // Handle GPS auto-fill
@@ -176,7 +213,6 @@ export default function ComparisonApp() {
   const handleModeChange = (newMode: TransitMode) => {
     setMode(newMode);
     setSearchParams({ ...searchParams, mode: newMode });
-    setShowModeMenu(false);
   };
 
   const handleInputChange = (field: keyof SearchParams, value: string) => {
@@ -189,6 +225,8 @@ export default function ComparisonApp() {
       setHasSearched(true);
     }
   };
+
+  const currentModeIndex = modes.indexOf(mode);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -217,38 +255,34 @@ export default function ComparisonApp() {
       {/* Main Content */}
       <main className="container py-8">
         <div className="max-w-2xl mx-auto">
-          {/* Large Neon Lime Mode Selector Pill */}
-          <div className="mb-8 flex justify-center">
-            <div className="relative">
+          {/* Horizontal Tab Bar with Swipe Support */}
+          <div
+            ref={tabContainerRef}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="mb-8 border-b border-gray-800 flex gap-8 cursor-pointer select-none"
+          >
+            {modes.map((modeKey) => (
               <button
-                onClick={() => setShowModeMenu(!showModeMenu)}
-                className="bg-lime-400 text-black hover:bg-lime-300 font-mono font-bold text-lg py-4 px-8 rounded-full flex items-center gap-3 transition-all duration-150 active:scale-95 shadow-lg hover:shadow-xl hover:shadow-lime-400/50"
+                key={modeKey}
+                onClick={() => handleModeChange(modeKey)}
+                className={`pb-3 font-mono font-bold text-sm transition-all duration-200 flex items-center gap-2 whitespace-nowrap relative ${
+                  mode === modeKey ? "text-white" : "text-gray-500 hover:text-gray-400"
+                }`}
               >
-                {modeLabels[mode].icon}
-                {modeLabels[mode].label}
-                <ChevronDown className="w-5 h-5 ml-2" />
-              </button>
+                {modeLabels[modeKey].icon}
+                {modeKey === "bus"
+                  ? "Inter-State Bus"
+                  : modeKey === "cab"
+                  ? "Intra-City Cab"
+                  : "Domestic Flight"}
 
-              {/* Mode Menu Dropdown */}
-              {showModeMenu && (
-                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-10 min-w-max">
-                  {Object.entries(modeLabels).map(([modeKey, { label, icon }]) => (
-                    <button
-                      key={modeKey}
-                      onClick={() => handleModeChange(modeKey as TransitMode)}
-                      className={`w-full px-6 py-3 flex items-center gap-3 transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg ${
-                        mode === modeKey
-                          ? "bg-lime-400 text-black"
-                          : "hover:bg-gray-800 text-white"
-                      }`}
-                    >
-                      {icon}
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+                {/* Neon Lime Underline Indicator */}
+                {mode === modeKey && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-lime-400 animate-slide-in" />
+                )}
+              </button>
+            ))}
           </div>
 
           {/* Search Form */}
@@ -358,7 +392,12 @@ export default function ComparisonApp() {
           {hasSearched && results.length > 0 && (
             <div className="animate-fade-in">
               <h3 className="font-mono font-bold text-lime-400 mb-4 text-sm uppercase tracking-wider">
-                Available {mode === "bus" ? "Buses" : mode === "cab" ? "Cabs" : "Flights"}
+                Available{" "}
+                {mode === "bus"
+                  ? "Buses"
+                  : mode === "cab"
+                  ? "Cabs"
+                  : "Flights"}
               </h3>
               <div className="grid gap-3">
                 {results.map((result) => (
