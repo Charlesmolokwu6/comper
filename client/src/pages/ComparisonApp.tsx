@@ -24,15 +24,15 @@ interface FareResult {
 }
 
 /**
- * ComparisonApp - Horizontal Sliding Tab Bar with Swipe Gesture Support
+ * ComparisonApp - Premium Transit Comparison Interface
  * 
- * Features:
- * - Clean horizontal tab bar (Bus, Cab, Flight)
- * - Swipe gesture support for seamless mode switching
- * - Neon lime underline indicator for active tab
- * - GPS auto-fill for current location
- * - Map hidden on launch, reveals after destination entry
- * - Smooth animations and transitions
+ * Design Philosophy: Cyberpunk Minimalism
+ * - Pure black background (#000000)
+ * - Neon lime accents (#C0F11C)
+ * - Active pill-shaped capsule for selected mode
+ * - Minimalist inactive icons
+ * - Frameless dark inputs (#1A1A1A)
+ * - Full-width neon lime Compare button
  */
 export default function ComparisonApp() {
   const [mode, setMode] = useState<TransitMode>("bus");
@@ -48,15 +48,12 @@ export default function ComparisonApp() {
   const [mapVisible, setMapVisible] = useState(false);
   const [originCoords, setOriginCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [destCoords, setDestCoords] = useState<{ lat: number; lng: number } | null>(null);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const tabContainerRef = useRef<HTMLDivElement>(null);
 
   const modes: TransitMode[] = ["bus", "cab", "flight"];
-  const modeLabels: Record<TransitMode, { label: string; icon: React.ReactNode }> = {
-    bus: { label: "Bus", icon: <Bus className="w-4 h-4" /> },
-    cab: { label: "Cab", icon: <MapPin className="w-4 h-4" /> },
-    flight: { label: "Flight", icon: <Plane className="w-4 h-4" /> },
+  const modeLabels: Record<TransitMode, { label: string; shortLabel: string; icon: React.ReactNode }> = {
+    bus: { label: "Inter-State Bus", shortLabel: "Bus", icon: <Bus className="w-5 h-5" /> },
+    cab: { label: "Intra-City Cab", shortLabel: "Cab", icon: <MapPin className="w-5 h-5" /> },
+    flight: { label: "Domestic Flight", shortLabel: "Flight", icon: <Plane className="w-5 h-5" /> },
   };
 
   // Mock data for different modes
@@ -135,40 +132,6 @@ export default function ComparisonApp() {
     ],
   };
 
-  // Handle swipe gestures
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    setTouchEnd(e.changedTouches[0].clientX);
-    handleSwipe();
-  };
-
-  const handleSwipe = () => {
-    if (!touchStart || !touchEnd) return;
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      // Swipe left - move to next mode
-      const currentIndex = modes.indexOf(mode);
-      if (currentIndex < modes.length - 1) {
-        setMode(modes[currentIndex + 1]);
-      }
-    }
-
-    if (isRightSwipe) {
-      // Swipe right - move to previous mode
-      const currentIndex = modes.indexOf(mode);
-      if (currentIndex > 0) {
-        setMode(modes[currentIndex - 1]);
-      }
-    }
-  };
-
   // Handle GPS auto-fill
   const handleGPSClick = () => {
     setLoadingGPS(true);
@@ -226,12 +189,10 @@ export default function ComparisonApp() {
     }
   };
 
-  const currentModeIndex = modes.indexOf(mode);
-
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Header */}
-      <header className="border-b border-lime-900 bg-black sticky top-0 z-50">
+      <header className="border-b border-gray-900 bg-black sticky top-0 z-50">
         <div className="container py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -244,7 +205,7 @@ export default function ComparisonApp() {
               <button className="text-gray-400 hover:text-lime-400 transition-colors">
                 <Bell className="w-5 h-5" />
               </button>
-              <button className="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors flex items-center justify-center">
+              <button className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors flex items-center justify-center">
                 <User className="w-5 h-5" />
               </button>
             </div>
@@ -253,54 +214,36 @@ export default function ComparisonApp() {
       </header>
 
       {/* Main Content */}
-      <main className="container py-8">
+      <main className="flex-1 container py-8">
         <div className="max-w-2xl mx-auto">
-          {/* Horizontal Tab Bar with Swipe Support - Fixed Overlap */}
-          <div
-            ref={tabContainerRef}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            className="mb-8 border-b border-gray-800 flex flex-row gap-6 overflow-x-auto scroll-smooth cursor-pointer select-none whitespace-nowrap pb-3"
-            style={{
-              scrollBehavior: 'smooth',
-              WebkitOverflowScrolling: 'touch',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            } as React.CSSProperties}
-          >
-            {/* Hide scrollbar */}
-            <style>{`
-              div::-webkit-scrollbar {
-                display: none;
-              }
-            `}</style>
-            {modes.map((modeKey) => (
-              <button
-                key={modeKey}
-                onClick={() => handleModeChange(modeKey)}
-                className={`px-4 py-3 font-mono font-bold text-sm transition-all duration-200 flex items-center gap-2 flex-shrink-0 relative ${
-                  mode === modeKey ? "text-white" : "text-gray-500 hover:text-gray-400"
-                }`}
-              >
-                {modeLabels[modeKey].icon}
-                <span>
-                  {modeKey === "bus"
-                    ? "Inter-State Bus"
-                    : modeKey === "cab"
-                    ? "Intra-City Cab"
-                    : "Domestic Flight"}
-                </span>
+          {/* Segmented Control - Active Pill Capsule + Minimalist Inactive Icons */}
+          <div className="mb-8 flex items-center gap-3">
+            {/* Active Pill Capsule */}
+            <div className="bg-lime-400 text-black px-4 py-2 rounded-full font-mono font-bold text-sm flex items-center gap-2 flex-shrink-0 transition-all duration-200">
+              {modeLabels[mode].icon}
+              <span>{modeLabels[mode].label}</span>
+            </div>
 
-                {/* Neon Lime Underline Indicator */}
-                {mode === modeKey && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-lime-400 animate-slide-in" />
-                )}
-              </button>
-            ))}
+            {/* Inactive Mode Icons */}
+            <div className="flex items-center gap-4 ml-4">
+              {modes.map((modeKey) => {
+                if (modeKey === mode) return null; // Skip active mode
+                return (
+                  <button
+                    key={modeKey}
+                    onClick={() => handleModeChange(modeKey)}
+                    className="text-gray-500 hover:text-white transition-all duration-200 p-2 rounded-lg hover:bg-gray-900"
+                    title={modeLabels[modeKey].label}
+                  >
+                    {modeLabels[modeKey].icon}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Search Form - Frameless */}
-          <div className="bg-black p-6 mb-6 space-y-5">
+          {/* Search Form - Frameless Dark Inputs */}
+          <div className="space-y-5 mb-6">
             {/* FROM */}
             <div>
               <label className="block text-gray-400 font-mono text-xs mb-3 uppercase tracking-wider">
@@ -313,7 +256,7 @@ export default function ComparisonApp() {
                   placeholder="Departure City"
                   value={searchParams.from}
                   onChange={(e) => handleInputChange("from", e.target.value)}
-                  className="pl-14 pr-12 bg-gray-900 text-white placeholder-gray-600 h-14 rounded-lg focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
+                  className="pl-14 pr-12 bg-gray-900 text-white placeholder-gray-600 h-14 rounded-xl focus:outline-none transition-all duration-200 focus:ring-2 focus:ring-lime-400/50"
                 />
                 <button
                   onClick={handleGPSClick}
@@ -334,7 +277,7 @@ export default function ComparisonApp() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0-2c3.314 0 6 2.686 6 6s-2.686 6-6 6-6-2.686-6-6 2.686-6 6-6zm0 10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"
+                        d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0-2c3.314 0 6 2.686 6 6s-2.686 6-6 6-6-2.686-6-6 2.686-6 6-6z"
                       />
                     </svg>
                   )}
@@ -354,7 +297,7 @@ export default function ComparisonApp() {
                   placeholder="Destination City"
                   value={searchParams.to}
                   onChange={(e) => handleInputChange("to", e.target.value)}
-                  className="pl-14 bg-gray-900 text-white placeholder-gray-600 h-14 rounded-lg focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
+                  className="pl-14 bg-gray-900 text-white placeholder-gray-600 h-14 rounded-xl focus:outline-none transition-all duration-200 focus:ring-2 focus:ring-lime-400/50"
                 />
               </div>
             </div>
@@ -370,20 +313,10 @@ export default function ComparisonApp() {
                   type="date"
                   value={searchParams.date}
                   onChange={(e) => handleInputChange("date", e.target.value)}
-                  className="pl-14 bg-gray-900 text-white h-14 rounded-lg focus:outline-none transition-all duration-200 focus:shadow-lg focus:shadow-lime-400/20"
+                  className="pl-14 bg-gray-900 text-white h-14 rounded-xl focus:outline-none transition-all duration-200 focus:ring-2 focus:ring-lime-400/50"
                 />
               </div>
             </div>
-
-            {/* Compare Button */}
-            <Button
-              onClick={handleCompare}
-              disabled={!searchParams.from || !searchParams.to || !searchParams.date}
-              className="w-full bg-lime-400 text-black hover:bg-lime-300 disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed font-mono font-bold text-lg py-6 rounded-lg transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 shadow-xl hover:shadow-2xl hover:shadow-lime-400/50"
-            >
-              <Search className="w-5 h-5" />
-              Compare Prices
-            </Button>
           </div>
 
           {/* Map - Conditional Reveal with Slide-Down Animation */}
@@ -404,7 +337,7 @@ export default function ComparisonApp() {
 
           {/* Results */}
           {hasSearched && results.length > 0 && (
-            <div className="animate-fade-in">
+            <div className="animate-fade-in mb-6">
               <h3 className="font-mono font-bold text-lime-400 mb-4 text-sm uppercase tracking-wider">
                 Available{" "}
                 {mode === "bus"
@@ -417,7 +350,7 @@ export default function ComparisonApp() {
                 {results.map((result) => (
                   <div
                     key={result.id}
-                    className="border border-gray-800 bg-gray-900 p-4 rounded-lg hover:border-lime-400 transition-all duration-150 cursor-pointer group"
+                    className="bg-gray-900 p-4 rounded-xl hover:bg-gray-800 transition-all duration-150 cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
@@ -456,9 +389,23 @@ export default function ComparisonApp() {
         </div>
       </main>
 
+      {/* Full-Width Compare Button - Anchored at Bottom */}
+      <div className="bg-black border-t border-gray-900 sticky bottom-0 w-full">
+        <div className="container py-4">
+          <Button
+            onClick={handleCompare}
+            disabled={!searchParams.from || !searchParams.to || !searchParams.date}
+            className="w-full bg-lime-400 text-black hover:bg-lime-300 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed font-mono font-bold text-lg py-6 rounded-xl transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 shadow-2xl hover:shadow-lime-400/50"
+          >
+            <Search className="w-6 h-6" />
+            Compare Prices
+          </Button>
+        </div>
+      </div>
+
       {/* Footer */}
-      <footer className="border-t border-gray-800 bg-black mt-12">
-        <div className="container py-6">
+      <footer className="border-t border-gray-900 bg-black">
+        <div className="container py-4">
           <p className="text-xs text-gray-600 font-mono text-center">
             © 2026 Compare. Premium Transit Comparison for Nigeria.
           </p>
