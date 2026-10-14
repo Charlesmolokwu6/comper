@@ -1,0 +1,10301 @@
+{
+  "generatedAt": "2026-10-14T12:38:10.350Z",
+  "stops": {
+    "guo:origins": [
+      {
+        "id": "1",
+        "name": "ABA",
+        "state": "ABIA"
+      },
+      {
+        "id": "45",
+        "name": "UMUAHIA",
+        "state": "ABIA"
+      },
+      {
+        "id": "113",
+        "name": "UYO",
+        "state": "AKWA IBOM"
+      },
+      {
+        "id": "6",
+        "name": "AWKA",
+        "state": "ANAMBRA"
+      },
+      {
+        "id": "11",
+        "name": "EKWULOBIA",
+        "state": "ANAMBRA"
+      },
+      {
+        "id": "119",
+        "name": "IFITE-AWKA",
+        "state": "ANAMBRA"
+      },
+      {
+        "id": "67",
+        "name": "IHIALA",
+        "state": "ANAMBRA"
+      },
+      {
+        "id": "24",
+        "name": "NNEWI",
+        "state": "ANAMBRA"
+      },
+      {
+        "id": "25",
+        "name": "ONITSHA",
+        "state": "ANAMBRA"
+      },
+      {
+        "id": "42",
+        "name": "UMUNZE",
+        "state": "ANAMBRA"
+      },
+      {
+        "id": "70",
+        "name": "OGOJA",
+        "state": "CROSS RIVER"
+      },
+      {
+        "id": "79",
+        "name": "ASABA",
+        "state": "DELTA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI",
+        "state": "EBONYI"
+      },
+      {
+        "id": "100",
+        "name": "AFIKPO",
+        "state": "EBONYI"
+      },
+      {
+        "id": "106",
+        "name": "BENIN",
+        "state": "EDO"
+      },
+      {
+        "id": "12",
+        "name": "ENUGU",
+        "state": "ENUGU"
+      },
+      {
+        "id": "82",
+        "name": "KUBWA",
+        "state": "FCT (ABUJA)"
+      },
+      {
+        "id": "77",
+        "name": "MARARABA",
+        "state": "FCT (ABUJA)"
+      },
+      {
+        "id": "3",
+        "name": "UTAKO",
+        "state": "FCT (ABUJA)"
+      },
+      {
+        "id": "33",
+        "name": "ZUBA",
+        "state": "FCT (ABUJA)"
+      },
+      {
+        "id": "13",
+        "name": "GOMBE",
+        "state": "GOMBE"
+      },
+      {
+        "id": "26",
+        "name": "ORLU",
+        "state": "IMO"
+      },
+      {
+        "id": "28",
+        "name": "OWERRI",
+        "state": "IMO"
+      },
+      {
+        "id": "44",
+        "name": "AJAH",
+        "state": "LAGOS"
+      },
+      {
+        "id": "5",
+        "name": "ALABA",
+        "state": "LAGOS"
+      },
+      {
+        "id": "10",
+        "name": "COKER",
+        "state": "LAGOS"
+      },
+      {
+        "id": "78",
+        "name": "EJIGBO",
+        "state": "LAGOS"
+      },
+      {
+        "id": "14",
+        "name": "IBA",
+        "state": "LAGOS"
+      },
+      {
+        "id": "114",
+        "name": "IKORODU",
+        "state": "LAGOS"
+      },
+      {
+        "id": "16",
+        "name": "IKOTUN",
+        "state": "LAGOS"
+      },
+      {
+        "id": "72",
+        "name": "IYANA IPAJA",
+        "state": "LAGOS"
+      },
+      {
+        "id": "84",
+        "name": "JIBOWU",
+        "state": "LAGOS"
+      },
+      {
+        "id": "23",
+        "name": "MAZA MAZA",
+        "state": "LAGOS"
+      },
+      {
+        "id": "40",
+        "name": "OKOTA (CELE)",
+        "state": "LAGOS"
+      },
+      {
+        "id": "27",
+        "name": "OTTO",
+        "state": "LAGOS"
+      },
+      {
+        "id": "29",
+        "name": "PORT HARCOURT",
+        "state": "RIVERS"
+      },
+      {
+        "id": "48",
+        "name": "JALINGO",
+        "state": "TARABA"
+      }
+    ],
+    "guo:dest:1": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "13",
+        "name": "LAGOS"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:45": [
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      }
+    ],
+    "guo:dest:113": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:6": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      }
+    ],
+    "guo:dest:11": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "51",
+        "name": "AGBOR"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      }
+    ],
+    "guo:dest:119": [],
+    "guo:dest:67": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      }
+    ],
+    "guo:dest:24": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "13",
+        "name": "LAGOS"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:25": [
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "33",
+        "name": "JALINGO"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "122",
+        "name": "LAGOS - IDDO"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "113",
+        "name": "ORE"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:42": [
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "124",
+        "name": "LAGOS - APAPA"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "122",
+        "name": "LAGOS - IDDO"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:70": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "113",
+        "name": "ORE"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:79": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "7",
+        "name": "BENIN BYPASS"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "13",
+        "name": "LAGOS"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "113",
+        "name": "ORE"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:2": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "13",
+        "name": "LAGOS"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      }
+    ],
+    "guo:dest:100": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "124",
+        "name": "LAGOS - APAPA"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "122",
+        "name": "LAGOS - IDDO"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "113",
+        "name": "ORE"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:106": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      },
+      {
+        "id": "34",
+        "name": "WARRI"
+      }
+    ],
+    "guo:dest:12": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "51",
+        "name": "AGBOR"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "169",
+        "name": "RESCHEDULE MY TRIP"
+      }
+    ],
+    "guo:dest:82": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "113",
+        "name": "ORE"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:77": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "196",
+        "name": "BEKWARA (ABOCBICHE JNCT)"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "197",
+        "name": "MARKURDI"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "113",
+        "name": "ORE"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:3": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "194",
+        "name": "AMASIRI"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "47",
+        "name": "AUCHI"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "48",
+        "name": "EKPOMA"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "22",
+        "name": "IBADAN"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "122",
+        "name": "LAGOS - IDDO"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "113",
+        "name": "ORE"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:33": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:13": [
+      {
+        "id": "13",
+        "name": "LAGOS"
+      }
+    ],
+    "guo:dest:26": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:28": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "13",
+        "name": "LAGOS"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "107",
+        "name": "LAGOS - MILE2"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      }
+    ],
+    "guo:dest:44": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "44",
+        "name": "LOKOJA"
+      },
+      {
+        "id": "58",
+        "name": "MBAISE"
+      },
+      {
+        "id": "166",
+        "name": "MBAISE-UMUAHIA"
+      },
+      {
+        "id": "53",
+        "name": "MGBIDI"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "165",
+        "name": "ORLU-UMUAHIA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "191",
+        "name": "OWERRI-MBAISE"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      },
+      {
+        "id": "34",
+        "name": "WARRI"
+      }
+    ],
+    "guo:dest:5": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "39",
+        "name": "UMUAKA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:10": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "78",
+        "name": "AKAEZE"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "194",
+        "name": "AMASIRI"
+      },
+      {
+        "id": "193",
+        "name": "ARONDIZUOGU"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "126",
+        "name": "BAYELSA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "90",
+        "name": "UMUOJI"
+      }
+    ],
+    "guo:dest:78": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "57",
+        "name": "AWKA-ETITI"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "72",
+        "name": "IGBOUKWU"
+      },
+      {
+        "id": "89",
+        "name": "NKPOR"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "91",
+        "name": "NNOBI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "90",
+        "name": "UMUOJI"
+      },
+      {
+        "id": "34",
+        "name": "WARRI"
+      }
+    ],
+    "guo:dest:14": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "55",
+        "name": "ADAZI"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "50",
+        "name": "AGULU"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "89",
+        "name": "NKPOR"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "56",
+        "name": "OBA JUNCTION"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "60",
+        "name": "OKIJA"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "54",
+        "name": "ULI"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:114": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "156",
+        "name": "ABUJA - AREA 3"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "78",
+        "name": "AKAEZE"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "89",
+        "name": "NKPOR"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "91",
+        "name": "NNOBI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "60",
+        "name": "OKIJA"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "90",
+        "name": "UMUOJI"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      },
+      {
+        "id": "34",
+        "name": "WARRI"
+      }
+    ],
+    "guo:dest:16": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "57",
+        "name": "AWKA-ETITI"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "53",
+        "name": "MGBIDI"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "56",
+        "name": "OBA JUNCTION"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "60",
+        "name": "OKIJA"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "54",
+        "name": "ULI"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      },
+      {
+        "id": "34",
+        "name": "WARRI"
+      }
+    ],
+    "guo:dest:72": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "55",
+        "name": "ADAZI"
+      },
+      {
+        "id": "87",
+        "name": "ADAZI ANI"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "51",
+        "name": "AGBOR"
+      },
+      {
+        "id": "50",
+        "name": "AGULU"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "57",
+        "name": "AWKA-ETITI"
+      },
+      {
+        "id": "49",
+        "name": "AWKUZU"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "53",
+        "name": "MGBIDI"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "60",
+        "name": "OKIJA"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "39",
+        "name": "UMUAKA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      },
+      {
+        "id": "34",
+        "name": "WARRI"
+      }
+    ],
+    "guo:dest:84": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "50",
+        "name": "AGULU"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "47",
+        "name": "AUCHI"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "44",
+        "name": "LOKOJA"
+      },
+      {
+        "id": "53",
+        "name": "MGBIDI"
+      },
+      {
+        "id": "89",
+        "name": "NKPOR"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "91",
+        "name": "NNOBI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "60",
+        "name": "OKIJA"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "90",
+        "name": "UMUOJI"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:23": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "78",
+        "name": "AKAEZE"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "194",
+        "name": "AMASIRI"
+      },
+      {
+        "id": "193",
+        "name": "ARONDIZUOGU"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "60",
+        "name": "OKIJA"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "90",
+        "name": "UMUOJI"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:40": [
+      {
+        "id": "1",
+        "name": "ABA"
+      },
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "152",
+        "name": "ABUJA - DEIDEI"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "153",
+        "name": "ABUJA - GWARIMPA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "154",
+        "name": "ABUJA - LUGBE"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "157",
+        "name": "ABUJA - NYANYA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "74",
+        "name": "AFIKPO"
+      },
+      {
+        "id": "78",
+        "name": "AKAEZE"
+      },
+      {
+        "id": "66",
+        "name": "AKOKWA"
+      },
+      {
+        "id": "194",
+        "name": "AMASIRI"
+      },
+      {
+        "id": "193",
+        "name": "ARONDIZUOGU"
+      },
+      {
+        "id": "28",
+        "name": "ASABA"
+      },
+      {
+        "id": "47",
+        "name": "AUCHI"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "128",
+        "name": "BENIN"
+      },
+      {
+        "id": "7",
+        "name": "BENIN BYPASS"
+      },
+      {
+        "id": "8",
+        "name": "EKWULOBIA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "37",
+        "name": "IHIALA"
+      },
+      {
+        "id": "89",
+        "name": "NKPOR"
+      },
+      {
+        "id": "15",
+        "name": "NNEWI"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "85",
+        "name": "OKIGWE"
+      },
+      {
+        "id": "77",
+        "name": "OKPOSI"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      },
+      {
+        "id": "17",
+        "name": "ORLU"
+      },
+      {
+        "id": "18",
+        "name": "OWERRI"
+      },
+      {
+        "id": "19",
+        "name": "PORT HARCOURT"
+      },
+      {
+        "id": "30",
+        "name": "UMUAHIA"
+      },
+      {
+        "id": "27",
+        "name": "UMUNZE"
+      },
+      {
+        "id": "202",
+        "name": "UYO"
+      }
+    ],
+    "guo:dest:27": [],
+    "guo:dest:29": [
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "159",
+        "name": "ABUJA - GWAGWALADA"
+      },
+      {
+        "id": "158",
+        "name": "ABUJA - KUBWA"
+      },
+      {
+        "id": "155",
+        "name": "ABUJA - MARARABA"
+      },
+      {
+        "id": "162",
+        "name": "ABUJA - UTAKO"
+      },
+      {
+        "id": "151",
+        "name": "ABUJA - ZUBA"
+      },
+      {
+        "id": "112",
+        "name": "IJEBU ODE"
+      },
+      {
+        "id": "63",
+        "name": "LAGOS - AJAH"
+      },
+      {
+        "id": "65",
+        "name": "LAGOS - ALABA"
+      },
+      {
+        "id": "105",
+        "name": "LAGOS - ANTHONY"
+      },
+      {
+        "id": "109",
+        "name": "LAGOS - BERGER"
+      },
+      {
+        "id": "96",
+        "name": "LAGOS - CELE/OKOTA"
+      },
+      {
+        "id": "64",
+        "name": "LAGOS - COKER"
+      },
+      {
+        "id": "129",
+        "name": "LAGOS - EJIGBO"
+      },
+      {
+        "id": "111",
+        "name": "LAGOS - EPE"
+      },
+      {
+        "id": "121",
+        "name": "LAGOS - IBA"
+      },
+      {
+        "id": "203",
+        "name": "LAGOS - IKORODU"
+      },
+      {
+        "id": "120",
+        "name": "LAGOS - IKOTUN"
+      },
+      {
+        "id": "41",
+        "name": "LAGOS - IYANA-IPAJA"
+      },
+      {
+        "id": "164",
+        "name": "LAGOS - JIBOWU"
+      },
+      {
+        "id": "108",
+        "name": "LAGOS - MAZAMAZA"
+      },
+      {
+        "id": "110",
+        "name": "LAGOS - OJOTA"
+      },
+      {
+        "id": "169",
+        "name": "RESCHEDULE MY TRIP"
+      },
+      {
+        "id": "114",
+        "name": "SAGAMU"
+      }
+    ],
+    "guo:dest:48": [
+      {
+        "id": "2",
+        "name": "ABAKALIKI"
+      },
+      {
+        "id": "3",
+        "name": "ABUJA"
+      },
+      {
+        "id": "5",
+        "name": "AWKA"
+      },
+      {
+        "id": "9",
+        "name": "ENUGU"
+      },
+      {
+        "id": "38",
+        "name": "OGOJA"
+      },
+      {
+        "id": "16",
+        "name": "ONITSHA"
+      }
+    ],
+    "chisco:origins": [
+      {
+        "id": "10",
+        "name": "Abia (Aba Milverton-----am)",
+        "state": "Abia"
+      },
+      {
+        "id": "27",
+        "name": "Abia (Aba Milverton-----pm)",
+        "state": "Abia"
+      },
+      {
+        "id": "7",
+        "name": "Abuja (Utako----am)",
+        "state": "Abuja"
+      },
+      {
+        "id": "25",
+        "name": "Abuja (Utako----pm)",
+        "state": "Abuja"
+      },
+      {
+        "id": "77",
+        "name": "Akwa Ibom (Uyo)",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "14",
+        "name": "Anambra (Onitsha----am)",
+        "state": "Anambra"
+      },
+      {
+        "id": "29",
+        "name": "Anambra (Onitsha----pm)",
+        "state": "Anambra"
+      },
+      {
+        "id": "48",
+        "name": "Anambra (Amichi-----am)",
+        "state": "Anambra"
+      },
+      {
+        "id": "49",
+        "name": "Anambra (Amichi-----pm)",
+        "state": "Anambra"
+      },
+      {
+        "id": "55",
+        "name": "Anambra (Ekwulobia------Am)",
+        "state": "Anambra"
+      },
+      {
+        "id": "56",
+        "name": "Anambra (Umunze------Am)",
+        "state": "Anambra"
+      },
+      {
+        "id": "83",
+        "name": "Anambra (Ekwulobia------PM)",
+        "state": "Anambra"
+      },
+      {
+        "id": "84",
+        "name": "Anambra (Nnewi)",
+        "state": "Anambra"
+      },
+      {
+        "id": "81",
+        "name": "Ebonyi (Abakaliki)",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "53",
+        "name": "Enugu (Awka----Am)",
+        "state": "Enugu"
+      },
+      {
+        "id": "54",
+        "name": "Enugu (Enugu------Am)",
+        "state": "Enugu"
+      },
+      {
+        "id": "73",
+        "name": "Enugu (Enugu----Pm)",
+        "state": "Enugu"
+      },
+      {
+        "id": "11",
+        "name": "Imo (Owerri Egbu Road-----am)",
+        "state": "Imo"
+      },
+      {
+        "id": "30",
+        "name": "Imo (Owerri Egbu Road-----pm)",
+        "state": "Imo"
+      },
+      {
+        "id": "46",
+        "name": "Imo (Orlu-----AM)",
+        "state": "Imo"
+      },
+      {
+        "id": "47",
+        "name": "Imo (Orlu-----PM)",
+        "state": "Imo"
+      },
+      {
+        "id": "1",
+        "name": "Lagos (Jibowu--am)",
+        "state": "Lagos"
+      },
+      {
+        "id": "2",
+        "name": "Lagos (Empire--am)",
+        "state": "Lagos"
+      },
+      {
+        "id": "3",
+        "name": "Lagos (Alafia 2--am)",
+        "state": "Lagos"
+      },
+      {
+        "id": "4",
+        "name": "Lagos (Alafia 2--pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "5",
+        "name": "Lagos (Maza-Maza Int'l---am)",
+        "state": "Lagos"
+      },
+      {
+        "id": "6",
+        "name": "Lagos (Alaba-----am)",
+        "state": "Lagos"
+      },
+      {
+        "id": "17",
+        "name": "Lagos (Chisco HQ)",
+        "state": "Lagos"
+      },
+      {
+        "id": "19",
+        "name": "Lagos (Maza-Maza Local----am)",
+        "state": "Lagos"
+      },
+      {
+        "id": "20",
+        "name": "Lagos (Jibowu--pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "22",
+        "name": "Lagos (Empire--pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "23",
+        "name": "Lagos (Alafia 1--pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "37",
+        "name": "Lagos (Alaba-----pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "38",
+        "name": "Lagos (Maza-Maza Local----pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "39",
+        "name": "Lagos (Maza-Maza Int'l---pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "45",
+        "name": "Lagos (Oshodi)",
+        "state": "Lagos"
+      },
+      {
+        "id": "59",
+        "name": "Lagos (Okota----am)",
+        "state": "Lagos"
+      },
+      {
+        "id": "61",
+        "name": "Lagos (Okota----pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "76",
+        "name": "Lagos (Iyana Ipaja ----- pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "79",
+        "name": "Lagos (Mazamaza Local 2  ---- pm)",
+        "state": "Lagos"
+      },
+      {
+        "id": "80",
+        "name": "Oyo (Ibadan)",
+        "state": "Oyo"
+      },
+      {
+        "id": "8",
+        "name": "Rivers (Mile 1-----am)",
+        "state": "Rivers"
+      },
+      {
+        "id": "26",
+        "name": "Rivers (Mile 1-----pm)",
+        "state": "Rivers"
+      },
+      {
+        "id": "35",
+        "name": "Rivers (Waterline----am)",
+        "state": "Rivers"
+      },
+      {
+        "id": "36",
+        "name": "Rivers (Waterline-----pm)",
+        "state": "Rivers"
+      }
+    ],
+    "abc:origins": [
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      },
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "37",
+        "name": "Lokoja"
+      },
+      {
+        "id": "6",
+        "name": "Gwagwalada"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "41",
+        "name": "Benin"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "16",
+        "name": "Ibadan"
+      },
+      {
+        "id": "52",
+        "name": "IjebuOde"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      },
+      {
+        "id": "50",
+        "name": "Lagos Ajah"
+      },
+      {
+        "id": "13",
+        "name": "Awka"
+      },
+      {
+        "id": "59",
+        "name": "Lagos Okota"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      },
+      {
+        "id": "57",
+        "name": "Lagos Bolade Oshodi"
+      },
+      {
+        "id": "58",
+        "name": "Mazamaza"
+      },
+      {
+        "id": "49",
+        "name": "Okene"
+      },
+      {
+        "id": "17",
+        "name": "Jos"
+      },
+      {
+        "id": "35",
+        "name": "Mbaise"
+      }
+    ],
+    "abc:dest:7": [
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      },
+      {
+        "id": "52",
+        "name": "IjebuOde"
+      },
+      {
+        "id": "57",
+        "name": "Lagos Bolade Oshodi"
+      }
+    ],
+    "abc:dest:3": [
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      },
+      {
+        "id": "57",
+        "name": "Lagos Bolade Oshodi"
+      },
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      }
+    ],
+    "abc:dest:26": [
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "57",
+        "name": "Lagos Bolade Oshodi"
+      },
+      {
+        "id": "58",
+        "name": "Mazamaza"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      }
+    ],
+    "abc:dest:2": [
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "16",
+        "name": "Ibadan"
+      },
+      {
+        "id": "50",
+        "name": "Lagos Ajah"
+      },
+      {
+        "id": "52",
+        "name": "IjebuOde"
+      },
+      {
+        "id": "41",
+        "name": "Benin"
+      }
+    ],
+    "abc:dest:37": [
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "50",
+        "name": "Lagos Ajah"
+      },
+      {
+        "id": "16",
+        "name": "Ibadan"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      }
+    ],
+    "abc:dest:6": [
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "16",
+        "name": "Ibadan"
+      },
+      {
+        "id": "50",
+        "name": "Lagos Ajah"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      }
+    ],
+    "abc:dest:1": [
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "57",
+        "name": "Lagos Bolade Oshodi"
+      },
+      {
+        "id": "58",
+        "name": "Mazamaza"
+      }
+    ],
+    "abc:dest:14": [
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      },
+      {
+        "id": "41",
+        "name": "Benin"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      },
+      {
+        "id": "50",
+        "name": "Lagos Ajah"
+      },
+      {
+        "id": "16",
+        "name": "Ibadan"
+      }
+    ],
+    "abc:dest:41": [
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "50",
+        "name": "Lagos Ajah"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      },
+      {
+        "id": "57",
+        "name": "Lagos Bolade Oshodi"
+      }
+    ],
+    "abc:dest:15": [
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      }
+    ],
+    "abc:dest:29": [
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      }
+    ],
+    "abc:dest:16": [
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "37",
+        "name": "Lokoja"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      },
+      {
+        "id": "18",
+        "name": "Kaduna"
+      },
+      {
+        "id": "13",
+        "name": "Awka"
+      },
+      {
+        "id": "17",
+        "name": "Jos"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      }
+    ],
+    "abc:dest:52": [
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "35",
+        "name": "Mbaise"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      }
+    ],
+    "abc:dest:27": [
+      {
+        "id": "13",
+        "name": "Awka"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "41",
+        "name": "Benin"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "54",
+        "name": "Lagos Amuwo"
+      },
+      {
+        "id": "58",
+        "name": "Mazamaza"
+      },
+      {
+        "id": "52",
+        "name": "IjebuOde"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      },
+      {
+        "id": "50",
+        "name": "Lagos Ajah"
+      }
+    ],
+    "abc:dest:56": [
+      {
+        "id": "2",
+        "name": "Abuja"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "41",
+        "name": "Benin"
+      },
+      {
+        "id": "31",
+        "name": "Warri"
+      },
+      {
+        "id": "35",
+        "name": "Mbaise"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "9",
+        "name": "Accra"
+      },
+      {
+        "id": "33",
+        "name": "Cotonou"
+      },
+      {
+        "id": "11",
+        "name": "Lome"
+      },
+      {
+        "id": "18",
+        "name": "Kaduna"
+      }
+    ],
+    "abc:dest:31": [
+      {
+        "id": "41",
+        "name": "Benin"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      }
+    ],
+    "abc:dest:50": [
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      },
+      {
+        "id": "35",
+        "name": "Mbaise"
+      },
+      {
+        "id": "41",
+        "name": "Benin"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "14",
+        "name": "Calabar"
+      },
+      {
+        "id": "2",
+        "name": "Abuja"
+      }
+    ],
+    "abc:dest:13": [
+      {
+        "id": "56",
+        "name": "Lagos Jibowu"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      }
+    ],
+    "abc:dest:59": [
+      {
+        "id": "29",
+        "name": "Uyo"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      },
+      {
+        "id": "35",
+        "name": "Mbaise"
+      }
+    ],
+    "abc:dest:54": [
+      {
+        "id": "15",
+        "name": "Enugu"
+      },
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      }
+    ],
+    "abc:dest:57": [
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "41",
+        "name": "Benin"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "35",
+        "name": "Mbaise"
+      },
+      {
+        "id": "7",
+        "name": "Umuahia"
+      }
+    ],
+    "abc:dest:58": [
+      {
+        "id": "3",
+        "name": "Owerri"
+      },
+      {
+        "id": "1",
+        "name": "Aba"
+      },
+      {
+        "id": "27",
+        "name": "Port Harcourt"
+      },
+      {
+        "id": "26",
+        "name": "Onitsha"
+      }
+    ],
+    "abc:dest:49": [
+      {
+        "id": "18",
+        "name": "Kaduna"
+      }
+    ],
+    "abc:dest:17": [
+      {
+        "id": "16",
+        "name": "Ibadan"
+      }
+    ],
+    "abc:dest:35": [
+      {
+        "id": "57",
+        "name": "Lagos Bolade Oshodi"
+      }
+    ],
+    "pmt:origins": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "30",
+        "name": "Abuja-Gwagwalada Terminal"
+      },
+      {
+        "id": "14",
+        "name": "Abuja-Mararaba Terminal"
+      },
+      {
+        "id": "29",
+        "name": "Abuja-Zuba Terminal"
+      },
+      {
+        "id": "37",
+        "name": "Abuja Utako"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "3",
+        "name": "Lagos - Mazamaza Terminal"
+      },
+      {
+        "id": "36",
+        "name": "Lagos Ojota"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "26",
+        "name": "Obollo Afor-Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "22",
+        "name": "Yenagoa Terminal"
+      }
+    ],
+    "pmt:dest:18": [
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      },
+      {
+        "id": "22",
+        "name": "Yenagoa Terminal"
+      }
+    ],
+    "pmt:dest:12": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:30": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      }
+    ],
+    "pmt:dest:14": [
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "3",
+        "name": "Lagos - Mazamaza Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "26",
+        "name": "Obollo Afor-Terminal"
+      },
+      {
+        "id": "28",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      },
+      {
+        "id": "22",
+        "name": "Yenagoa Terminal"
+      }
+    ],
+    "pmt:dest:29": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "26",
+        "name": "Obollo Afor-Terminal"
+      },
+      {
+        "id": "28",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      }
+    ],
+    "pmt:dest:37": [
+      {
+        "id": "38",
+        "name": "Enugu Holyghost"
+      },
+      {
+        "id": "36",
+        "name": "Lagos Ojota"
+      }
+    ],
+    "pmt:dest:24": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "26",
+        "name": "Obollo Afor-Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      }
+    ],
+    "pmt:dest:17": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      }
+    ],
+    "pmt:dest:9": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "26",
+        "name": "Obollo Afor-Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      }
+    ],
+    "pmt:dest:19": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:2": [
+      {
+        "id": "14",
+        "name": "Abuja-Mararaba Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      }
+    ],
+    "pmt:dest:8": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:23": [
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      }
+    ],
+    "pmt:dest:15": [
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "26",
+        "name": "Obollo Afor-Terminal"
+      },
+      {
+        "id": "28",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:3": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "14",
+        "name": "Abuja-Mararaba Terminal"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "26",
+        "name": "Obollo Afor-Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:36": [
+      {
+        "id": "37",
+        "name": "Abuja Utako"
+      },
+      {
+        "id": "40",
+        "name": "Benin"
+      },
+      {
+        "id": "38",
+        "name": "Enugu Holyghost"
+      },
+      {
+        "id": "39",
+        "name": "PH Rumuodumaya"
+      }
+    ],
+    "pmt:dest:4": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:26": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "14",
+        "name": "Abuja-Mararaba Terminal"
+      },
+      {
+        "id": "25",
+        "name": "Awka-Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "28",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      }
+    ],
+    "pmt:dest:16": [
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "28",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:20": [
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "24",
+        "name": "Asaba Terminal"
+      },
+      {
+        "id": "17",
+        "name": "Bayelsa Terminal"
+      },
+      {
+        "id": "9",
+        "name": "Benin Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "8",
+        "name": "Ibadan Terminal"
+      },
+      {
+        "id": "23",
+        "name": "Ikom Terminal"
+      },
+      {
+        "id": "15",
+        "name": "Lagos - Jibowu Terminal"
+      },
+      {
+        "id": "4",
+        "name": "Nsukka Terminal"
+      },
+      {
+        "id": "13",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "16",
+        "name": "PH-Portharcourt Terminal"
+      },
+      {
+        "id": "5",
+        "name": "Umuahia Terminal"
+      },
+      {
+        "id": "21",
+        "name": "Warri Terminal"
+      }
+    ],
+    "pmt:dest:22": [
+      {
+        "id": "18",
+        "name": "Aba Factory Road-Terminal"
+      },
+      {
+        "id": "12",
+        "name": "Abakaliki Terminal"
+      },
+      {
+        "id": "19",
+        "name": "Calabar-Ettagbor"
+      },
+      {
+        "id": "2",
+        "name": "Enugu Terminal"
+      },
+      {
+        "id": "28",
+        "name": "Onitsha Terminal"
+      },
+      {
+        "id": "6",
+        "name": "Owerri Terminal"
+      },
+      {
+        "id": "20",
+        "name": "Uyo Terminal"
+      }
+    ],
+    "okeyson:origins": [
+      {
+        "id": "d7303746-f944-43c7-98cc-3d041abab538",
+        "name": "Nnewi",
+        "state": "AN"
+      },
+      {
+        "id": "8326541a-f788-4914-b7b7-735f258be3b9",
+        "name": "Nsukka",
+        "state": "EN"
+      },
+      {
+        "id": "7e8b6962-fbe3-4c92-9afa-2b6232fe0ff0",
+        "name": "Ekwulobia",
+        "state": "AN"
+      },
+      {
+        "id": "cc9e8f47-cadc-4774-8c39-dd710d8b00dc",
+        "name": "Iyana School",
+        "state": "LA"
+      },
+      {
+        "id": "b4a7b240-ad35-4654-9baf-b60cb52563f9",
+        "name": "Port-Harcourt",
+        "state": "RV"
+      },
+      {
+        "id": "b306ec9c-75b1-4b3a-889a-0a585c01fb65",
+        "name": "Awka",
+        "state": "AN"
+      },
+      {
+        "id": "64488cca-5d1a-42c8-b08e-3624240f9944",
+        "name": "Ogba",
+        "state": "LA"
+      },
+      {
+        "id": "2885c115-7568-480e-81a1-44bddfd97cc3",
+        "name": "Ejigbo",
+        "state": "LA"
+      },
+      {
+        "id": "b8df2808-4296-4249-81cd-721f78070b9a",
+        "name": "Onitsha",
+        "state": "AN"
+      },
+      {
+        "id": "6f3580cb-6f7d-4a08-85c0-17560985d690",
+        "name": "Ajah",
+        "state": "Lagos"
+      },
+      {
+        "id": "c03c1e59-7b4e-4d3e-91da-3a2cb0ebe4bf",
+        "name": "Cele"
+      },
+      {
+        "id": "c72e8732-0fe1-4003-8278-c40ea3530931",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "c52faecd-4ecc-420d-a234-42213109331e",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "998bb493-707c-4ba8-ba86-d17caac9482f",
+        "name": "Abakaliki",
+        "state": "Eboyin"
+      },
+      {
+        "id": "3c9f27e5-bb31-40c0-8cc7-707fc7b3a779",
+        "name": "Iyana Ipaja"
+      },
+      {
+        "id": "111115d2-fa5e-40f3-960c-9117841dbc72",
+        "name": "Mazamaza/First Gate",
+        "state": "LA"
+      },
+      {
+        "id": "2739bbdd-3a01-45e6-a888-67a298d648d6",
+        "name": "Okota",
+        "state": "Lagos"
+      },
+      {
+        "id": "95d5be63-8d29-4acc-8c5c-e864b926dc44",
+        "name": "Alaba"
+      },
+      {
+        "id": "b452deed-7c15-43e4-aca6-66b608a7eb77",
+        "name": "Jibowu"
+      }
+    ],
+    "chisco:dest:10": [],
+    "chisco:dest:27": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      },
+      {
+        "id": "4",
+        "name": "Lagos-Alafia 2--pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      }
+    ],
+    "okeyson:dest:d7303746-f944-43c7-98cc-3d041abab538": [],
+    "okeyson:dest:8326541a-f788-4914-b7b7-735f258be3b9": [],
+    "chisco:dest:7": [
+      {
+        "id": "19",
+        "name": "Lagos-Maza-Maza Local----am"
+      },
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      },
+      {
+        "id": "3",
+        "name": "Lagos-Alafia 2--am"
+      },
+      {
+        "id": "14",
+        "name": "Anambra-Onitsha----am"
+      },
+      {
+        "id": "11",
+        "name": "Imo-Owerri Egbu Road-----am"
+      },
+      {
+        "id": "10",
+        "name": "Abia-Aba Milverton-----am"
+      },
+      {
+        "id": "8",
+        "name": "Rivers-Mile 1-----am"
+      },
+      {
+        "id": "15",
+        "name": "Ghana-Accra—-am"
+      }
+    ],
+    "okeyson:dest:7e8b6962-fbe3-4c92-9afa-2b6232fe0ff0": [],
+    "chisco:dest:25": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "4",
+        "name": "Lagos-Alafia 2--pm"
+      },
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      }
+    ],
+    "okeyson:dest:cc9e8f47-cadc-4774-8c39-dd710d8b00dc": [],
+    "chisco:dest:77": [
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      },
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      }
+    ],
+    "okeyson:dest:b4a7b240-ad35-4654-9baf-b60cb52563f9": [],
+    "chisco:dest:14": [
+      {
+        "id": "3",
+        "name": "Lagos-Alafia 2--am"
+      },
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      },
+      {
+        "id": "19",
+        "name": "Lagos-Maza-Maza Local----am"
+      },
+      {
+        "id": "17",
+        "name": "Lagos-Chisco HQ"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      }
+    ],
+    "okeyson:dest:b306ec9c-75b1-4b3a-889a-0a585c01fb65": [],
+    "chisco:dest:29": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      },
+      {
+        "id": "4",
+        "name": "Lagos-Alafia 2--pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      }
+    ],
+    "okeyson:dest:64488cca-5d1a-42c8-b08e-3624240f9944": [
+      {
+        "id": "460",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "447",
+        "name": "Ikom",
+        "state": "Cross River"
+      },
+      {
+        "id": "446",
+        "name": "Uli Center",
+        "state": "Anambra"
+      },
+      {
+        "id": "445",
+        "name": "Ekwulobia",
+        "state": "Anambra"
+      },
+      {
+        "id": "441",
+        "name": "Bende",
+        "state": "Abia"
+      },
+      {
+        "id": "438",
+        "name": "Ikot Mkpo",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "437",
+        "name": "Obubra",
+        "state": "Cross River"
+      },
+      {
+        "id": "434",
+        "name": "Abuja",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "63",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "427",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "3",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "426",
+        "name": "Uga",
+        "state": "Anambra"
+      },
+      {
+        "id": "425",
+        "name": "Umunya",
+        "state": "Anambra"
+      },
+      {
+        "id": "424",
+        "name": "Akaeze",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "422",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "421",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "420",
+        "name": "Aba",
+        "state": "Abia"
+      },
+      {
+        "id": "141",
+        "name": "Patani",
+        "state": "Delta"
+      },
+      {
+        "id": "147",
+        "name": "Ugheli",
+        "state": "Delta"
+      },
+      {
+        "id": "153",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "159",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "165",
+        "name": "Four-Corner",
+        "state": "Enugu"
+      },
+      {
+        "id": "171",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "177",
+        "name": "Gwagwalada",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "183",
+        "name": "Abuja (Utako)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "189",
+        "name": "Abuja (Jabi)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "195",
+        "name": "Abuja (Zuba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "201",
+        "name": "Abuja (Maraba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "207",
+        "name": "Abuja (Nyanya)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "213",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "219",
+        "name": "Obowu",
+        "state": "Imo"
+      },
+      {
+        "id": "225",
+        "name": ""
+      },
+      {
+        "id": "231",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "237",
+        "name": "Ichida",
+        "state": "Anambra"
+      },
+      {
+        "id": "243",
+        "name": "Isuofia",
+        "state": "Anambra"
+      },
+      {
+        "id": "249",
+        "name": "Igboukwu",
+        "state": "Anambra"
+      },
+      {
+        "id": "255",
+        "name": ""
+      },
+      {
+        "id": "261",
+        "name": "Akokwa",
+        "state": "Imo"
+      },
+      {
+        "id": "267",
+        "name": "Ideato",
+        "state": "Imo"
+      },
+      {
+        "id": "273",
+        "name": "Oko",
+        "state": "Anambra"
+      },
+      {
+        "id": "279",
+        "name": "Ahuda",
+        "state": "Rivers"
+      },
+      {
+        "id": "285",
+        "name": "Choba",
+        "state": "Rivers"
+      },
+      {
+        "id": "291",
+        "name": "Akwauku",
+        "state": "Anambra"
+      },
+      {
+        "id": "297",
+        "name": "Ogbaku",
+        "state": "Imo"
+      },
+      {
+        "id": "303",
+        "name": "Irete",
+        "state": "Imo"
+      },
+      {
+        "id": "309",
+        "name": "Naze",
+        "state": "Imo"
+      },
+      {
+        "id": "315",
+        "name": "Ntigha Juntion",
+        "state": "Imo"
+      },
+      {
+        "id": "321",
+        "name": "Nkwere",
+        "state": "Imo"
+      },
+      {
+        "id": "327",
+        "name": "Okene",
+        "state": "Kogi"
+      },
+      {
+        "id": "333",
+        "name": "Abuja (Lokoja)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "27",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "9",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "15",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "21",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "345",
+        "name": "Airport Road Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "351",
+        "name": "Berger Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "357",
+        "name": "Uniport",
+        "state": "Rivers"
+      },
+      {
+        "id": "363",
+        "name": "Azia Junction",
+        "state": "Anambra"
+      },
+      {
+        "id": "369",
+        "name": "Ohafia",
+        "state": "Abia"
+      },
+      {
+        "id": "375",
+        "name": "Arochukwu",
+        "state": "Abia"
+      },
+      {
+        "id": "381",
+        "name": "Uyo",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "387",
+        "name": "Ikot Ekpene",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "393",
+        "name": "Calabar",
+        "state": "Cross River"
+      },
+      {
+        "id": "399",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "339",
+        "name": "Abuja (Kubwa)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "33",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "39",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "45",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "57",
+        "name": "Ogoja",
+        "state": "Cross River"
+      },
+      {
+        "id": "69",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "75",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      },
+      {
+        "id": "81",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "87",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "93",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "99",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "105",
+        "name": "Anara",
+        "state": "Imo"
+      },
+      {
+        "id": "111",
+        "name": "Awomamma",
+        "state": "Imo"
+      },
+      {
+        "id": "117",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "123",
+        "name": "Bayelsa",
+        "state": "Bayelsa"
+      },
+      {
+        "id": "129",
+        "name": "Warri",
+        "state": "Delta"
+      },
+      {
+        "id": "135",
+        "name": "Sapele",
+        "state": "Delta"
+      }
+    ],
+    "chisco:dest:48": [
+      {
+        "id": "6",
+        "name": "Lagos-Alaba-----am"
+      }
+    ],
+    "okeyson:dest:2885c115-7568-480e-81a1-44bddfd97cc3": [
+      {
+        "id": "664",
+        "name": "Akaeze",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "659",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "658",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "657",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "656",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "655",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "654",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "653",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "652",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "651",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "650",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "649",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "648",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "647",
+        "name": "Ekwulobia Town",
+        "state": "Anambra"
+      },
+      {
+        "id": "646",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "645",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "644",
+        "name": "Aba",
+        "state": "Abia"
+      },
+      {
+        "id": "643",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "642",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "641",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "640",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      },
+      {
+        "id": "639",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "638",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "637",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "636",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "635",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "634",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "633",
+        "name": "Benin",
+        "state": "Edo"
+      }
+    ],
+    "chisco:dest:49": [],
+    "okeyson:dest:b8df2808-4296-4249-81cd-721f78070b9a": [
+      {
+        "id": "660",
+        "name": "Ikorodu",
+        "state": "Lagos"
+      },
+      {
+        "id": "631",
+        "name": "Igando",
+        "state": "Lagos"
+      },
+      {
+        "id": "630",
+        "name": "Egbeda",
+        "state": "Lagos"
+      },
+      {
+        "id": "629",
+        "name": "Ejigbo",
+        "state": "Lagos"
+      },
+      {
+        "id": "628",
+        "name": "Iyana School",
+        "state": "Lagos"
+      },
+      {
+        "id": "627",
+        "name": "Ogba",
+        "state": "Lagos"
+      },
+      {
+        "id": "626",
+        "name": "Iyana Ipaja",
+        "state": "Lagos"
+      },
+      {
+        "id": "625",
+        "name": "Ojo Alaba",
+        "state": "Lagos"
+      },
+      {
+        "id": "624",
+        "name": "Volks",
+        "state": "Lagos"
+      },
+      {
+        "id": "623",
+        "name": "Maza Maza",
+        "state": "Lagos"
+      },
+      {
+        "id": "622",
+        "name": "Cele/Okota",
+        "state": "Lagos"
+      },
+      {
+        "id": "621",
+        "name": "Jibowu",
+        "state": "Lagos"
+      },
+      {
+        "id": "620",
+        "name": "Anthony",
+        "state": "Lagos"
+      },
+      {
+        "id": "619",
+        "name": "Ojota",
+        "state": "Lagos"
+      },
+      {
+        "id": "618",
+        "name": "Berger",
+        "state": "Lagos"
+      },
+      {
+        "id": "617",
+        "name": "Shagamu",
+        "state": "Ogun"
+      },
+      {
+        "id": "616",
+        "name": "Ajah",
+        "state": "Lagos"
+      },
+      {
+        "id": "615",
+        "name": "Epe Jnc",
+        "state": "Lagos"
+      },
+      {
+        "id": "614",
+        "name": "Ijebu Ode",
+        "state": "Ogun"
+      },
+      {
+        "id": "613",
+        "name": "Ore",
+        "state": "Ondo"
+      }
+    ],
+    "chisco:dest:55": [
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      },
+      {
+        "id": "19",
+        "name": "Lagos-Maza-Maza Local----am"
+      }
+    ],
+    "okeyson:dest:6f3580cb-6f7d-4a08-85c0-17560985d690": [
+      {
+        "id": "632",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "611",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "610",
+        "name": "Ikom",
+        "state": "Cross River"
+      },
+      {
+        "id": "609",
+        "name": "Aba",
+        "state": "Abia"
+      },
+      {
+        "id": "608",
+        "name": "Ubulu",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "607",
+        "name": "Oduma",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "606",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "605",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "604",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "603",
+        "name": "Nkwere",
+        "state": "Imo"
+      },
+      {
+        "id": "601",
+        "name": "Obubra",
+        "state": "Cross River"
+      },
+      {
+        "id": "600",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "599",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "598",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "597",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "596",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "595",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "594",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "593",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "592",
+        "name": ""
+      },
+      {
+        "id": "591",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "590",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "589",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "588",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "587",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "586",
+        "name": "Ekwulobia Town",
+        "state": "Anambra"
+      },
+      {
+        "id": "585",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "584",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "583",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "582",
+        "name": ""
+      },
+      {
+        "id": "581",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "580",
+        "name": ""
+      }
+    ],
+    "chisco:dest:56": [
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      }
+    ],
+    "okeyson:dest:c03c1e59-7b4e-4d3e-91da-3a2cb0ebe4bf": [
+      {
+        "id": "576",
+        "name": "Akaeze",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "575",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "574",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "573",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "572",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "571",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "570",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "569",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "568",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "567",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "566",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      },
+      {
+        "id": "565",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "564",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "563",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "562",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "561",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "560",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "559",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "558",
+        "name": "Four-Corner",
+        "state": "Enugu"
+      },
+      {
+        "id": "557",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "556",
+        "name": "Ekwulobia",
+        "state": "Anambra"
+      },
+      {
+        "id": "555",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "554",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "553",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "552",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "551",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "550",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "549",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "548",
+        "name": "Aba",
+        "state": "Abia"
+      }
+    ],
+    "chisco:dest:83": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      }
+    ],
+    "okeyson:dest:c72e8732-0fe1-4003-8278-c40ea3530931": [
+      {
+        "id": "666",
+        "name": "Ojo Alaba",
+        "state": "Lagos"
+      },
+      {
+        "id": "665",
+        "name": ""
+      },
+      {
+        "id": "663",
+        "name": "Ojo Barracks",
+        "state": "Lagos"
+      },
+      {
+        "id": "662",
+        "name": "Ikorodu",
+        "state": "Lagos"
+      },
+      {
+        "id": "661",
+        "name": "Iyana Iba",
+        "state": "Lagos"
+      },
+      {
+        "id": "547",
+        "name": "Volks",
+        "state": "Lagos"
+      },
+      {
+        "id": "546",
+        "name": ""
+      },
+      {
+        "id": "545",
+        "name": "Cele/Okota",
+        "state": "Lagos"
+      },
+      {
+        "id": "544",
+        "name": "Anthony",
+        "state": "Lagos"
+      },
+      {
+        "id": "543",
+        "name": "Ojota",
+        "state": "Lagos"
+      },
+      {
+        "id": "542",
+        "name": "Jibowu",
+        "state": "Lagos"
+      },
+      {
+        "id": "541",
+        "name": "Maza Maza",
+        "state": "Lagos"
+      },
+      {
+        "id": "540",
+        "name": "Igando",
+        "state": "Lagos"
+      },
+      {
+        "id": "539",
+        "name": "Egbeda",
+        "state": "Lagos"
+      },
+      {
+        "id": "538",
+        "name": "Ogba",
+        "state": "Lagos"
+      },
+      {
+        "id": "537",
+        "name": "Iyana School",
+        "state": "Lagos"
+      },
+      {
+        "id": "536",
+        "name": "Ajah",
+        "state": "Lagos"
+      },
+      {
+        "id": "535",
+        "name": "Epe Jnc",
+        "state": "Lagos"
+      },
+      {
+        "id": "534",
+        "name": "Ijebu Ode",
+        "state": "Ogun"
+      },
+      {
+        "id": "533",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "532",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "531",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "530",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "529",
+        "name": "Shagamu",
+        "state": "Ogun"
+      },
+      {
+        "id": "528",
+        "name": "Berger",
+        "state": "Lagos"
+      },
+      {
+        "id": "527",
+        "name": "Iyana Ipaja",
+        "state": "Lagos"
+      }
+    ],
+    "okeyson:dest:c52faecd-4ecc-420d-a234-42213109331e": [
+      {
+        "id": "524",
+        "name": "Epe Jnc",
+        "state": "Lagos"
+      },
+      {
+        "id": "502",
+        "name": "Berger",
+        "state": "Lagos"
+      },
+      {
+        "id": "518",
+        "name": "Volks",
+        "state": "Lagos"
+      },
+      {
+        "id": "517",
+        "name": "Egbeda",
+        "state": "Lagos"
+      },
+      {
+        "id": "516",
+        "name": "Igando",
+        "state": "Lagos"
+      },
+      {
+        "id": "515",
+        "name": "Iyana School",
+        "state": "Lagos"
+      },
+      {
+        "id": "504",
+        "name": "Ojota",
+        "state": "Lagos"
+      },
+      {
+        "id": "503",
+        "name": "Anthony",
+        "state": "Lagos"
+      },
+      {
+        "id": "501",
+        "name": "Maza Maza",
+        "state": "Lagos"
+      },
+      {
+        "id": "500",
+        "name": "Ikotun",
+        "state": "Lagos"
+      },
+      {
+        "id": "499",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "498",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "497",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "496",
+        "name": "Ojo Alaba",
+        "state": "Lagos"
+      },
+      {
+        "id": "495",
+        "name": "Ijebu Ode",
+        "state": "Ogun"
+      },
+      {
+        "id": "494",
+        "name": "Ejigbo",
+        "state": "Lagos"
+      },
+      {
+        "id": "493",
+        "name": "Shagamu",
+        "state": "Ogun"
+      },
+      {
+        "id": "492",
+        "name": "Ajah",
+        "state": "Lagos"
+      },
+      {
+        "id": "491",
+        "name": "Ikorodu",
+        "state": "Lagos"
+      },
+      {
+        "id": "490",
+        "name": "Ogba",
+        "state": "Lagos"
+      },
+      {
+        "id": "489",
+        "name": "Cele/Okota",
+        "state": "Lagos"
+      },
+      {
+        "id": "488",
+        "name": "Iyana Ipaja",
+        "state": "Lagos"
+      },
+      {
+        "id": "487",
+        "name": "Jibowu",
+        "state": "Lagos"
+      },
+      {
+        "id": "486",
+        "name": "Onitsha",
+        "state": "Anambra"
+      }
+    ],
+    "chisco:dest:84": [],
+    "okeyson:dest:998bb493-707c-4ba8-ba86-d17caac9482f": [
+      {
+        "id": "670",
+        "name": "Ojo Barracks",
+        "state": "Lagos"
+      },
+      {
+        "id": "669",
+        "name": "Iyana Iba",
+        "state": "Lagos"
+      },
+      {
+        "id": "668",
+        "name": "Volks",
+        "state": "Lagos"
+      },
+      {
+        "id": "667",
+        "name": "Anthony",
+        "state": "Lagos"
+      },
+      {
+        "id": "579",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "578",
+        "name": "Berger",
+        "state": "Lagos"
+      },
+      {
+        "id": "577",
+        "name": "Ojota",
+        "state": "Lagos"
+      },
+      {
+        "id": "514",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "513",
+        "name": "Ejigbo",
+        "state": "Lagos"
+      },
+      {
+        "id": "512",
+        "name": "Shagamu",
+        "state": "Ogun"
+      },
+      {
+        "id": "511",
+        "name": "Ijebu Ode",
+        "state": "Ogun"
+      },
+      {
+        "id": "510",
+        "name": "Cele/Okota",
+        "state": "Lagos"
+      },
+      {
+        "id": "509",
+        "name": "Maza Maza",
+        "state": "Lagos"
+      },
+      {
+        "id": "508",
+        "name": "Ogba",
+        "state": "Lagos"
+      },
+      {
+        "id": "507",
+        "name": "Iyana Ipaja",
+        "state": "Lagos"
+      },
+      {
+        "id": "506",
+        "name": "Ojo Alaba",
+        "state": "Lagos"
+      },
+      {
+        "id": "505",
+        "name": "Jibowu",
+        "state": "Lagos"
+      }
+    ],
+    "chisco:dest:81": [],
+    "okeyson:dest:3c9f27e5-bb31-40c0-8cc7-707fc7b3a779": [
+      {
+        "id": "525",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "461",
+        "name": "Amasiri",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "444",
+        "name": "Obubra",
+        "state": "Cross River"
+      },
+      {
+        "id": "443",
+        "name": "Bende",
+        "state": "Abia"
+      },
+      {
+        "id": "442",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "439",
+        "name": "Ekwulobia",
+        "state": "Anambra"
+      },
+      {
+        "id": "436",
+        "name": "Abuja",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "433",
+        "name": ""
+      },
+      {
+        "id": "432",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "431",
+        "name": "Akaeze",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "430",
+        "name": "Umunya",
+        "state": "Anambra"
+      },
+      {
+        "id": "429",
+        "name": "Aba",
+        "state": "Abia"
+      },
+      {
+        "id": "428",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "114",
+        "name": "Awomamma",
+        "state": "Imo"
+      },
+      {
+        "id": "120",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "126",
+        "name": "Bayelsa",
+        "state": "Bayelsa"
+      },
+      {
+        "id": "132",
+        "name": "Warri",
+        "state": "Delta"
+      },
+      {
+        "id": "138",
+        "name": "Sapele",
+        "state": "Delta"
+      },
+      {
+        "id": "144",
+        "name": "Patani",
+        "state": "Delta"
+      },
+      {
+        "id": "150",
+        "name": "Ugheli",
+        "state": "Delta"
+      },
+      {
+        "id": "156",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "162",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "168",
+        "name": "Four-Corner",
+        "state": "Enugu"
+      },
+      {
+        "id": "174",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "180",
+        "name": "Gwagwalada",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "186",
+        "name": "Abuja (Utako)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "192",
+        "name": "Abuja (Jabi)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "198",
+        "name": "Abuja (Zuba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "204",
+        "name": "Abuja (Maraba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "210",
+        "name": "Abuja (Nyanya)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "216",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "222",
+        "name": "Obowu",
+        "state": "Imo"
+      },
+      {
+        "id": "228",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "234",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "240",
+        "name": "Ichida",
+        "state": "Anambra"
+      },
+      {
+        "id": "246",
+        "name": "Isuofia",
+        "state": "Anambra"
+      },
+      {
+        "id": "252",
+        "name": "Igboukwu",
+        "state": "Anambra"
+      },
+      {
+        "id": "258",
+        "name": "Uga",
+        "state": "Anambra"
+      },
+      {
+        "id": "264",
+        "name": "Akokwa",
+        "state": "Imo"
+      },
+      {
+        "id": "270",
+        "name": "Ideato",
+        "state": "Imo"
+      },
+      {
+        "id": "276",
+        "name": "Oko",
+        "state": "Anambra"
+      },
+      {
+        "id": "282",
+        "name": "Ahuda",
+        "state": "Rivers"
+      },
+      {
+        "id": "288",
+        "name": "Choba",
+        "state": "Rivers"
+      },
+      {
+        "id": "294",
+        "name": "Akwauku",
+        "state": "Anambra"
+      },
+      {
+        "id": "300",
+        "name": "Ogbaku",
+        "state": "Imo"
+      },
+      {
+        "id": "306",
+        "name": "Irete",
+        "state": "Imo"
+      },
+      {
+        "id": "312",
+        "name": "Naze",
+        "state": "Imo"
+      },
+      {
+        "id": "318",
+        "name": "Ntigha Juntion",
+        "state": "Imo"
+      },
+      {
+        "id": "30",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "330",
+        "name": "Okene",
+        "state": "Kogi"
+      },
+      {
+        "id": "336",
+        "name": "Abuja (Lokoja)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "342",
+        "name": "Abuja (Kubwa)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "6",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "12",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "18",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "24",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "348",
+        "name": "Airport Road Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "354",
+        "name": "Berger Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "360",
+        "name": "Uniport",
+        "state": "Rivers"
+      },
+      {
+        "id": "366",
+        "name": "Azia Junction",
+        "state": "Anambra"
+      },
+      {
+        "id": "372",
+        "name": "Ohafia",
+        "state": "Abia"
+      },
+      {
+        "id": "378",
+        "name": "Arochukwu",
+        "state": "Abia"
+      },
+      {
+        "id": "384",
+        "name": "Uyo",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "390",
+        "name": "Ikot Ekpene",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "396",
+        "name": "Calabar",
+        "state": "Cross River"
+      },
+      {
+        "id": "402",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "324",
+        "name": "Nkwere",
+        "state": "Imo"
+      },
+      {
+        "id": "36",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "42",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "48",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "60",
+        "name": "Ogoja",
+        "state": "Cross River"
+      },
+      {
+        "id": "66",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "72",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "78",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      },
+      {
+        "id": "84",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "90",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "96",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "102",
+        "name": ""
+      },
+      {
+        "id": "108",
+        "name": "Anara",
+        "state": "Imo"
+      }
+    ],
+    "chisco:dest:53": [
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      }
+    ],
+    "okeyson:dest:111115d2-fa5e-40f3-960c-9117841dbc72": [
+      {
+        "id": "612",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "223",
+        "name": ""
+      },
+      {
+        "id": "485",
+        "name": "Ekwulobia",
+        "state": "Anambra"
+      },
+      {
+        "id": "484",
+        "name": "Aba",
+        "state": "Abia"
+      },
+      {
+        "id": "409",
+        "name": "Umunya",
+        "state": "Anambra"
+      },
+      {
+        "id": "408",
+        "name": "Elele",
+        "state": "Rivers"
+      },
+      {
+        "id": "407",
+        "name": "Control Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "406",
+        "name": "Umunze",
+        "state": "Anambra"
+      },
+      {
+        "id": "405",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "404",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "91",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "97",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "103",
+        "name": "Anara",
+        "state": "Imo"
+      },
+      {
+        "id": "109",
+        "name": "Awomamma",
+        "state": "Imo"
+      },
+      {
+        "id": "115",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "121",
+        "name": "Bayelsa",
+        "state": "Bayelsa"
+      },
+      {
+        "id": "127",
+        "name": "Warri",
+        "state": "Delta"
+      },
+      {
+        "id": "133",
+        "name": "Sapele",
+        "state": "Delta"
+      },
+      {
+        "id": "139",
+        "name": "Patani",
+        "state": "Delta"
+      },
+      {
+        "id": "145",
+        "name": "Ugheli",
+        "state": "Delta"
+      },
+      {
+        "id": "151",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "157",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "163",
+        "name": "Four-Corner",
+        "state": "Enugu"
+      },
+      {
+        "id": "169",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "175",
+        "name": "Gwagwalada",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "181",
+        "name": "Abuja (Utako)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "187",
+        "name": "Abuja (Jabi)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "193",
+        "name": "Abuja (Zuba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "199",
+        "name": "Abuja (Maraba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "205",
+        "name": "Abuja (Nyanya)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "211",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "217",
+        "name": "Obowu",
+        "state": "Imo"
+      },
+      {
+        "id": "229",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "235",
+        "name": "Ichida",
+        "state": "Anambra"
+      },
+      {
+        "id": "241",
+        "name": "Isuofia",
+        "state": "Anambra"
+      },
+      {
+        "id": "247",
+        "name": "Igboukwu",
+        "state": "Anambra"
+      },
+      {
+        "id": "253",
+        "name": "Uga",
+        "state": "Anambra"
+      },
+      {
+        "id": "259",
+        "name": "Akokwa",
+        "state": "Imo"
+      },
+      {
+        "id": "265",
+        "name": "Ideato",
+        "state": "Imo"
+      },
+      {
+        "id": "271",
+        "name": "Oko",
+        "state": "Anambra"
+      },
+      {
+        "id": "277",
+        "name": "Ahuda",
+        "state": "Rivers"
+      },
+      {
+        "id": "283",
+        "name": "Choba",
+        "state": "Rivers"
+      },
+      {
+        "id": "289",
+        "name": "Akwauku",
+        "state": "Anambra"
+      },
+      {
+        "id": "295",
+        "name": "Ogbaku",
+        "state": "Imo"
+      },
+      {
+        "id": "301",
+        "name": "Irete",
+        "state": "Imo"
+      },
+      {
+        "id": "307",
+        "name": "Naze",
+        "state": "Imo"
+      },
+      {
+        "id": "313",
+        "name": "Ntigha Juntion",
+        "state": "Imo"
+      },
+      {
+        "id": "319",
+        "name": "Nkwere",
+        "state": "Imo"
+      },
+      {
+        "id": "325",
+        "name": "Okene",
+        "state": "Kogi"
+      },
+      {
+        "id": "331",
+        "name": "Abuja (Lokoja)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "337",
+        "name": "Abuja (Kubwa)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "343",
+        "name": "Airport Road Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "1",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "7",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "13",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "19",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "25",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "349",
+        "name": "Berger Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "355",
+        "name": "Uniport",
+        "state": "Rivers"
+      },
+      {
+        "id": "361",
+        "name": "Azia Junction",
+        "state": "Anambra"
+      },
+      {
+        "id": "367",
+        "name": "Ohafia",
+        "state": "Abia"
+      },
+      {
+        "id": "373",
+        "name": "Arochukwu",
+        "state": "Abia"
+      },
+      {
+        "id": "379",
+        "name": "Uyo",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "385",
+        "name": "Ikot Ekpene",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "31",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "397",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "391",
+        "name": "Calabar",
+        "state": "Cross River"
+      },
+      {
+        "id": "37",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "43",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "49",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "55",
+        "name": "Ogoja",
+        "state": "Cross River"
+      },
+      {
+        "id": "61",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "67",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "73",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      },
+      {
+        "id": "79",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "85",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      }
+    ],
+    "chisco:dest:54": [
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      }
+    ],
+    "okeyson:dest:2739bbdd-3a01-45e6-a888-67a298d648d6": [
+      {
+        "id": "44",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "2",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "14",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "456",
+        "name": "Obubra",
+        "state": "Cross River"
+      },
+      {
+        "id": "448",
+        "name": "Amasiri",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "440",
+        "name": "Ekwulobia",
+        "state": "Anambra"
+      },
+      {
+        "id": "435",
+        "name": "Abuja",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "419",
+        "name": ""
+      },
+      {
+        "id": "416",
+        "name": "Umunze",
+        "state": "Anambra"
+      },
+      {
+        "id": "415",
+        "name": "Elele",
+        "state": "Rivers"
+      },
+      {
+        "id": "414",
+        "name": "Control Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "413",
+        "name": "Akaeze",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "412",
+        "name": "Aba",
+        "state": "Abia"
+      },
+      {
+        "id": "411",
+        "name": "Umunya",
+        "state": "Anambra"
+      },
+      {
+        "id": "410",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "403",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "134",
+        "name": "Sapele",
+        "state": "Delta"
+      },
+      {
+        "id": "140",
+        "name": "Patani",
+        "state": "Delta"
+      },
+      {
+        "id": "146",
+        "name": "Ugheli",
+        "state": "Delta"
+      },
+      {
+        "id": "152",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "158",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "164",
+        "name": "Four-Corner",
+        "state": "Enugu"
+      },
+      {
+        "id": "170",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "176",
+        "name": "Gwagwalada",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "182",
+        "name": "Abuja (Utako)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "188",
+        "name": "Abuja (Jabi)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "194",
+        "name": "Abuja (Zuba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "200",
+        "name": "Abuja (Maraba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "206",
+        "name": "Abuja (Nyanya)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "212",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "218",
+        "name": "Obowu",
+        "state": "Imo"
+      },
+      {
+        "id": "224",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "230",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "236",
+        "name": "Ichida",
+        "state": "Anambra"
+      },
+      {
+        "id": "242",
+        "name": "Isuofia",
+        "state": "Anambra"
+      },
+      {
+        "id": "248",
+        "name": "Igboukwu",
+        "state": "Anambra"
+      },
+      {
+        "id": "254",
+        "name": "Uga",
+        "state": "Anambra"
+      },
+      {
+        "id": "260",
+        "name": "Akokwa",
+        "state": "Imo"
+      },
+      {
+        "id": "266",
+        "name": "Ideato",
+        "state": "Imo"
+      },
+      {
+        "id": "362",
+        "name": "Azia Junction",
+        "state": "Anambra"
+      },
+      {
+        "id": "272",
+        "name": "Oko",
+        "state": "Anambra"
+      },
+      {
+        "id": "278",
+        "name": "Ahuda",
+        "state": "Rivers"
+      },
+      {
+        "id": "284",
+        "name": "Choba",
+        "state": "Rivers"
+      },
+      {
+        "id": "290",
+        "name": "Akwauku",
+        "state": "Anambra"
+      },
+      {
+        "id": "296",
+        "name": "Ogbaku",
+        "state": "Imo"
+      },
+      {
+        "id": "302",
+        "name": "Irete",
+        "state": "Imo"
+      },
+      {
+        "id": "308",
+        "name": "Naze",
+        "state": "Imo"
+      },
+      {
+        "id": "314",
+        "name": "Ntigha Juntion",
+        "state": "Imo"
+      },
+      {
+        "id": "320",
+        "name": "Nkwere",
+        "state": "Imo"
+      },
+      {
+        "id": "32",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "332",
+        "name": "Abuja (Lokoja)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "338",
+        "name": "Abuja (Kubwa)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "344",
+        "name": "Airport Road Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "8",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "20",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "26",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "350",
+        "name": "Berger Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "356",
+        "name": "Uniport",
+        "state": "Rivers"
+      },
+      {
+        "id": "368",
+        "name": "Ohafia",
+        "state": "Abia"
+      },
+      {
+        "id": "374",
+        "name": "Arochukwu",
+        "state": "Abia"
+      },
+      {
+        "id": "380",
+        "name": "Uyo",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "386",
+        "name": "Ikot Ekpene",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "392",
+        "name": "Calabar",
+        "state": "Cross River"
+      },
+      {
+        "id": "398",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "326",
+        "name": "Okene",
+        "state": "Kogi"
+      },
+      {
+        "id": "38",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "50",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "56",
+        "name": "Ogoja",
+        "state": "Cross River"
+      },
+      {
+        "id": "62",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "68",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "74",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      },
+      {
+        "id": "80",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "86",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "92",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "98",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "104",
+        "name": "Anara",
+        "state": "Imo"
+      },
+      {
+        "id": "110",
+        "name": "Awomamma",
+        "state": "Imo"
+      },
+      {
+        "id": "116",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "122",
+        "name": "Bayelsa",
+        "state": "Bayelsa"
+      },
+      {
+        "id": "128",
+        "name": "Warri",
+        "state": "Delta"
+      }
+    ],
+    "chisco:dest:73": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      }
+    ],
+    "okeyson:dest:95d5be63-8d29-4acc-8c5c-e864b926dc44": [
+      {
+        "id": "227",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "526",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "482",
+        "name": "Ekwulobia Town",
+        "state": "Anambra"
+      },
+      {
+        "id": "481",
+        "name": "Aba Ngwa",
+        "state": "Abia"
+      },
+      {
+        "id": "455",
+        "name": "Umunze",
+        "state": "Anambra"
+      },
+      {
+        "id": "453",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "452",
+        "name": "Amasiri",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "451",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "83",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "89",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "95",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "101",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "107",
+        "name": "Anara",
+        "state": "Imo"
+      },
+      {
+        "id": "113",
+        "name": "Awomamma",
+        "state": "Imo"
+      },
+      {
+        "id": "119",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "125",
+        "name": "Bayelsa",
+        "state": "Bayelsa"
+      },
+      {
+        "id": "131",
+        "name": "Warri",
+        "state": "Delta"
+      },
+      {
+        "id": "137",
+        "name": "Sapele",
+        "state": "Delta"
+      },
+      {
+        "id": "143",
+        "name": "Patani",
+        "state": "Delta"
+      },
+      {
+        "id": "149",
+        "name": "Ugheli",
+        "state": "Delta"
+      },
+      {
+        "id": "155",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "161",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "167",
+        "name": "Four-Corner",
+        "state": "Enugu"
+      },
+      {
+        "id": "173",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "179",
+        "name": "Gwagwalada",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "185",
+        "name": "Abuja (Utako)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "191",
+        "name": "Abuja (Jabi)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "197",
+        "name": "Abuja (Zuba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "203",
+        "name": "Abuja (Maraba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "209",
+        "name": "Abuja (Nyanya)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "215",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "221",
+        "name": "Obowu",
+        "state": "Imo"
+      },
+      {
+        "id": "233",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "239",
+        "name": "Ichida",
+        "state": "Anambra"
+      },
+      {
+        "id": "245",
+        "name": "Isuofia",
+        "state": "Anambra"
+      },
+      {
+        "id": "251",
+        "name": "Igboukwu",
+        "state": "Anambra"
+      },
+      {
+        "id": "257",
+        "name": "Uga",
+        "state": "Anambra"
+      },
+      {
+        "id": "263",
+        "name": "Akokwa",
+        "state": "Imo"
+      },
+      {
+        "id": "269",
+        "name": "Ideato",
+        "state": "Imo"
+      },
+      {
+        "id": "275",
+        "name": "Oko",
+        "state": "Anambra"
+      },
+      {
+        "id": "281",
+        "name": "Ahuda",
+        "state": "Rivers"
+      },
+      {
+        "id": "287",
+        "name": "Choba",
+        "state": "Rivers"
+      },
+      {
+        "id": "293",
+        "name": "Akwauku",
+        "state": "Anambra"
+      },
+      {
+        "id": "299",
+        "name": "Ogbaku",
+        "state": "Imo"
+      },
+      {
+        "id": "305",
+        "name": "Irete",
+        "state": "Imo"
+      },
+      {
+        "id": "311",
+        "name": "Naze",
+        "state": "Imo"
+      },
+      {
+        "id": "317",
+        "name": "Ntigha Juntion",
+        "state": "Imo"
+      },
+      {
+        "id": "323",
+        "name": "Nkwere",
+        "state": "Imo"
+      },
+      {
+        "id": "329",
+        "name": "Okene",
+        "state": "Kogi"
+      },
+      {
+        "id": "335",
+        "name": "Abuja (Lokoja)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "341",
+        "name": "Abuja (Kubwa)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "5",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "11",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "17",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "23",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "347",
+        "name": "Airport Road Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "353",
+        "name": "Berger Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "359",
+        "name": "Uniport",
+        "state": "Rivers"
+      },
+      {
+        "id": "365",
+        "name": "Azia Junction",
+        "state": "Anambra"
+      },
+      {
+        "id": "29",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "377",
+        "name": "Arochukwu",
+        "state": "Abia"
+      },
+      {
+        "id": "383",
+        "name": "Uyo",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "389",
+        "name": "Ikot Ekpene",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "395",
+        "name": "Calabar",
+        "state": "Cross River"
+      },
+      {
+        "id": "401",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "371",
+        "name": "Ohafia",
+        "state": "Abia"
+      },
+      {
+        "id": "35",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "41",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "47",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "59",
+        "name": "Ogoja",
+        "state": "Cross River"
+      },
+      {
+        "id": "65",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "71",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "77",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      }
+    ],
+    "chisco:dest:11": [
+      {
+        "id": "19",
+        "name": "Lagos-Maza-Maza Local----am"
+      },
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      },
+      {
+        "id": "3",
+        "name": "Lagos-Alafia 2--am"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      }
+    ],
+    "okeyson:dest:b452deed-7c15-43e4-aca6-66b608a7eb77": [
+      {
+        "id": "523",
+        "name": "Enugu (New)",
+        "state": "Enugu"
+      },
+      {
+        "id": "478",
+        "name": "Bende",
+        "state": "Abia"
+      },
+      {
+        "id": "477",
+        "name": "Obubra",
+        "state": "Cross River"
+      },
+      {
+        "id": "476",
+        "name": "Awgu",
+        "state": "Enugu"
+      },
+      {
+        "id": "475",
+        "name": "Aba",
+        "state": "Abia"
+      },
+      {
+        "id": "474",
+        "name": "Ekwulobia",
+        "state": "Anambra"
+      },
+      {
+        "id": "473",
+        "name": "Akaeze",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "472",
+        "name": "Amasiri",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "471",
+        "name": "Ugep",
+        "state": "Cross River"
+      },
+      {
+        "id": "82",
+        "name": "Ihiala",
+        "state": "Anambra"
+      },
+      {
+        "id": "88",
+        "name": "Oba Jnc",
+        "state": "Anambra"
+      },
+      {
+        "id": "94",
+        "name": "Okija",
+        "state": "Anambra"
+      },
+      {
+        "id": "100",
+        "name": "Mbaise",
+        "state": "Imo"
+      },
+      {
+        "id": "106",
+        "name": "Anara",
+        "state": "Imo"
+      },
+      {
+        "id": "112",
+        "name": "Awomamma",
+        "state": "Imo"
+      },
+      {
+        "id": "118",
+        "name": "Mgbidi",
+        "state": "Imo"
+      },
+      {
+        "id": "124",
+        "name": "Bayelsa",
+        "state": "Bayelsa"
+      },
+      {
+        "id": "130",
+        "name": "Warri",
+        "state": "Delta"
+      },
+      {
+        "id": "136",
+        "name": "Sapele",
+        "state": "Delta"
+      },
+      {
+        "id": "142",
+        "name": "Patani",
+        "state": "Delta"
+      },
+      {
+        "id": "148",
+        "name": "Ugheli",
+        "state": "Delta"
+      },
+      {
+        "id": "154",
+        "name": "Oji-River",
+        "state": "Enugu"
+      },
+      {
+        "id": "160",
+        "name": "9th Mile",
+        "state": "Enugu"
+      },
+      {
+        "id": "166",
+        "name": "Four-Corner",
+        "state": "Enugu"
+      },
+      {
+        "id": "172",
+        "name": "Nnewi",
+        "state": "Anambra"
+      },
+      {
+        "id": "178",
+        "name": "Gwagwalada",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "184",
+        "name": "Abuja (Utako)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "190",
+        "name": "Abuja (Jabi)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "196",
+        "name": "Abuja (Zuba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "202",
+        "name": "Abuja (Maraba)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "208",
+        "name": "Abuja (Nyanya)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "214",
+        "name": "Umuahia",
+        "state": "Abia"
+      },
+      {
+        "id": "220",
+        "name": "Obowu",
+        "state": "Imo"
+      },
+      {
+        "id": "226",
+        "name": "Portharcourt",
+        "state": "Rivers"
+      },
+      {
+        "id": "232",
+        "name": "Ore",
+        "state": "Ondo"
+      },
+      {
+        "id": "238",
+        "name": "Ichida",
+        "state": "Anambra"
+      },
+      {
+        "id": "244",
+        "name": "Isuofia",
+        "state": "Anambra"
+      },
+      {
+        "id": "250",
+        "name": "Igboukwu",
+        "state": "Anambra"
+      },
+      {
+        "id": "256",
+        "name": "Uga",
+        "state": "Anambra"
+      },
+      {
+        "id": "262",
+        "name": "Akokwa",
+        "state": "Imo"
+      },
+      {
+        "id": "268",
+        "name": "Ideato",
+        "state": "Imo"
+      },
+      {
+        "id": "274",
+        "name": "Oko",
+        "state": "Anambra"
+      },
+      {
+        "id": "280",
+        "name": "Ahuda",
+        "state": "Rivers"
+      },
+      {
+        "id": "286",
+        "name": "Choba",
+        "state": "Rivers"
+      },
+      {
+        "id": "292",
+        "name": "Akwauku",
+        "state": "Anambra"
+      },
+      {
+        "id": "298",
+        "name": "Ogbaku",
+        "state": "Imo"
+      },
+      {
+        "id": "304",
+        "name": "Irete",
+        "state": "Imo"
+      },
+      {
+        "id": "28",
+        "name": "Asaba",
+        "state": "Delta"
+      },
+      {
+        "id": "316",
+        "name": "Ntigha Juntion",
+        "state": "Imo"
+      },
+      {
+        "id": "322",
+        "name": "Nkwere",
+        "state": "Imo"
+      },
+      {
+        "id": "328",
+        "name": "Okene",
+        "state": "Kogi"
+      },
+      {
+        "id": "334",
+        "name": "Abuja (Lokoja)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "340",
+        "name": "Abuja (Kubwa)",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "4",
+        "name": "Afikpo",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "10",
+        "name": "Okposi",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "16",
+        "name": "Awka",
+        "state": "Anambra"
+      },
+      {
+        "id": "22",
+        "name": "Onitsha",
+        "state": "Anambra"
+      },
+      {
+        "id": "346",
+        "name": "Airport Road Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "352",
+        "name": "Berger Fct",
+        "state": "FCT - Abuja"
+      },
+      {
+        "id": "358",
+        "name": "Uniport",
+        "state": "Rivers"
+      },
+      {
+        "id": "364",
+        "name": "Azia Junction",
+        "state": "Anambra"
+      },
+      {
+        "id": "370",
+        "name": "Ohafia",
+        "state": "Abia"
+      },
+      {
+        "id": "376",
+        "name": "Arochukwu",
+        "state": "Abia"
+      },
+      {
+        "id": "382",
+        "name": "Uyo",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "388",
+        "name": "Ikot Ekpene",
+        "state": "Akwa Ibom"
+      },
+      {
+        "id": "394",
+        "name": "Calabar",
+        "state": "Cross River"
+      },
+      {
+        "id": "400",
+        "name": "Nsukka",
+        "state": "Enugu"
+      },
+      {
+        "id": "310",
+        "name": "Naze",
+        "state": "Imo"
+      },
+      {
+        "id": "34",
+        "name": "Agbor",
+        "state": "Delta"
+      },
+      {
+        "id": "40",
+        "name": "Iseleuku",
+        "state": "Delta"
+      },
+      {
+        "id": "46",
+        "name": "Benin",
+        "state": "Edo"
+      },
+      {
+        "id": "52",
+        "name": "Enugu",
+        "state": "Enugu"
+      },
+      {
+        "id": "58",
+        "name": "Ogoja",
+        "state": "Cross River"
+      },
+      {
+        "id": "64",
+        "name": "Abakaliki",
+        "state": "Ebonyi"
+      },
+      {
+        "id": "70",
+        "name": "Owerri",
+        "state": "Imo"
+      },
+      {
+        "id": "76",
+        "name": "Orlu Jnc",
+        "state": "Imo"
+      }
+    ],
+    "chisco:dest:30": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      },
+      {
+        "id": "4",
+        "name": "Lagos-Alafia 2--pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      }
+    ],
+    "chisco:dest:46": [
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      },
+      {
+        "id": "6",
+        "name": "Lagos-Alaba-----am"
+      }
+    ],
+    "chisco:dest:47": [],
+    "chisco:dest:1": [
+      {
+        "id": "15",
+        "name": "Ghana-Accra—-am"
+      },
+      {
+        "id": "8",
+        "name": "Rivers-Mile 1-----am"
+      },
+      {
+        "id": "10",
+        "name": "Abia-Aba Milverton-----am"
+      },
+      {
+        "id": "14",
+        "name": "Anambra-Onitsha----am"
+      },
+      {
+        "id": "11",
+        "name": "Imo-Owerri Egbu Road-----am"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      },
+      {
+        "id": "42",
+        "name": "Benin Republic-Cotonou----am"
+      },
+      {
+        "id": "41",
+        "name": "Togo-Lome----am"
+      },
+      {
+        "id": "54",
+        "name": "Enugu-Enugu------Am"
+      },
+      {
+        "id": "77",
+        "name": "Akwa Ibom-Uyo"
+      }
+    ],
+    "chisco:dest:2": [
+      {
+        "id": "8",
+        "name": "Rivers-Mile 1-----am"
+      },
+      {
+        "id": "10",
+        "name": "Abia-Aba Milverton-----am"
+      },
+      {
+        "id": "11",
+        "name": "Imo-Owerri Egbu Road-----am"
+      },
+      {
+        "id": "14",
+        "name": "Anambra-Onitsha----am"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      },
+      {
+        "id": "15",
+        "name": "Ghana-Accra—-am"
+      },
+      {
+        "id": "41",
+        "name": "Togo-Lome----am"
+      },
+      {
+        "id": "42",
+        "name": "Benin Republic-Cotonou----am"
+      }
+    ],
+    "chisco:dest:3": [
+      {
+        "id": "14",
+        "name": "Anambra-Onitsha----am"
+      },
+      {
+        "id": "11",
+        "name": "Imo-Owerri Egbu Road-----am"
+      },
+      {
+        "id": "10",
+        "name": "Abia-Aba Milverton-----am"
+      },
+      {
+        "id": "8",
+        "name": "Rivers-Mile 1-----am"
+      },
+      {
+        "id": "15",
+        "name": "Ghana-Accra—-am"
+      },
+      {
+        "id": "41",
+        "name": "Togo-Lome----am"
+      },
+      {
+        "id": "48",
+        "name": "Anambra-Amichi-----am"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      }
+    ],
+    "chisco:dest:4": [
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      },
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      },
+      {
+        "id": "49",
+        "name": "Anambra-Amichi-----pm"
+      }
+    ],
+    "chisco:dest:5": [
+      {
+        "id": "15",
+        "name": "Ghana-Accra—-am"
+      },
+      {
+        "id": "41",
+        "name": "Togo-Lome----am"
+      },
+      {
+        "id": "42",
+        "name": "Benin Republic-Cotonou----am"
+      },
+      {
+        "id": "8",
+        "name": "Rivers-Mile 1-----am"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      }
+    ],
+    "chisco:dest:6": [
+      {
+        "id": "48",
+        "name": "Anambra-Amichi-----am"
+      }
+    ],
+    "chisco:dest:17": [
+      {
+        "id": "17",
+        "name": "Lagos-Chisco HQ"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      }
+    ],
+    "chisco:dest:19": [
+      {
+        "id": "8",
+        "name": "Rivers-Mile 1-----am"
+      },
+      {
+        "id": "10",
+        "name": "Abia-Aba Milverton-----am"
+      },
+      {
+        "id": "11",
+        "name": "Imo-Owerri Egbu Road-----am"
+      },
+      {
+        "id": "14",
+        "name": "Anambra-Onitsha----am"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      },
+      {
+        "id": "15",
+        "name": "Ghana-Accra—-am"
+      },
+      {
+        "id": "42",
+        "name": "Benin Republic-Cotonou----am"
+      },
+      {
+        "id": "54",
+        "name": "Enugu-Enugu------Am"
+      }
+    ],
+    "chisco:dest:20": [
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      },
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      },
+      {
+        "id": "44",
+        "name": "Benin Republic-Cotonou-----pm"
+      },
+      {
+        "id": "43",
+        "name": "Togo-Lome----pm"
+      },
+      {
+        "id": "77",
+        "name": "Akwa Ibom-Uyo"
+      },
+      {
+        "id": "73",
+        "name": "Enugu-Enugu----Pm"
+      }
+    ],
+    "chisco:dest:22": [
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      },
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      }
+    ],
+    "chisco:dest:23": [],
+    "chisco:dest:37": [
+      {
+        "id": "49",
+        "name": "Anambra-Amichi-----pm"
+      }
+    ],
+    "chisco:dest:38": [
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      },
+      {
+        "id": "44",
+        "name": "Benin Republic-Cotonou-----pm"
+      },
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "73",
+        "name": "Enugu-Enugu----Pm"
+      },
+      {
+        "id": "77",
+        "name": "Akwa Ibom-Uyo"
+      }
+    ],
+    "chisco:dest:39": [
+      {
+        "id": "43",
+        "name": "Togo-Lome----pm"
+      },
+      {
+        "id": "44",
+        "name": "Benin Republic-Cotonou-----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      }
+    ],
+    "chisco:dest:45": [
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      },
+      {
+        "id": "73",
+        "name": "Enugu-Enugu----Pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      }
+    ],
+    "chisco:dest:59": [
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      },
+      {
+        "id": "14",
+        "name": "Anambra-Onitsha----am"
+      },
+      {
+        "id": "11",
+        "name": "Imo-Owerri Egbu Road-----am"
+      },
+      {
+        "id": "10",
+        "name": "Abia-Aba Milverton-----am"
+      },
+      {
+        "id": "8",
+        "name": "Rivers-Mile 1-----am"
+      },
+      {
+        "id": "54",
+        "name": "Enugu-Enugu------Am"
+      },
+      {
+        "id": "55",
+        "name": "Anambra-Ekwulobia------Am"
+      },
+      {
+        "id": "42",
+        "name": "Benin Republic-Cotonou----am"
+      },
+      {
+        "id": "41",
+        "name": "Togo-Lome----am"
+      },
+      {
+        "id": "15",
+        "name": "Ghana-Accra—-am"
+      },
+      {
+        "id": "46",
+        "name": "Imo-Orlu-----AM"
+      },
+      {
+        "id": "48",
+        "name": "Anambra-Amichi-----am"
+      }
+    ],
+    "chisco:dest:61": [
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      },
+      {
+        "id": "73",
+        "name": "Enugu-Enugu----Pm"
+      },
+      {
+        "id": "77",
+        "name": "Akwa Ibom-Uyo"
+      }
+    ],
+    "chisco:dest:76": [
+      {
+        "id": "30",
+        "name": "Imo-Owerri Egbu Road-----pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "73",
+        "name": "Enugu-Enugu----Pm"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "29",
+        "name": "Anambra-Onitsha----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      },
+      {
+        "id": "27",
+        "name": "Abia-Aba Milverton-----pm"
+      },
+      {
+        "id": "81",
+        "name": "Ebonyi-Abakaliki"
+      },
+      {
+        "id": "77",
+        "name": "Akwa Ibom-Uyo"
+      },
+      {
+        "id": "83",
+        "name": "Anambra-Ekwulobia------PM"
+      },
+      {
+        "id": "49",
+        "name": "Anambra-Amichi-----pm"
+      },
+      {
+        "id": "84",
+        "name": "Anambra-Nnewi"
+      }
+    ],
+    "chisco:dest:79": [
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      },
+      {
+        "id": "28",
+        "name": "Ghana-Accra—--pm"
+      }
+    ],
+    "chisco:dest:80": [],
+    "chisco:dest:8": [
+      {
+        "id": "1",
+        "name": "Lagos-Jibowu--am"
+      },
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      },
+      {
+        "id": "5",
+        "name": "Lagos-Maza-Maza Int'l---am"
+      }
+    ],
+    "chisco:dest:26": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "4",
+        "name": "Lagos-Alafia 2--pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      },
+      {
+        "id": "26",
+        "name": "Rivers-Mile 1-----pm"
+      }
+    ],
+    "chisco:dest:35": [
+      {
+        "id": "7",
+        "name": "Abuja-Utako----am"
+      }
+    ],
+    "chisco:dest:36": [
+      {
+        "id": "38",
+        "name": "Lagos-Maza-Maza Local----pm"
+      },
+      {
+        "id": "20",
+        "name": "Lagos-Jibowu--pm"
+      },
+      {
+        "id": "4",
+        "name": "Lagos-Alafia 2--pm"
+      },
+      {
+        "id": "25",
+        "name": "Abuja-Utako----pm"
+      }
+    ]
+  }
+}

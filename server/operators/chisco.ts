@@ -69,6 +69,8 @@ export const chisco: Operator = {
         vehicle: `${t.totalNumberOfSeats}-seat bus`,
         fare,
         listFare: list > fare ? list : null,
+        listFareLabel: list > fare ? "Before online discount" : null,
+        fareNote: list > fare ? "with Chisco's online booking discount" : null,
         seatsAvailable: Number(t.availableNumberOfSeats),
         seatsTotal: Number(t.totalNumberOfSeats) || null,
         soldOut: Number(t.availableNumberOfSeats) === 0,

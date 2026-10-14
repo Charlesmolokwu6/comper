@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -13,6 +13,7 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-surface: var(--surface);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
@@ -28,193 +29,67 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Electric Dark */
 :root {
-  /* Cyberpunk Minimalism: Pure black + neon lime */
-  --primary: #C0F11C;
-  --primary-foreground: #000000;
-  --sidebar-primary: #C0F11C;
-  --sidebar-primary-foreground: #000000;
-  --chart-1: #C0F11C;
-  --chart-2: #A8D91A;
-  --chart-3: #90C118;
-  --chart-4: #78A916;
-  --chart-5: #607014;
-  --radius: 0.25rem;
+  --radius: 0.875rem;
   --background: #000000;
-  --foreground: #FFFFFF;
-  --card: #0A0A0A;
-  --card-foreground: #FFFFFF;
-  --popover: #0A0A0A;
-  --popover-foreground: #FFFFFF;
-  --secondary: #1A1A1A;
-  --secondary-foreground: #FFFFFF;
-  --muted: #333333;
-  --muted-foreground: #999999;
-  --accent: #C0F11C;
-  --accent-foreground: #000000;
-  --destructive: #FF4444;
-  --destructive-foreground: #FFFFFF;
-  --border: #1A1A1A;
-  --input: #0A0A0A;
-  --ring: #C0F11C;
-  --sidebar: #000000;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-accent: #C0F11C;
-  --sidebar-accent-foreground: #000000;
-  --sidebar-border: #1A1A1A;
-  --sidebar-ring: #C0F11C;
-}
-
-.dark {
-  /* Already pure black + neon lime in light mode */
+  --foreground: #f5f5f5;
+  /* Raised surfaces: cards, then fields/popovers on top of cards. */
+  --card: #0d0d0d;
+  --card-foreground: #f5f5f5;
+  --surface: #161616;
+  --popover: #121212;
+  --popover-foreground: #f5f5f5;
+  --primary: #c0f11c;
+  --primary-foreground: #000000;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #f5f5f5;
+  --muted: #1a1a1a;
+  /* ≥ 7:1 contrast on #000 and #0d0d0d. */
+  --muted-foreground: #a3a3a3;
+  --accent: #1f1f1f;
+  --accent-foreground: #f5f5f5;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #000000;
+  --border: #242424;
+  --input: #161616;
+  --ring: #c0f11c;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/60;
+  }
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-background text-foreground font-sans;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-mono font-bold;
-  }
-  .font-mono {
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .font-sans {
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
   a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
+  select:not(:disabled) {
     @apply cursor-pointer;
+  }
+  /* Native date picker icon readable on dark fields. */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.7;
   }
 }
 
-@layer components {
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  /* Cyberpunk Minimalism: Neon lime glow effects */
-  .glow-lime {
-    box-shadow: 0 0 8px rgba(192, 241, 28, 0.3), inset 0 0 8px rgba(192, 241, 28, 0.1);
-  }
-
-  .glow-lime-strong {
-    box-shadow: 0 0 16px rgba(192, 241, 28, 0.5), inset 0 0 12px rgba(192, 241, 28, 0.2);
-  }
-
-  .border-lime {
-    border: 1px solid #C0F11C;
-  }
-
-  .border-lime-glow {
-    border: 1px solid #C0F11C;
-    box-shadow: inset 0 0 8px rgba(192, 241, 28, 0.1);
-  }
-
-  /* Animations */
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.8s ease-out forwards;
-  }
-
-  .animate-fade-in-delay {
-    animation: fade-in 0.8s ease-out 0.2s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-delay-2 {
-    animation: fade-in 0.8s ease-out 0.4s forwards;
-    opacity: 0;
-  }
-
-  @keyframes slide-down {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-      max-height: 0;
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-      max-height: 1000px;
-    }
-  }
-
-  .animate-slide-down {
-    animation: slide-down 0.4s ease-out forwards;
-  }
-
-  @keyframes slide-in {
-    from {
-      width: 0;
-      opacity: 0;
-    }
-    to {
-      width: 100%;
-      opacity: 1;
-    }
-  }
-
-  .animate-slide-in {
-    animation: slide-in 0.3s ease-out forwards;
-  }
-
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem;
-      padding-right: 2rem;
-      max-width: 1280px;
-    }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

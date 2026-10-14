@@ -85,6 +85,8 @@ export const abc: Operator = {
         vehicle: r.coach_title || r.coach_name,
         fare,
         listFare: strike > fare ? strike : null,
+        listFareLabel: strike > fare ? "Before discount" : null,
+        fareNote: strike > fare ? "ABC's discounted online fare" : null,
         seatsAvailable: Number(r.available_seats),
         seatsTotal: null,
         soldOut: Number(r.available_seats) === 0,

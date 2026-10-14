@@ -11,7 +11,9 @@
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "guo:terminals": "tsx scripts/guo-terminals.ts",
-    "test": "vitest run --root . server"
+    "test": "vitest run --root . server client/src/lib",
+    "fares:network": "tsx scripts/route-network.ts",
+    "dev:api": "PORT=3001 tsx watch server/index.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

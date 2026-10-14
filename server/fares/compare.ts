@@ -35,6 +35,11 @@ export interface ComparedTrip extends Trip {
   website: string;
   from: StopRef;
   to: StopRef;
+  /** The bus continues beyond the searched city; `fare` is to the searched city. */
+  passesThrough: boolean;
+  /** Where to book: the exact search when `deepLink`, else the operator's homepage. */
+  bookingUrl: string;
+  deepLink: boolean;
   /** True when either end was matched approximately; see `matchNotes`. */
   approximate: boolean;
   matchNotes: string[];
@@ -101,6 +106,30 @@ export async function findRoutes(
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
+/**
+ * Bookable trips first, then by `fare` — the post-standard-online-discount price, the
+ * same basis for every operator. `listFare` never affects ranking. `cheapest` excludes
+ * sold-out trips and approximate city matches.
+ */
+export function rankTrips<
+  T extends Pick<Trip, "fare" | "soldOut" | "departure"> & {
+    approximate: boolean;
+  },
+>(trips: T[]) {
+  const sorted = trips
+    .slice()
+    .sort(
+      (a, b) =>
+        Number(a.soldOut) - Number(b.soldOut) ||
+        a.fare - b.fare ||
+        a.departure.localeCompare(b.departure)
+    );
+  return {
+    trips: sorted,
+    cheapest: sorted.find(t => !t.soldOut && !t.approximate) ?? null,
+  };
+}
+
 export async function compare(
   fromCity: string,
   toCity: string,
@@ -151,11 +180,19 @@ export async function compare(
               )
             )
               continue;
+            const deep = op.bookingUrl?.(p.from.id, p.to.id, date);
             trips.push({
               ...t,
               operator: op.id,
               operatorName: op.name,
               website: op.website,
+              // Only when the bus ends in a different city: GUO's "ABUJA" vs a search to
+              // "ABUJA - UTAKO" is the same city, not a pass-through.
+              passesThrough:
+                t.busFinalDestination != null &&
+                resolveCity(t.busFinalDestination)?.city !== toCity,
+              bookingUrl: deep ?? op.website,
+              deepLink: !!deep,
               from: p.from,
               to: p.to,
               approximate:
@@ -186,20 +223,12 @@ export async function compare(
   await Promise.race([Promise.allSettled(runs), sleep(waitMs)]);
 
   // Snapshot now; pending operators keep filling the cache in the background.
-  const out = trips
-    .slice()
-    .sort(
-      (a, b) =>
-        Number(a.soldOut) - Number(b.soldOut) ||
-        a.fare - b.fare ||
-        a.departure.localeCompare(b.departure)
-    );
+  const { trips: out, cheapest } = rankTrips(trips);
   return {
     date,
     currency: "NGN",
     trips: out,
-    /** Cheapest bookable trip whose cities matched exactly (approximate matches excluded). */
-    cheapest: out.find(t => !t.soldOut && !t.approximate) ?? null,
+    cheapest,
     coverage: Array.from(coverage.values(), c => ({ ...c })),
     unavailableOperators,
   };

@@ -53,6 +53,15 @@ describe("Okeyson", () => {
     });
   });
 
+  it("resolves React's de-duplicated object references", () => {
+    const text =
+      '0:{"a":"$@1"}\n' +
+      '1:{"data":{"s":[{"trip":{"vc":{"name":"Luxurious"}}},{"trip":{"vc":"$1:data:s:0:trip:vc"}}],"label":"$$5 off"},"error":null}\n';
+    const { data } = parseActionResponse(text);
+    expect(data.s[1].trip.vc).toEqual({ name: "Luxurious" });
+    expect(data.label).toBe("$5 off");
+  });
+
   it("picks the result row out of a Server Action response", () => {
     const text = `0:{"a":"$@1","f":"","b":"x"}\n1:{"data":null,"error":"Forbidden resource"}\n`;
     expect(parseActionResponse(text)).toEqual({

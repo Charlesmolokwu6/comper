@@ -2,6 +2,7 @@
  * Fare API, one shape for every operator.
  *
  *   GET /api/compare?from=Lagos&to=Abuja&date=YYYY-MM-DD   all live operators side by side
+ *   GET /api/network                                        cities with live routes, for the pickers
  *   GET /api/cities                                         canonical city names
  *   GET /api/operators                                      live + excluded operators
  *   GET /api/operators/:op/origins
@@ -13,9 +14,12 @@ import { Router } from "express";
 import { getOperator, operators, unavailableOperators } from "../operators";
 import { knownCities, resolveCity } from "./cities";
 import { compare } from "./compare";
+import { buildNetwork } from "./network";
 import { lastScrape } from "./scheduler";
 import {
   cacheStats,
+  cachedNetwork,
+  warmNetwork,
   daysFromToday,
   getDestinations,
   getFares,
@@ -45,11 +49,9 @@ faresRouter.get("/compare", async (req, res) => {
   const to = resolveCity(String(req.query.to ?? ""));
   const date = parseDate(req.query.date);
   if (!from || !to)
-    return res
-      .status(400)
-      .json({
-        error: "from and to are required city names, e.g. Lagos, Abuja",
-      });
+    return res.status(400).json({
+      error: "from and to are required city names, e.g. Lagos, Abuja",
+    });
   if (from.city === to.city)
     return res.status(400).json({ error: "from and to are the same city" });
   if (!date)
@@ -62,6 +64,13 @@ faresRouter.get("/compare", async (req, res) => {
     to: { query: req.query.to, city: to.city, name: to.cityName },
     ...result,
   });
+});
+
+faresRouter.get("/network", (_req, res) => {
+  const { complete, byOperator } = cachedNetwork();
+  // Anything the snapshot/cache lacks is fetched in the background; clients re-poll.
+  if (!complete) warmNetwork().catch(() => {});
+  res.json({ complete, cities: buildNetwork(byOperator) });
 });
 
 faresRouter.get("/cities", (_req, res) => {
@@ -117,21 +126,17 @@ faresRouter.get("/operators/:op/fares", async (req, res) => {
   const to = String(req.query.to ?? "");
   const date = parseDate(req.query.date);
   if (!from || !to)
-    return res
-      .status(400)
-      .json({
-        error: "from and to are required (IDs from /origins and /destinations)",
-      });
+    return res.status(400).json({
+      error: "from and to are required (IDs from /origins and /destinations)",
+    });
   if (!date)
     return res
       .status(400)
       .json({ error: "date must be YYYY-MM-DD, today to 90 days ahead" });
   if (daysFromToday(date) > op.maxDaysAhead)
-    return res
-      .status(422)
-      .json({
-        error: `${op.name} sells tickets up to ${op.maxDaysAhead} days ahead`,
-      });
+    return res.status(422).json({
+      error: `${op.name} sells tickets up to ${op.maxDaysAhead} days ahead`,
+    });
   try {
     // Only search pairs the operator actually lists (GUO answers unknown IDs with HTTP 500).
     const origin = (await getOrigins(op.id)).find(o => o.id === from);

@@ -30,6 +30,16 @@ export const guo: Operator = {
 
   async search(originId, destinationId, date) {
     const res = await fetchFares(originId, destinationId, date);
+    const c = res.coupon;
+    const off =
+      c?.percent != null
+        ? `${c.percent}% off`
+        : c?.amount
+          ? `₦${c.amount.toLocaleString("en-NG")} off`
+          : "";
+    const note = c
+      ? `with GUO's online coupon ${c.name}${off ? ` (${off})` : ""}`.trim()
+      : null;
     return res.trips.map(t => ({
       id: t.tripId,
       departure: t.departure,
@@ -37,6 +47,8 @@ export const guo: Operator = {
       // GUO's site shows the fare after its default online coupon as the adult price.
       fare: t.onlineFare,
       listFare: t.fare > t.onlineFare ? t.fare : null,
+      listFareLabel: t.fare > t.onlineFare ? "Bus fare" : null,
+      fareNote: t.fare > t.onlineFare ? note : null,
       seatsAvailable: t.seatsAvailable,
       seatsTotal: t.seatsTotal,
       soldOut: t.seatsAvailable === 0,

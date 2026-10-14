@@ -105,18 +105,46 @@ async function discoverActionIds() {
   );
 }
 
-/** The Server Action result row is the one carrying `data`/`error`. */
+/**
+ * The Server Action result row is the one carrying `data`/`error`. React's wire format
+ * de-duplicates repeated objects: the second identical `vehicleClass` arrives as the
+ * string "$1:data:getAvailableSchedule:…:vehicleClass", a path into row 1. Those
+ * references are resolved here ("$$…" is an escaped literal "$").
+ */
 export function parseActionResponse(text: string): { data: any; error: any } {
+  const rows = new Map<string, any>();
   for (const line of text.split("\n")) {
     const colon = line.indexOf(":");
     if (colon < 0) continue;
     try {
-      const v = JSON.parse(line.slice(colon + 1));
-      if (v && typeof v === "object" && ("data" in v || "error" in v)) return v;
+      rows.set(line.slice(0, colon), JSON.parse(line.slice(colon + 1)));
     } catch {
       // not a JSON row
     }
   }
+  const resolve = (v: any, depth = 0): any => {
+    if (depth > 50) return v;
+    if (typeof v === "string") {
+      if (v.startsWith("$$")) return v.slice(1);
+      if (v === "$undefined") return undefined;
+      const m = v.match(/^\$([0-9a-f]+):(.+)$/);
+      if (m && rows.has(m[1])) {
+        let target = rows.get(m[1]);
+        for (const key of m[2].split(":")) target = target?.[key];
+        return resolve(target, depth + 1);
+      }
+      return v;
+    }
+    if (Array.isArray(v)) return v.map(x => resolve(x, depth + 1));
+    if (v && typeof v === "object")
+      return Object.fromEntries(
+        Object.entries(v).map(([k, x]) => [k, resolve(x, depth + 1)])
+      );
+    return v;
+  };
+  for (const v of Array.from(rows.values()))
+    if (v && typeof v === "object" && ("data" in v || "error" in v))
+      return resolve(v);
   throw new Error("Okeyson server action returned no result row");
 }
 
@@ -160,6 +188,19 @@ export const okeyson: Operator = {
   website: "https://www.okeysontransports.com",
   maxDaysAhead: 30,
 
+  // The results page Okeyson's own search form redirects to; verified to render this search.
+  bookingUrl(originId, destinationId, date) {
+    const qs = new URLSearchParams({
+      from: originId,
+      to: destinationId,
+      adult: "1",
+      date,
+      child: "0",
+      infant: "0",
+    });
+    return `${PAGE}?${qs}`;
+  },
+
   async origins() {
     return (await getSession()).terminals;
   },
@@ -198,6 +239,8 @@ export const okeyson: Operator = {
       // totalFare for one adult is the price Okeyson's results page shows.
       fare: Number(s.totalFare),
       listFare: null,
+      listFareLabel: null,
+      fareNote: null,
       seatsAvailable: Number(s.trip.seatsAvailable),
       seatsTotal: null,
       soldOut: Number(s.trip.seatsAvailable) === 0,

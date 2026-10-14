@@ -12,7 +12,14 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { getOperator, type Operator, type Stop, type Trip } from "../operators";
+import {
+  getOperator,
+  operators,
+  type Operator,
+  type Stop,
+  type Trip,
+} from "../operators";
+import networkSnapshot from "./data/network.json";
 
 const HOUR = 3_600_000;
 const num = (v: string | undefined, d: number) =>
@@ -76,27 +83,111 @@ function op(id: string): Operator {
   return o;
 }
 
-async function cachedStops(key: string, load: () => Promise<Stop[]>) {
-  const hit = stops.get(key);
-  if (hit && Date.now() - hit.at < ROUTES_TTL_MS) return hit.value;
-  try {
-    const value = await singleFlight(`stops:${key}`, load);
+function loadStops(key: string, load: () => Promise<Stop[]>) {
+  return singleFlight(`stops:${key}`, async () => {
+    const value = await load();
     stops.set(key, { at: Date.now(), value });
     scheduleSave();
     return value;
-  } catch (err) {
-    if (hit) return hit.value; // operator down: keep using yesterday's route list
-    throw err;
-  }
+  });
 }
 
+/**
+ * Route lists change rarely, so an old list (from the committed snapshot or yesterday's
+ * cache) is served immediately and refreshed in the background.
+ */
+async function cachedStops(key: string, load: () => Promise<Stop[]>) {
+  const hit = stops.get(key);
+  if (hit) {
+    if (Date.now() - hit.at >= ROUTES_TTL_MS)
+      loadStops(key, load).catch(err =>
+        console.error(`[fares] route list refresh ${key} failed:`, err.message)
+      );
+    return hit.value;
+  }
+  return loadStops(key, load);
+}
+
+const originsKey = (operator: string) => `${operator}:origins`;
+const destKey = (operator: string, originId: string) =>
+  `${operator}:dest:${originId}`;
+
 export const getOrigins = (operator: string) =>
-  cachedStops(`${operator}:origins`, () => op(operator).origins());
+  cachedStops(originsKey(operator), () => op(operator).origins());
 
 export const getDestinations = (operator: string, originId: string) =>
-  cachedStops(`${operator}:dest:${originId}`, () =>
+  cachedStops(destKey(operator, originId), () =>
     op(operator).destinations(originId)
   );
+
+/** Route lists already in memory (no network). `complete` is false if any are missing. */
+export function cachedNetwork() {
+  let complete = true;
+  const byOperator = operators.map(o => {
+    const origins = stops.get(originsKey(o.id))?.value;
+    if (!origins) {
+      complete = false;
+      return {
+        operator: o.id,
+        origins: [],
+        destinations: {} as Record<string, Stop[]>,
+      };
+    }
+    const destinations: Record<string, Stop[]> = {};
+    for (const origin of origins) {
+      const d = stops.get(destKey(o.id, origin.id))?.value;
+      if (d) destinations[origin.id] = d;
+      else complete = false;
+    }
+    return { operator: o.id, origins, destinations };
+  });
+  return { complete, byOperator };
+}
+
+/**
+ * Fetch every operator's route lists. With `onlyMissingOrOld`, lists fetched within
+ * ROUTES_TTL are skipped. Used by the scheduler and the snapshot script.
+ */
+export async function refreshNetwork({ onlyMissingOrOld = true } = {}) {
+  const fresh = (key: string) => {
+    const hit = stops.get(key);
+    return onlyMissingOrOld && hit && Date.now() - hit.at < ROUTES_TTL_MS;
+  };
+  const errors: string[] = [];
+  await Promise.all(
+    operators.map(async o => {
+      try {
+        const origins = fresh(originsKey(o.id))
+          ? stops.get(originsKey(o.id))!.value
+          : await loadStops(originsKey(o.id), () => o.origins());
+        for (const origin of origins) {
+          const k = destKey(o.id, origin.id);
+          if (fresh(k)) continue;
+          await loadStops(k, () => o.destinations(origin.id)).catch(err =>
+            errors.push(`${o.id} ${origin.name}: ${err.message}`)
+          );
+        }
+      } catch (err: any) {
+        errors.push(`${o.id}: ${err.message}`);
+      }
+    })
+  );
+  return errors;
+}
+
+let networkWarm: Promise<unknown> | null = null;
+/** Fill any missing route lists in the background (one run at a time). */
+export function warmNetwork() {
+  networkWarm ??= refreshNetwork().finally(() => (networkWarm = null));
+  return networkWarm;
+}
+
+/** Route lists as stored in the committed snapshot (server/fares/data/network.json). */
+export function snapshotStops() {
+  return Object.fromEntries(
+    Array.from(stops, ([k, v]) => [k, v.value] as const)
+  );
+}
 
 /** Never pass on a trip without a real positive fare. */
 const validTrips = (trips: Trip[]) =>
@@ -167,12 +258,20 @@ export function isRecent(operator: string, o: string, d: string, date: string) {
 }
 
 export function load() {
+  // Committed snapshot first, so route lists are complete from boot even with no cache
+  // file (Render's free tier wipes the disk). Its timestamp makes them refresh in the
+  // background on first use; the live cache file below overrides it where newer.
+  const snapAt = Date.parse(networkSnapshot.generatedAt) || 0;
+  for (const [k, value] of Object.entries<Stop[]>(
+    networkSnapshot.stops as Record<string, Stop[]>
+  ))
+    stops.set(k, { at: snapAt, value });
   try {
     const data = JSON.parse(fs.readFileSync(CACHE_FILE, "utf8"));
     for (const e of data.fares ?? [])
       fares.set(fareKey(e.operator, e.originId, e.destinationId, e.date), e);
     for (const [k, v] of Object.entries<Timed<Stop[]>>(data.stops ?? {}))
-      stops.set(k, v);
+      if (!stops.has(k) || v.at > stops.get(k)!.at) stops.set(k, v);
   } catch {
     // No cache yet (or unreadable) — start empty.
   }

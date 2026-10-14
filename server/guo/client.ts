@@ -52,7 +52,17 @@ export interface GuoTrip {
   passesThrough: boolean;
 }
 
+export interface GuoCoupon {
+  name: string;
+  /** Percent off, when the coupon is a percentage. */
+  percent: number | null;
+  /** Naira off, when the coupon is a fixed amount. */
+  amount: number | null;
+}
+
 export interface GuoFareResult {
+  /** GUO's default online coupon that `onlineFare` includes, if any. */
+  coupon: GuoCoupon | null;
   terminalId: string;
   destinationId: string;
   date: string;
@@ -150,6 +160,17 @@ function onlineFare(fare: number, coupon: any): number {
   return Math.max(0, fare - Number(coupon.couponvalue || 0));
 }
 
+export function parseCoupon(json: any): GuoCoupon | null {
+  const c = json?.bookingSettings?.couponDiscount;
+  if (!c) return null;
+  const pct = String(c.usePercent) === "1";
+  return {
+    name: String(c.couponname ?? ""),
+    percent: pct ? Number(c.couponpercent) : null,
+    amount: pct ? null : Number(c.couponvalue || 0),
+  };
+}
+
 export function parseItinerary(json: any, destinationId: string): GuoTrip[] {
   const busList: any[] = json?.schedule?.BusList ?? [];
   const coupon = json?.bookingSettings?.couponDiscount;
@@ -228,6 +249,7 @@ export async function fetchFares(
       terminalId,
       destinationId,
       date,
+      coupon: parseCoupon(json),
       trips: parseItinerary(json, destinationId),
       fetchedAt: new Date().toISOString(),
     };

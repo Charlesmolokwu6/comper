@@ -18,10 +18,19 @@ export interface Trip {
   /** "YYYY-MM-DD HH:mm", Lagos local time. */
   departure: string;
   vehicle: string;
-  /** Naira, one adult, the price the operator's website charges when booking online. */
+  /**
+   * Naira, one adult: the price the operator's website charges when booking online,
+   * i.e. after any discount the operator applies to every online booking (GUO's default
+   * coupon, Chisco's online discount). Same basis for every operator; sorting and
+   * "cheapest" use only this field.
+   */
   fare: number;
-  /** Undiscounted price, when the operator's site shows one crossed out. */
+  /** Price before that standard online discount, when the operator shows one. Display only. */
   listFare: number | null;
+  /** What `listFare` is, e.g. "Bus fare". */
+  listFareLabel: string | null;
+  /** Why `fare` differs from `listFare`, e.g. "with GUO's online coupon GUOGoesOnline (2% off)". */
+  fareNote: string | null;
   seatsAvailable: number | null;
   seatsTotal: number | null;
   soldOut: boolean;
@@ -42,6 +51,11 @@ export interface Operator {
   origins(): Promise<Stop[]>;
   /** Places reachable from one origin. */
   destinations(originId: string): Promise<Stop[]>;
+  /**
+   * A link that opens this exact search on the operator's site, only where the URL
+   * format is known to work. Omitted → link to `website`.
+   */
+  bookingUrl?(originId: string, destinationId: string, date: string): string;
   /** Live trips for one origin → destination on `date` (YYYY-MM-DD). */
   search(
     originId: string,

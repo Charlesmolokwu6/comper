@@ -1,17 +1,14 @@
-import { useState } from "react";
-import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "./contexts/ThemeContext";
 import ErrorBoundary from "./components/ErrorBoundary";
-import ComparisonApp from "./pages/ComparisonApp";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import ComparePage from "./pages/ComparePage";
 
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
-          <Toaster />
-          <ComparisonApp />
+          <ComparePage />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

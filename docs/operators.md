@@ -90,6 +90,10 @@ calls **Next.js Server Actions**. Each one is `POST /en/availability` with a
 - **Action IDs change on every Okeyson deploy.** The adapter finds them at runtime by scanning the
   page's JS chunks for `createServerReference("<id>", …, "getAvailabilityQuery")`, and rescans
   automatically when an ID stops working.
+- **Reference de-duplication:** React's wire format sends a repeated object once and then as a
+  `"$1:data:…:vehicleClass"` path reference. The parser resolves these. Before that fix, repeated
+  vehicle classes showed as "Bus"; fares are plain numbers and were never affected. Verified
+  against Okeyson's own results page: 6 of 6 trips match on class, fare and seats.
 - **Data quirk:** Okeyson shows identical buses and fares for Jibowu → Enugu and Jibowu → Owerri.
   Its own website shows the same, so this isn't a parsing error.
 
@@ -147,7 +151,16 @@ Cases it handles:
 - **Trips:** one list across all operators, with the same fields for every operator. They are
   sorted with bookable trips first, then by fare. The same bus reached via two drop-offs appears
   once. `approximate: true` and `matchNotes` mark any fuzzy city match.
+- **Fare basis:** `fare` is the price after the operator's standard online discount, the one
+  every online booking gets (GUO's default coupon, Chisco's online discount), for every operator.
+  Sorting and `cheapest` use only `fare`. `listFare`, `listFareLabel` ("Bus fare") and `fareNote`
+  ("with GUO's online coupon GUOGoesOnline (2% off)") are for display. This is tested in
+  `server/fares/compare.test.ts`.
 - **`cheapest`:** the cheapest bookable trip, excluding approximate matches.
+- **`passesThrough`:** true when the bus ends in a different _city_ than the one searched
+  (`busFinalDestination` says where). The fare shown is to the searched city.
+- **`bookingUrl`, `deepLink`:** Okeyson links open the exact search on its site (the URL its own
+  form redirects to, verified). Every other operator links to its homepage.
 - **`coverage`:** one row per live operator with its status: `fares`, `no_trips`, `no_route`,
   `not_on_sale`, `pending` or `error`. Coverage carries no prices. An operator without live
   fares contributes no trips.
@@ -165,6 +178,12 @@ Cases it handles:
 - **Route lists:** cached for 24 h (`ROUTES_TTL_HOURS`). If an operator is down, yesterday's list
   is kept.
 - **Persistence:** everything is saved to `.cache/fares.json` (`FARE_CACHE_FILE`).
+- **Route-network snapshot:** `server/fares/data/network.json` is committed and loaded at boot.
+  Render's free tier wipes the cache on restart, so this keeps the city pickers complete from the
+  first request. Lists older than 24 h are served immediately and refreshed in the background.
+  `/api/network` reports `complete: false` for anything still missing, and the UI says "More
+  routes are loading". Regenerate with `pnpm fares:network`, which takes a few minutes because it
+  is rate-limited.
 - **Scheduled scrape:** runs every 6 h for six popular city pairs, 3 days ahead
   (`SCRAPE_CITY_PAIRS`, `SCRAPE_DAYS_AHEAD`, `SCRAPE_INTERVAL_HOURS`). The default is roughly
   50–70 requests per date per direction across all operators. Chisco, with its many Lagos am/pm
@@ -175,6 +194,7 @@ Cases it handles:
 | Endpoint                                               | Purpose                                               |
 | ------------------------------------------------------ | ----------------------------------------------------- |
 | `GET /api/compare?from=&to=&date=`                     | Side-by-side fares                                    |
+| `GET /api/network`                                     | Cities with live routes and where each goes (pickers) |
 | `GET /api/cities`                                      | Canonical cities                                      |
 | `GET /api/operators`                                   | Live and excluded operators                           |
 | `GET /api/operators/:op/origins`                       | Each origin with its city match                       |
@@ -184,3 +204,23 @@ Cases it handles:
 | `GET /api/guo/terminals`, `/api/guo/terminals/nearest` | GUO terminal locations (unchanged)                    |
 
 `/api/guo/fares` now redirects to `/api/operators/guo/fares`.
+
+## Frontend
+
+`client/src/pages/ComparePage.tsx` has three tabs: Inter-State Bus, Intra-City Cab and Domestic
+Flight.
+
+**Bus** is wired to `/api/compare`:
+
+- **Pickers:** city pickers come from `/api/network`. The To list only offers cities reachable
+  from the chosen From city.
+- **Shareable URLs:** searches are saved in the URL as `?from=&to=&date=`.
+- **Partial results:** `useCompare` re-polls every 4 s while any operator is `pending`, for up to
+  2 min. Operators still pending after that are shown as "Didn't respond in time", with Retry.
+- **Every operator is visible:** each one keeps its status row, including errors, which show
+  their details.
+- **Not included:** Libra and GIGM appear only in this note, never as "no route".
+
+**Cab and Flight** show "Coming soon" with a disabled form and no numbers.
+
+**Dev:** run `pnpm dev:api` (Express on :3001) and `pnpm dev` (Vite, proxies `/api`).

@@ -8,7 +8,7 @@
  *   SCRAPE_INTERVAL_HOURS   (default 6; 0 disables the schedule)
  */
 import { scrapePopular } from "./compare";
-import { load } from "./store";
+import { load, refreshNetwork } from "./store";
 
 const PAIRS = (
   process.env.SCRAPE_CITY_PAIRS ||
@@ -36,6 +36,10 @@ export async function runScrape() {
   };
   last = run;
   try {
+    // Route lists older than ROUTES_TTL (incl. the committed snapshot) are refreshed first.
+    const routeErrors = await refreshNetwork();
+    if (routeErrors.length)
+      console.warn("[fares] route list errors:", routeErrors.slice(0, 5));
     run.faresFetched = await scrapePopular(PAIRS, DAYS_AHEAD);
   } catch (err: any) {
     run.error = err.message;

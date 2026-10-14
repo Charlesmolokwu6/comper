@@ -129,6 +129,8 @@ export const pmt: Operator = {
           .join(" · "),
         fare: Number(t.fare),
         listFare: null,
+        listFareLabel: null,
+        fareNote: null,
         seatsAvailable: Number(t.seats_available),
         seatsTotal: Number(t.seats_total) || null,
         soldOut: !t.can_book || Number(t.seats_available) === 0,
