@@ -70,7 +70,11 @@ export function BusPanel() {
       to: q.to,
       date: q.date,
     }).toString();
-    window.history.replaceState(null, "", url);
+    try {
+      window.history.replaceState(null, "", url);
+    } catch {
+      // Sandboxed frames can refuse URL changes; the search itself still runs.
+    }
     search(q);
   };
 
