@@ -50,7 +50,7 @@ The ₦54,880 shown on GUO's site is ₦56,000 less the 2% coupon. The API retur
 - **Departure date.** `Departure_Time` sometimes has a stale date part. The client takes the
   date from `Trip_Date` and the time from `Departure_Time`.
 - **Bad IDs.** Unknown terminal or destination IDs make GUO return HTTP 500 with a Laravel
-  stack trace, because debug mode is on in production. `/api/guo/fares` checks the pair against
+  stack trace, because debug mode is on in production. the fare API checks the pair against
   `allRoutes` first so we never send one.
 - **Server-side record.** Each `/itinerary` call creates a `RefCode` ("lockedby") record on
   GUO's side, which is their schedule lock for the session. It doesn't lock seats, since seat
@@ -59,51 +59,31 @@ The ₦54,880 shown on GUO's site is ₦56,000 less the 2% coupon. The API retur
 
 ## What was built
 
+> **Update:** GUO is now one of five operators behind a shared fare layer. Caching, scheduling,
+> rate limiting and the fare API are described in [operators.md](operators.md). GUO-specific
+> pieces that remain:
+
 | File | Purpose |
 |---|---|
 | `server/guo/client.ts` | Session handling, `/itinerary` replay, parsing |
-| `server/guo/fareStore.ts` | Cache, background refresh, scheduled scrape, single request queue to GUO |
-| `server/guo/router.ts` | `/api/guo/*` endpoints |
+| `server/operators/guo.ts` | Adapts GUO to the shared operator interface (fare = price after GUO's online coupon) |
+| `server/guo/router.ts` | `/api/guo/terminals`, `/api/guo/terminals/nearest`; `/api/guo/fares` redirects to `/api/operators/guo/fares` |
 | `server/guo/terminals.ts` + `data/terminals.json` | Terminal locations and nearest-terminal lookup |
 | `server/guo/terminalFixes.ts`, `scripts/guo-terminals.ts` | Regenerate the terminal snapshot (`pnpm guo:terminals`) |
 | `scripts/guo_ui_check.py` | Playwright diagnostic, used if GUO changes its frontend |
 
-### API
-
-- `GET /api/guo/fares?from=84&to=3&date=2026-10-21` returns live trips with `fare`,
-  `onlineFare`, seats, vehicle, departure, `fetchedAt` and `stale`.
-- `GET /api/guo/routes` returns the bookable terminals and their destinations, with IDs.
-- `GET /api/guo/terminals` returns 44 Nigerian terminals with address, phone, lat/lon and
-  `bookable`.
-- `GET /api/guo/terminals/nearest?lat=6.52&lon=3.37&limit=5` returns them sorted by
-  straight-line distance (`distanceKm`).
-- `GET /api/guo/status` returns the cache size and the last scrape result.
-
-### Caching
-
-User requests are served from the store. GUO is contacted only in three cases:
-
-- **Scheduled scrape.** Popular routes for the next 7 days, every 6 h, first run 10 s after
-  boot.
-- **Uncached route or date.** The first request fetches once, and concurrent identical requests
-  share that fetch.
-- **Stale entry.** After 6 h the cached answer is served immediately with `stale: true` and
-  refreshed in the background. After 48 h it is refetched before answering.
-
-All tuning is via env vars listed at the top of `fareStore.ts`, for example
-`GUO_SCRAPE_ROUTES="84:3,40:18"`.
-
 ### Render free tier caveats
 
-- **Spin-down.** Free web services sleep after 15 min idle, so the 6-hourly timer only runs
-  while the service is awake. On wake the scrape runs again and uncached requests fetch on
-  demand (about 1.5 s), so it degrades gracefully.
+These apply to every operator.
+
+- **Spin-down.** Free web services sleep after 15 min idle, so the 6-hourly scrape only runs
+  while the service is awake. On wake the scrape runs again, and uncached requests are answered
+  as operators respond (`pending` in `/api/compare`), so it degrades gracefully.
 - **Ephemeral cache file.** The free tier's disk doesn't survive restarts, so
-  `.cache/guo-fares.json` is lost on restart or redeploy. If that matters, point the store at
+  `.cache/fares.json` is lost on restart or redeploy. If that matters, point the store at
   Render Key Value or keep the service warm with an external pinger.
 - **Untested from Render's IPs.** This was tested from a cloud container, not from Render.
-  GUO doesn't appear to sit behind a bot challenge, but check `/api/guo/status` after the first
-  deploy.
+  Check `/api/fares/status` and `/api/compare` after the first deploy.
 
 ## Terminal coordinates
 

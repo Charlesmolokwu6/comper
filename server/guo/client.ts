@@ -11,6 +11,8 @@
  *      FareAmount, seats, vehicle type and departure time.
  */
 
+import { request } from "../operators/http";
+
 const BASE_URL = "https://guotransport.com";
 const USER_AGENT =
   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36";
@@ -81,7 +83,7 @@ function cookieHeader(jar: Map<string, string>) {
 async function getSession(force = false): Promise<Session> {
   if (!force && session && Date.now() - session.createdAt < SESSION_MAX_AGE_MS)
     return session;
-  const res = await fetch(`${BASE_URL}/`, {
+  const res = await request(`${BASE_URL}/`, {
     headers: { "User-Agent": USER_AGENT, Accept: "text/html" },
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
@@ -201,7 +203,7 @@ export async function fetchFares(
 
   for (let attempt = 0; attempt < 2; attempt++) {
     const s = await getSession(attempt > 0);
-    const res = await fetch(`${BASE_URL}/itinerary`, {
+    const res = await request(`${BASE_URL}/itinerary`, {
       method: "POST",
       headers: {
         "User-Agent": USER_AGENT,
@@ -235,7 +237,7 @@ export async function fetchFares(
 
 /** Raw /terminals page props (addresses, lat/long, phones) — see terminals.ts. */
 export async function fetchTerminalsPage(): Promise<any[]> {
-  const res = await fetch(`${BASE_URL}/terminals`, {
+  const res = await request(`${BASE_URL}/terminals`, {
     headers: { "User-Agent": USER_AGENT, Accept: "text/html" },
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
