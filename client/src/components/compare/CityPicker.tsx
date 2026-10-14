@@ -18,8 +18,6 @@ import { cn } from "@/lib/utils";
 export interface CityOption {
   city: string;
   name: string;
-  /** Number of operators serving it, shown as a hint. */
-  operators: number;
   /** Shown as a short warning next to the name, e.g. only reachable via Mararaba. */
   hint?: string;
 }
@@ -129,10 +127,6 @@ export function CityPicker({
                         {o.hint}
                       </span>
                     )}
-                    <span className="text-xs tabular-nums text-muted-foreground">
-                      {o.operators}{" "}
-                      {o.operators === 1 ? "operator" : "operators"}
-                    </span>
                   </CommandItem>
                 ))}
               </CommandGroup>

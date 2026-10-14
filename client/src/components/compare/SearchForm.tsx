@@ -38,7 +38,6 @@ export function SearchForm({
       cities.map(c => ({
         city: c.city,
         name: c.name,
-        operators: c.operators.length,
       })),
     [cities]
   );
@@ -47,7 +46,6 @@ export function SearchForm({
       (fromCity?.destinations ?? []).map(d => ({
         city: d.city,
         name: d.name,
-        operators: d.operators.length,
         hint: d.approximate ? "approx. match" : undefined,
       })),
     [fromCity]
