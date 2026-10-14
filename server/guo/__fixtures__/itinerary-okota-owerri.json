@@ -1,0 +1,214 @@
+{
+  "schedule": {
+    "RefCode": "a4d598a6",
+    "BusList": [
+      {
+        "TripID": "1105596",
+        "TripNo": "401105596",
+        "Trip_Date": "2026-10-21 00:00:00",
+        "BookingPeriodID": "1",
+        "Departure_Time": "2026-10-21 06:00:00",
+        "isInterRoute": "0",
+        "NOfPassengers": "12",
+        "LoadinID": "40",
+        "VehicleGroupTagID": "5",
+        "VIN": "1ST BUS (12)",
+        "ModelID": "11",
+        "Loading_Office": "OKOTA (CELE)",
+        "DestinationID": "202",
+        "Destination": "UYO",
+        "BookingPeriod": "Morning",
+        "VehicleGroupTag_Name": "HIACE ULTRA",
+        "lockedby": "a4d598a6",
+        "AvailableSeat": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        "GlobalLockSeat": [
+          {
+            "SelectedSeats": "2"
+          },
+          {
+            "SelectedSeats": "3"
+          },
+          {
+            "SelectedSeats": "14"
+          }
+        ],
+        "BlockedSeat": [2, 3, 14],
+        "FareAmount": "48000.00",
+        "SpecialSeatPricing": []
+      },
+      {
+        "TripID": "1104612",
+        "TripNo": "401104612",
+        "Trip_Date": "2026-10-21 00:00:00",
+        "BookingPeriodID": "1",
+        "Departure_Time": "2026-10-21 06:30:00",
+        "isInterRoute": "0",
+        "NOfPassengers": "7",
+        "LoadinID": "40",
+        "VehicleGroupTagID": "2",
+        "VIN": "1ST BUS (7)",
+        "ModelID": "12",
+        "Loading_Office": "OKOTA (CELE)",
+        "DestinationID": "18",
+        "Destination": "OWERRI",
+        "BookingPeriod": "Morning",
+        "VehicleGroupTag_Name": "SIENNA",
+        "lockedby": "a4d598a6",
+        "AvailableSeat": [1, 2, 3, 4, 5, 6, 7],
+        "GlobalLockSeat": [
+          {
+            "SelectedSeats": "3"
+          },
+          {
+            "SelectedSeats": "6"
+          }
+        ],
+        "BlockedSeat": [3, 6],
+        "FareAmount": "66000.00",
+        "SpecialSeatPricing": []
+      },
+      {
+        "TripID": "1104735",
+        "TripNo": "401104735",
+        "Trip_Date": "2026-10-21 00:00:00",
+        "BookingPeriodID": "1",
+        "Departure_Time": "2026-10-21 06:30:00",
+        "isInterRoute": "0",
+        "NOfPassengers": "12",
+        "LoadinID": "40",
+        "VehicleGroupTagID": "5",
+        "VIN": "1ST BUS (12)",
+        "ModelID": "11",
+        "Loading_Office": "OKOTA (CELE)",
+        "DestinationID": "18",
+        "Destination": "OWERRI",
+        "BookingPeriod": "Morning",
+        "VehicleGroupTag_Name": "HIACE ULTRA",
+        "lockedby": "a4d598a6",
+        "AvailableSeat": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        "GlobalLockSeat": [
+          {
+            "SelectedSeats": "2"
+          },
+          {
+            "SelectedSeats": "3"
+          },
+          {
+            "SelectedSeats": "14"
+          }
+        ],
+        "BlockedSeat": [2, 3, 14],
+        "FareAmount": "48000.00",
+        "SpecialSeatPricing": []
+      },
+      {
+        "TripID": "1103013",
+        "TripNo": "401103013",
+        "Trip_Date": "2026-10-21 00:00:00",
+        "BookingPeriodID": "1",
+        "Departure_Time": "2026-10-21 07:30:00",
+        "isInterRoute": "0",
+        "NOfPassengers": "15",
+        "LoadinID": "40",
+        "VehicleGroupTagID": "3",
+        "VIN": "2ND BUS (15)",
+        "ModelID": "11",
+        "Loading_Office": "OKOTA (CELE)",
+        "DestinationID": "1",
+        "Destination": "ABA",
+        "BookingPeriod": "Morning",
+        "VehicleGroupTag_Name": "HIACE",
+        "lockedby": "a4d598a6",
+        "AvailableSeat": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        "GlobalLockSeat": [
+          {
+            "SelectedSeats": "2"
+          },
+          {
+            "SelectedSeats": "3"
+          },
+          {
+            "SelectedSeats": "14"
+          },
+          {
+            "SelectedSeats": "4"
+          }
+        ],
+        "BlockedSeat": [2, 3, 14, 4],
+        "FareAmount": "48000.00",
+        "SpecialSeatPricing": []
+      },
+      {
+        "TripID": "1103136",
+        "TripNo": "401103136",
+        "Trip_Date": "2026-10-21 00:00:00",
+        "BookingPeriodID": "3",
+        "Departure_Time": "2026-10-21 17:00:00",
+        "isInterRoute": "0",
+        "NOfPassengers": "33",
+        "LoadinID": "40",
+        "VehicleGroupTagID": "7",
+        "VIN": "1ST BUS (33)",
+        "ModelID": "43",
+        "Loading_Office": "OKOTA (CELE)",
+        "DestinationID": "1",
+        "Destination": "ABA",
+        "BookingPeriod": "Evening",
+        "VehicleGroupTag_Name": "SMART COACH",
+        "lockedby": "a4d598a6",
+        "AvailableSeat": [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33
+        ],
+        "GlobalLockSeat": [],
+        "BlockedSeat": [],
+        "FareAmount": "35000.00",
+        "SpecialSeatPricing": []
+      }
+    ]
+  },
+  "requestData": {
+    "one_way": true,
+    "selectedTerminal": "40",
+    "selectedDestination": "18",
+    "selectedTripDate": "2026-10-21",
+    "selectedReturnTerminal": null,
+    "selectedReturnDestination": null,
+    "selectedReturnTripDate": null,
+    "isInterRoute": false
+  },
+  "bookingSettings": {
+    "enableChildDiscount": true,
+    "couponDiscount": {
+      "id": "14",
+      "couponname": "GUOGoesOnline",
+      "couponvalue": "1000.00",
+      "usePercent": "1",
+      "couponpercent": "2"
+    },
+    "enableAutoDiscount": true,
+    "DefaultDiscountCode": "GUOGoesOnline",
+    "ChildDiscount": "10",
+    "RefCode": "a4d598a6",
+    "crqt": {
+      "one_way": true,
+      "selectedTerminal": "40",
+      "selectedDestination": "18",
+      "selectedTripDate": "2026-10-21",
+      "selectedReturnTerminal": null,
+      "selectedReturnDestination": null,
+      "selectedReturnTripDate": null,
+      "isInterRoute": false
+    },
+    "currency": 1
+  },
+  "currentTerminal": {
+    "LoadinID": "40",
+    "Loading_Office": "OKOTA (CELE)",
+    "TerminalDiscountCode": "",
+    "useDefaultDiscount": "1",
+    "StateID": "14"
+  },
+  "customerDestination": "OWERRI",
+  "useReturnTrip": false
+}
