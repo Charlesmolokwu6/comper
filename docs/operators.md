@@ -218,7 +218,14 @@ Cases it handles:
 `client/src/pages/ComparePage.tsx` has three tabs: Inter-State Bus, Intra-City Cab and Domestic
 Flight.
 
-**Bus** is wired to `/api/compare`:
+**Bus** is wired to `/api/compare`. The home page is only the search form. **Compare fares**
+opens `/results/<from>/<to>/<date>` (`client/src/pages/ResultsPage.tsx`), a separate page that can
+be shared or bookmarked, with previous/next-day buttons and "Change search" back to the form.
+
+- **Class tabs:** the results page splits fares into **Luxury bus**, **Sienna** and **Regular bus**
+  tabs (`client/src/lib/categories.ts`). Each tab shows its cheapest bookable fare. The class comes
+  only from the operator's own class name: Sienna, then Luxury / Luxurious / Executive / VIP /
+  Premium, then everything else. The tab explains this rule under its results.
 
 - **Pickers:** city pickers come from `/api/network`. The To list only offers cities reachable
   from the chosen From city.

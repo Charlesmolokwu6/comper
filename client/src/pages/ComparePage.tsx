@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Bus, CarTaxiFront, Plane } from "lucide-react";
 import { BusPanel } from "@/components/compare/BusPanel";
 import { ComingSoonPanel } from "@/components/compare/ComingSoonPanel";
+import { SiteShell } from "@/components/compare/SiteShell";
 import { cn } from "@/lib/utils";
 
 type Mode = "bus" | "cab" | "flight";
@@ -103,60 +104,45 @@ export default function ComparePage() {
   const [mode, setMode] = useState<Mode>("bus");
 
   return (
-    <div className="min-h-dvh bg-background">
-      <header className="mx-auto flex max-w-5xl items-center gap-3 px-4 pt-6 sm:px-6 sm:pt-8">
-        <span aria-hidden className="size-3 rounded-sm bg-primary" />
-        <span className="text-lg font-extrabold tracking-tight">Compare</span>
-      </header>
-
-      <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
-        <div className="pb-6 pt-6 sm:pt-10">
-          <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
-            Live bus fares across Nigeria,{" "}
-            <span className="text-primary">side by side.</span>
-          </h1>
-          <p className="mt-3 max-w-prose text-base text-muted-foreground">
-            Every price comes straight from the operator's own booking system —
-            no estimates.
-          </p>
-        </div>
-
-        <ModeTabs mode={mode} onChange={setMode} />
-
-        <div className="mt-6">
-          {MODES.map(m => (
-            <div
-              key={m.id}
-              role="tabpanel"
-              id={`panel-${m.id}`}
-              aria-labelledby={`tab-${m.id}`}
-              hidden={mode !== m.id}
-            >
-              {m.id === "bus" && <BusPanel />}
-              {m.id === "cab" && (
-                <ComingSoonPanel
-                  mode="Cab"
-                  examples="Uber, Bolt, inDrive or the other ride-hailing apps"
-                />
-              )}
-              {m.id === "flight" && (
-                <ComingSoonPanel
-                  mode="Flight"
-                  examples="the domestic airlines we've looked at"
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      </main>
-
-      <footer className="border-t border-border">
-        <p className="mx-auto max-w-5xl px-4 py-6 text-xs text-muted-foreground sm:px-6">
-          Fares are fetched from each operator's booking site and cached for up
-          to 6 hours. Operators can change prices — always check the final price
-          when you book. Compare isn't affiliated with any operator.
+    <SiteShell>
+      <div className="pb-6 pt-6 sm:pt-10">
+        <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+          Live bus fares across Nigeria,{" "}
+          <span className="text-primary">side by side.</span>
+        </h1>
+        <p className="mt-3 max-w-prose text-base text-muted-foreground">
+          Every price comes straight from the operator's own booking system — no
+          estimates.
         </p>
-      </footer>
-    </div>
+      </div>
+
+      <ModeTabs mode={mode} onChange={setMode} />
+
+      <div className="mt-6">
+        {MODES.map(m => (
+          <div
+            key={m.id}
+            role="tabpanel"
+            id={`panel-${m.id}`}
+            aria-labelledby={`tab-${m.id}`}
+            hidden={mode !== m.id}
+          >
+            {m.id === "bus" && <BusPanel />}
+            {m.id === "cab" && (
+              <ComingSoonPanel
+                mode="Cab"
+                examples="Uber, Bolt, inDrive or the other ride-hailing apps"
+              />
+            )}
+            {m.id === "flight" && (
+              <ComingSoonPanel
+                mode="Flight"
+                examples="the domestic airlines we've looked at"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    </SiteShell>
   );
 }

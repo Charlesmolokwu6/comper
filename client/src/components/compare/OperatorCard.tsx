@@ -345,12 +345,30 @@ export function OperatorCard({
         )}
       </div>
 
-      {options.length > 0 && (
+      {options.length === 1 && (
+        <div className="mx-4 mt-4 flex items-center gap-3 sm:mx-5">
+          <VehicleThumb
+            kind={options[0].kind}
+            image={options[0].image}
+            alt={`${g.operatorName} ${options[0].name}`}
+            className="h-10 w-16"
+          />
+          <p className="min-w-0 text-sm">
+            <span className="font-semibold text-foreground">
+              {options[0].name}
+            </span>
+            <span className="text-muted-foreground">
+              {" "}
+              · {options[0].kind ? KIND_LABEL[options[0].kind] : "Bus"}
+            </span>
+          </p>
+        </div>
+      )}
+
+      {options.length > 1 && (
         <div className="mt-4">
           <p className="px-4 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:px-5">
-            {options.length === 1
-              ? "Vehicle"
-              : `${options.length} vehicle options`}
+            {options.length} vehicle options
           </p>
           <div
             role="group"
