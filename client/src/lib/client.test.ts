@@ -53,3 +53,30 @@ describe("format", () => {
     expect(formatSeats(null)).toBeNull();
   });
 });
+
+import { prettyStop, sentenceCase } from "./format";
+
+describe("prettyStop", () => {
+  it("cleans operator terminal labels for display", () => {
+    expect(prettyStop("Lagos (Empire--am)")).toBe("Empire");
+    expect(prettyStop("Anambra-Onitsha----am")).toBe("Onitsha");
+    expect(prettyStop("Lagos (Maza-Maza Local----pm)")).toBe("Maza-Maza Local");
+    expect(prettyStop("ABUJA - UTAKO")).toBe("Utako");
+    expect(prettyStop("Lagos - Jibowu Terminal")).toBe("Jibowu");
+    expect(prettyStop("PH-Portharcourt Terminal")).toBe("Portharcourt");
+    expect(prettyStop("JIBOWU")).toBe("Jibowu");
+    expect(prettyStop("ABUJA")).toBe("Abuja");
+  });
+  it("keeps names whose first part is not a state or city prefix", () => {
+    expect(prettyStop("OKOTA (CELE)")).toBe("Okota (Cele)");
+    expect(prettyStop("IFITE-AWKA")).toBe("Ifite-Awka");
+    expect(prettyStop("Mazamaza/First Gate")).toBe("Mazamaza/First Gate");
+  });
+  it("sentence-cases shouty notes only", () => {
+    expect(sentenceCase("LUGGAGE ALLOWED PER PAX (0 -10kg)")).toBe(
+      "Luggage allowed per pax (0 -10kg)"
+    );
+    expect(sentenceCase("LUGGAGE ALLOWED")).toBe("Luggage allowed");
+    expect(sentenceCase("Service: X")).toBe("Service: X");
+  });
+});

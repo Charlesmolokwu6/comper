@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { SearchX } from "lucide-react";
 import { useCompare, type CompareQuery } from "@/hooks/useCompare";
 import { useNetwork } from "@/hooks/useNetwork";
-import { tripKey } from "@/lib/api";
 import { formatDay, lagosDate } from "@/lib/format";
-import { OperatorStatusList } from "./OperatorStatusList";
+import { groupByOperator } from "@/lib/group";
+import { OperatorCard } from "./OperatorCard";
 import { SearchForm, type SearchValues } from "./SearchForm";
-import { TripRow } from "./TripRow";
+import { SearchProgress, SearchSummary } from "./SearchStatus";
 
 function initialValues(): SearchValues {
   const p = new URLSearchParams(window.location.search);
@@ -30,30 +30,6 @@ function SkeletonRow() {
       </div>
       <div className="mt-5 h-3 w-48 rounded bg-white/[0.04] motion-safe:animate-pulse" />
     </div>
-  );
-}
-
-function NotIncluded({
-  operators,
-  className,
-}: {
-  operators: { name: string }[];
-  className?: string;
-}) {
-  if (!operators.length) return null;
-  return (
-    <section
-      className={`rounded-2xl border border-border bg-card p-4 text-sm sm:p-5 ${className ?? ""}`}
-    >
-      <h2 className="font-semibold">Not included</h2>
-      <p className="mt-1 text-muted-foreground">
-        {operators.map(o => o.name).join(" and ")}{" "}
-        {operators.length === 1 ? "isn't" : "aren't"} compared: their fare
-        search only works after logging in to their booking system, which we
-        don't do without their permission. This is not a statement about their
-        routes or prices.
-      </p>
-    </section>
   );
 }
 
@@ -93,10 +69,12 @@ export function BusPanel() {
   };
 
   const results = state.phase === "results" ? state.data : null;
-  const cheapestKey = results?.cheapest ? tripKey(results.cheapest) : null;
-  const fareOperators = results
-    ? new Set(results.trips.map(t => t.operator)).size
-    : 0;
+  const groups = results ? groupByOperator(results.trips) : [];
+  const pendingOps = new Set(
+    results?.coverage
+      .filter(c => c.status === "pending")
+      .map(c => c.operator) ?? []
+  );
 
   return (
     <div className="space-y-6">
@@ -146,77 +124,68 @@ export function BusPanel() {
         )}
 
         {state.phase === "results" && results && (
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
-            <section
-              aria-labelledby="results-heading"
-              className="min-w-0 space-y-3"
-            >
-              <div>
-                <h2
-                  id="results-heading"
-                  className="text-xl font-bold tracking-tight"
-                >
-                  {results.from.name} → {results.to.name}
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {formatDay(results.date)} · {results.trips.length}{" "}
-                  {results.trips.length === 1 ? "trip" : "trips"}
-                  {fareOperators > 0 &&
-                    ` from ${fareOperators} ${fareOperators === 1 ? "operator" : "operators"}`}
-                  {" · "}sorted by online fare, 1 adult
+          <section
+            aria-labelledby="results-heading"
+            className="mx-auto max-w-3xl space-y-4"
+          >
+            <div>
+              <h2
+                id="results-heading"
+                className="text-xl font-bold tracking-tight sm:text-2xl"
+              >
+                {results.from.name} → {results.to.name}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {formatDay(results.date)}
+                {groups.length > 0 &&
+                  ` · ${groups.length} ${groups.length === 1 ? "operator" : "operators"} · ${results.trips.length} departures`}
+                {" · "}cheapest first, 1 adult online fare
+              </p>
+              {state.pollError && (
+                <p className="mt-1 text-xs text-amber-200">
+                  Couldn't refresh just now ({state.pollError}); retrying.
                 </p>
-                {state.pollError && (
-                  <p className="mt-1 text-xs text-amber-200">
-                    Couldn't refresh just now ({state.pollError}); retrying.
-                  </p>
-                )}
-              </div>
-
-              {results.trips.map(t => (
-                <TripRow
-                  key={tripKey(t)}
-                  trip={t}
-                  cheapest={tripKey(t) === cheapestKey}
-                  toCityName={results.to.name}
-                />
-              ))}
-
-              {results.trips.length === 0 && state.polling && <SkeletonRow />}
-
-              {results.trips.length === 0 && !state.polling && (
-                <div className="rounded-2xl border border-border bg-card p-6 text-center">
-                  <SearchX
-                    aria-hidden
-                    className="mx-auto size-8 text-muted-foreground"
-                  />
-                  <p className="mt-3 font-semibold">
-                    No live fares for this route and date
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    See each operator's status for why. Try another date — some
-                    operators only sell a few days ahead.
-                  </p>
-                </div>
               )}
-              <NotIncluded
-                operators={results.unavailableOperators}
-                className="lg:hidden"
-              />
-            </section>
+            </div>
 
-            <aside className="order-first space-y-4 lg:order-none lg:sticky lg:top-4">
-              <OperatorStatusList
-                coverage={results.coverage}
-                trips={results.trips}
-                timedOut={state.timedOut}
-                onRetry={() => search(state.query)}
+            {!state.timedOut && <SearchProgress coverage={results.coverage} />}
+
+            {groups.map(g => (
+              <OperatorCard
+                key={g.operator}
+                group={g}
+                cheapest={
+                  !!results.cheapest && results.cheapest.operator === g.operator
+                }
+                toCityName={results.to.name}
+                loading={pendingOps.has(g.operator)}
               />
-              <NotIncluded
-                operators={results.unavailableOperators}
-                className="hidden lg:block"
-              />
-            </aside>
-          </div>
+            ))}
+
+            {groups.length === 0 && state.polling && <SkeletonRow />}
+
+            {groups.length === 0 && !state.polling && (
+              <div className="rounded-2xl border border-border bg-card p-6 text-center">
+                <SearchX
+                  aria-hidden
+                  className="mx-auto size-8 text-muted-foreground"
+                />
+                <p className="mt-3 font-semibold">
+                  No live fares for this route and date
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Try another date. Some operators only sell a few days ahead.
+                </p>
+              </div>
+            )}
+
+            <SearchSummary
+              coverage={results.coverage}
+              timedOut={state.timedOut}
+              unavailable={results.unavailableOperators}
+              onRetry={() => search(state.query)}
+            />
+          </section>
         )}
       </div>
     </div>
