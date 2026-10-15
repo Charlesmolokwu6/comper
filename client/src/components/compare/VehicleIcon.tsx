@@ -1,13 +1,13 @@
 import { useState } from "react";
 import type { VehicleKind } from "@/lib/vehicles";
 import { cn } from "@/lib/utils";
-import coachPng from "@/assets/vehicles/coach.png";
-import minibusPng from "@/assets/vehicles/minibus.png";
-import siennaPng from "@/assets/vehicles/sienna.png";
+import coachPng from "@/assets/vehicles/coach.webp";
+import minibusPng from "@/assets/vehicles/minibus.webp";
+import siennaPng from "@/assets/vehicles/sienna.webp";
 
 /**
- * Our own unbranded illustrations (scripts/draw-vehicles.py), shown when the operator
- * sends no photo. They show the type of vehicle, not any operator's actual fleet.
+ * Unbranded pictures of each vehicle type (background removed), shown when the operator
+ * sends no photo of its own. They show the type of vehicle, not an operator's own fleet.
  */
 export const VEHICLE_ART: Record<VehicleKind, string> = {
   car: siennaPng,
@@ -15,7 +15,7 @@ export const VEHICLE_ART: Record<VehicleKind, string> = {
   coach: coachPng,
 };
 
-/** The operator's own photo when it sent one, otherwise our illustration of the type. */
+/** The operator's own photo when it sent one, otherwise a picture of the vehicle type. */
 export function VehicleThumb({
   kind,
   image,

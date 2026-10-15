@@ -249,13 +249,11 @@ be shared or bookmarked, with previous/next-day buttons and "Change search" back
   Executive Express / Sprinter) with each class's cheapest bookable fare. Tapping one filters the
   departures to it.
   - Photos only come from the operator's own response. Today that is ABC (`coach_image` in q2).
-  - Everything else gets our own unbranded illustration of the vehicle type
-    (`client/src/assets/vehicles/*.png`, drawn by `scripts/draw-vehicles.py`). The type is named
-    only when the class name says it plainly (Sienna → minivan, Hiace/Sprinter → minibus,
-    Luxury/N-seat → bus); unclear names get the coach picture. We don't use stock photos: the
-    freely licensed ones all carry other companies' liveries and would look like an operator's
-    real fleet. To use real photos, add operator-supplied images the same way ABC's are passed
-    through.
+  - Everything else gets an unbranded picture of the vehicle type (Sienna, Hiace-style minibus,
+    coach) from `client/src/assets/vehicles/*.webp`, supplied by the app owner with the
+    background removed. The results page says these show the type, not the operator's own bus.
+    The type is named only when the class name says it plainly (Sienna → minivan,
+    Hiace/Sprinter → minibus, Luxury/N-seat → bus); unclear names get the coach picture.
 
 **Cab and Flight** show "Coming soon" with a disabled form and no numbers.
 

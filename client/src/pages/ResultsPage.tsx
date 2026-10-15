@@ -117,7 +117,7 @@ function ClassTabs({
             <img
               src={VEHICLE_ART[ICON[c.id]]}
               alt=""
-              className="h-7 w-14 object-contain"
+              className="h-8 w-16 object-contain"
             />
             <span className="text-sm font-semibold leading-tight">
               {c.label}
@@ -386,7 +386,8 @@ export default function ResultsPage({
 
               {(groups.length > 0 || !stillLoading) && (
                 <p className="text-xs text-muted-foreground">
-                  {activeLabel.note}
+                  {activeLabel.note} Vehicle pictures show the type of vehicle,
+                  not the operator's own bus.
                 </p>
               )}
             </section>
