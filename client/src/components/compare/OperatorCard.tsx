@@ -18,7 +18,14 @@ import {
 } from "@/lib/format";
 import { formatDistance } from "@/lib/geo";
 import type { BoardingPoint, OperatorGroup } from "@/lib/group";
+import {
+  KIND_LABEL,
+  prettyVehicle,
+  vehicleOptions,
+  type VehicleOption,
+} from "@/lib/vehicles";
 import type { Near } from "./NearPicker";
+import { VehicleThumb } from "./VehicleIcon";
 import { cn } from "@/lib/utils";
 
 const FIRST_ROWS = 8;
@@ -55,7 +62,7 @@ function DepartureRow({
           <span title={t.to.name}>{prettyStop(t.to.name)}</span>
         </p>
         <p className="mt-0.5 text-xs text-muted-foreground">
-          {t.vehicle}
+          {prettyVehicle(t.vehicle)}
           {t.soldOut ? " · Sold out" : seats ? ` · ${seats}` : ""}
           {t.stale && ` · price from ${formatAge(t.fetchedAt)}`}
         </p>
@@ -113,6 +120,49 @@ function DepartureRow({
         </a>
       </div>
     </li>
+  );
+}
+
+function VehicleTile({
+  o,
+  operatorName,
+  selected,
+  onSelect,
+}: {
+  o: VehicleOption;
+  operatorName: string;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onSelect}
+      className={cn(
+        "flex w-[9.5rem] shrink-0 snap-start flex-col rounded-xl border p-2 text-left transition-colors focus-visible:outline-2 focus-visible:outline-primary",
+        selected
+          ? "border-primary bg-primary/[0.07]"
+          : "border-border hover:border-neutral-600"
+      )}
+    >
+      <VehicleThumb
+        kind={o.kind}
+        image={o.image}
+        alt={`${operatorName} ${o.name}`}
+        className="h-16 w-full"
+      />
+      <span className="mt-2 truncate text-sm font-semibold text-foreground">
+        {o.name}
+      </span>
+      <span className="truncate text-xs text-muted-foreground">
+        {o.kind ? KIND_LABEL[o.kind] : "Bus"}
+        {o.image ? " · operator photo" : ""}
+      </span>
+      <span className="mt-1 text-sm tabular-nums text-neutral-200">
+        {o.best ? `from ${formatNaira(o.best.fare)}` : "Sold out"}
+      </span>
+    </button>
   );
 }
 
@@ -189,14 +239,20 @@ export function OperatorCard({
 }: Props) {
   const [open, setOpen] = useState(false);
   const [showOthers, setShowOthers] = useState(false);
+  const [vehicle, setVehicle] = useState<string | null>(null);
   const listId = useId();
   const best = g.best;
   const nearest = g.nearest;
   // With a location set, the card is about the one terminal closest to the traveller.
-  const shown = nearest ? nearest.trips : g.trips;
+  const atPoint = nearest ? nearest.trips : g.trips;
+  const options = vehicleOptions(atPoint);
+  const picked = options.some(o => o.name === vehicle) ? vehicle : null;
+  const shown = picked
+    ? atPoint.filter(t => prettyVehicle(t.vehicle) === picked)
+    : atPoint;
   const others = nearest ? g.points.filter(p => p !== nearest) : [];
-  const count = shown.length;
-  const times = shown.map(t => t.departure).sort();
+  const count = atPoint.length;
+  const times = atPoint.map(t => t.departure).sort();
   const first = formatTime(times[0]);
   const last = formatTime(times[times.length - 1]);
   const span = first === last ? first : `${first}–${last}`;
@@ -209,13 +265,7 @@ export function OperatorCard({
         cheapest ? "border-primary/60" : "border-border"
       )}
     >
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls={listId}
-        onClick={() => setOpen(o => !o)}
-        className="block w-full p-4 text-left focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary sm:p-5"
-      >
+      <div className="p-4 pb-0 sm:p-5 sm:pb-0">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
@@ -293,18 +343,54 @@ export function OperatorCard({
             </span>
           </p>
         )}
+      </div>
 
-        <span className="mt-4 flex items-center gap-1.5 text-sm font-medium text-foreground">
-          {open
-            ? "Hide departures"
+      {options.length > 0 && (
+        <div className="mt-4">
+          <p className="px-4 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:px-5">
+            {options.length === 1
+              ? "Vehicle"
+              : `${options.length} vehicle options`}
+          </p>
+          <div
+            role="group"
+            aria-label={`${g.operatorName} vehicle options`}
+            className="mt-2 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:px-5"
+          >
+            {options.map(o => (
+              <VehicleTile
+                key={o.name}
+                o={o}
+                operatorName={g.operatorName}
+                selected={picked === o.name}
+                onSelect={() => {
+                  setVehicle(picked === o.name ? null : o.name);
+                  setOpen(true);
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={listId}
+        onClick={() => setOpen(o => !o)}
+        className="flex min-h-12 w-full items-center gap-1.5 px-4 py-3 text-left text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary sm:px-5"
+      >
+        {open
+          ? "Hide departures"
+          : picked
+            ? `See ${shown.length === 1 ? "the" : shown.length} ${picked} ${shown.length === 1 ? "departure" : "departures"}`
             : nearest
               ? `See ${count === 1 ? "departure" : `${count} departures`} from ${nearest.name}`
               : `See ${count === 1 ? "departure" : `all ${count} departures`}`}
-          <ChevronDown
-            aria-hidden
-            className={cn("size-4 transition-transform", open && "rotate-180")}
-          />
-        </span>
+        <ChevronDown
+          aria-hidden
+          className={cn("size-4 transition-transform", open && "rotate-180")}
+        />
       </button>
 
       <div
@@ -317,7 +403,20 @@ export function OperatorCard({
             {g.sharedNotes.map(sentenceCase).join(" · ")}
           </p>
         )}
+        {picked && (
+          <p className="flex items-center justify-between gap-3 pt-3 text-xs text-muted-foreground">
+            <span>Showing {picked} only</span>
+            <button
+              type="button"
+              onClick={() => setVehicle(null)}
+              className="min-h-8 rounded-md px-1 font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+            >
+              Show all vehicles
+            </button>
+          </p>
+        )}
         <TripList
+          key={picked ?? "all"}
           trips={shown}
           toCityName={toCityName}
           sharedNotes={g.sharedNotes}

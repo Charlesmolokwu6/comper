@@ -237,6 +237,14 @@ Flight.
     coordinates where they exist, OpenStreetMap otherwise. Stops with unknown locations
     (Chisco Empire, for example) get no distance and are never chosen as nearest.
   - The choice is remembered per city in `localStorage`.
+- **Vehicle options:** each card lists the operator's vehicle classes at the shown terminal
+  (GUO Sienna / Hiace / Hiace Ultra / Luxury, Okeyson Luxurious / Super Executive, ABC
+  Executive Express / Sprinter) with each class's cheapest bookable fare. Tapping one filters the
+  departures to it.
+  - Photos only come from the operator's own response. Today that is ABC (`coach_image` in q2).
+  - Everything else gets a line drawing of the vehicle type, named only when the class name says
+    it plainly (Sienna → minivan, Hiace/Sprinter → minibus, Luxury/N-seat → bus). Unclear names
+    get a neutral drawing. No stock photos.
 
 **Cab and Flight** show "Coming soon" with a disabled form and no numbers.
 

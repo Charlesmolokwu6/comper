@@ -18,6 +18,8 @@ export interface Trip {
   /** "YYYY-MM-DD HH:mm", Lagos local time. */
   departure: string;
   vehicle: string;
+  /** Photo of this vehicle class, only when the operator's own response supplies one. */
+  vehicleImage?: string | null;
   /**
    * Naira, one adult: the price the operator's website charges when booking online,
    * i.e. after any discount the operator applies to every online booking (GUO's default

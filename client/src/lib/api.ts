@@ -25,6 +25,8 @@ export interface ComparedTrip {
   /** "YYYY-MM-DD HH:mm", Lagos time. */
   departure: string;
   vehicle: string;
+  /** Photo of the vehicle class, only when the operator's own response supplies one. */
+  vehicleImage?: string | null;
   /** Online price for one adult, after the operator's standard online discount. */
   fare: number;
   listFare: number | null;

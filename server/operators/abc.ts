@@ -83,6 +83,11 @@ export const abc: Operator = {
         id: String(r.res_id),
         departure: `${date} ${to24h(r.dept_date_num)}`,
         vehicle: r.coach_title || r.coach_name,
+        // ABC attaches a photo of the coach type to each trip on its own results page.
+        vehicleImage:
+          r.is_coach_image_enable && /^https:\/\//.test(r.coach_image ?? "")
+            ? String(r.coach_image)
+            : null,
         fare,
         listFare: strike > fare ? strike : null,
         listFareLabel: strike > fare ? "Before discount" : null,
