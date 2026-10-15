@@ -8,7 +8,7 @@ import {
   SearchSummary,
 } from "@/components/compare/SearchStatus";
 import { SiteShell } from "@/components/compare/SiteShell";
-import { VehicleIcon } from "@/components/compare/VehicleIcon";
+import { VEHICLE_ART } from "@/components/compare/VehicleIcon";
 import { useCompare } from "@/hooks/useCompare";
 import { useNear } from "@/hooks/useNear";
 import { useNetwork } from "@/hooks/useNetwork";
@@ -114,7 +114,11 @@ function ClassTabs({
                 : "text-muted-foreground hover:bg-accent hover:text-foreground"
             )}
           >
-            <VehicleIcon kind={ICON[c.id]} className="h-4 w-8" />
+            <img
+              src={VEHICLE_ART[ICON[c.id]]}
+              alt=""
+              className="h-7 w-14 object-contain"
+            />
             <span className="text-sm font-semibold leading-tight">
               {c.label}
             </span>
