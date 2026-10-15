@@ -3,6 +3,26 @@
 The app is one Node server (Express API and the built React site). The root `Dockerfile` runs it on
 any container host. It listens on `$PORT`, which Render sets for you.
 
+## Deno Deploy (free plan)
+
+Deno Deploy runs the same build with Deno's Node compatibility. This was tested by running
+`deno install`, `deno task build` and `deno run -A dist/index.js` on a clean clone: a live Lagos →
+Enugu search returned 48 departures from GUO, Chisco and Okeyson.
+
+1. Go to console.deno.com, sign in with GitHub, and create a new app from the `comper` repo
+   (branch `claude/guo-live-prices-playwright-6xojq5`, or `main` once merged).
+2. Build settings:
+   - Framework preset: **none**
+   - Install command: `deno install`
+   - Build command: `deno task build`
+   - Dynamic entrypoint: `dist/index.js`
+3. Environment variable (Production): `NODE_ENV` = `production`.
+4. Deploy. If it reports that the app never started listening, add `PORT` = `8000` and redeploy.
+
+Free plan (deno.com/deploy/pricing, as of 2026): about 1M requests and 10 CPU-hours a month. The
+app mostly waits on operator sites, which uses little CPU. Apps stop after a few idle minutes and
+start again on the next visit. Files written at runtime (the fare cache) don't survive a restart.
+
 ## Render (free plan)
 
 `render.yaml` describes the service, so Render can set everything up from the repo:
