@@ -1,4 +1,4 @@
-# One image for any container host (Hugging Face Spaces, Koyeb, Fly.io, Railway, Render…).
+# One image for any container host (Render, Railway, Fly.io…). Listens on $PORT.
 ARG NODE_IMAGE=node:22-slim
 FROM ${NODE_IMAGE} AS build
 WORKDIR /app

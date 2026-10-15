@@ -1,38 +1,36 @@
 # Deploying Compare
 
 The app is one Node server (Express API and the built React site). The root `Dockerfile` runs it on
-any container host. It listens on `$PORT`, which defaults to 7860.
+any container host. It listens on `$PORT`, which Render sets for you.
 
-## Hugging Face Spaces (free, set up)
+## Render (free plan)
 
-`.github/workflows/deploy-hf-space.yml` pushes the code to a Docker Space on every push to `main`
-(and to the current feature branch). Hugging Face builds the `Dockerfile` and serves the app at
-`https://<user>-<space>.hf.space`.
+`render.yaml` describes the service, so Render can set everything up from the repo:
 
-One-time setup:
+1. Go to dashboard.render.com → **New** → **Blueprint**.
+2. Connect GitHub if asked, and pick the `comper` repo.
+3. Render reads `render.yaml` and shows one web service, **compare**, on the **Free** plan. Click
+   **Apply**.
+4. The first build takes about 5 minutes. The app is then at `https://compare-xxxx.onrender.com`;
+   the exact address is shown in the dashboard.
 
-1. **Create a token.** On huggingface.co, go to Settings → Access Tokens → Create new token, choose
-   type **Write**, and copy it.
-2. **Add it to GitHub.** On GitHub, go to repo → Settings → Secrets and variables → Actions → New
-   repository secret, with name `HF_TOKEN` and the token as the value.
-3. **Choose the Space name (optional).** On the **Variables** tab, add `HF_SPACE`, for example
-   `Chiagozie/compare`. That value is also the default.
-4. **Deploy.** Go to Actions → "Deploy to Hugging Face Space" → Run workflow (or push a commit). The
-   first run creates the Space. The build takes about 3 minutes; then open
-   `https://chiagozie-compare.hf.space`.
+Every push to the branch named in `render.yaml` redeploys automatically. When the work is merged,
+change `branch:` to `main`.
 
-Free Spaces have 2 vCPU and 16 GB of RAM. They sleep after 48 hours without visitors, and the next
-visit wakes them in under a minute. While a Space is asleep, the 6-hourly price refresh doesn't run.
-The first searches after waking fetch fresh prices live, and the committed route snapshot means the
-city pickers work immediately.
+### Free-plan behaviour (render.com/docs/free)
 
-Settings such as `FARE_TTL_HOURS` and `SCRAPE_CITY_PAIRS` (see `server/fares/*.ts`) go under the
-Space's Settings → Variables and secrets.
+- **Sleeping:** the service spins down after 15 minutes without visitors. The next visit wakes it in
+  about a minute. While it sleeps, the 6-hourly price refresh doesn't run; searches still fetch live
+  prices as soon as it's awake.
+- **Hours:** each workspace gets 750 free instance hours a month, which is enough for one
+  always-on service. A second free service in the same workspace can run the hours out, which
+  suspends every free service until the 1st of the next month.
+- **Storage:** local files (the fare cache) are lost on each spin-down. The committed route
+  snapshot means the city pickers still work immediately.
+- **Database:** the app needs none. (Render's free Postgres is the thing that expires after 30
+  days.)
 
 ## Other hosts
 
-Any host that builds a Dockerfile from GitHub works with no code changes:
-
-- **Koyeb (free):** Create Web Service → GitHub → this repo → Builder: Dockerfile. Koyeb sets
-  `PORT` itself.
-- **Railway, Fly.io, Render:** point them at the `Dockerfile`.
+Any host that builds a Dockerfile from GitHub works without code changes (Railway, Fly.io, a VPS).
+Hugging Face Spaces and Koyeb no longer offer free Docker hosting to new accounts.
