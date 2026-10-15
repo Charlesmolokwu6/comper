@@ -10,6 +10,7 @@
 import {
   operators,
   unavailableOperators,
+  type Operator,
   type Stop,
   type Trip,
 } from "../operators";
@@ -106,6 +107,26 @@ export async function findRoutes(
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
+const fmtDay = (d: string) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    timeZone: "UTC",
+  });
+
+/** null when the operator sells `date` online; otherwise why not, for the status line. */
+export async function notOnSaleReason(
+  op: Operator,
+  date: string
+): Promise<string | null> {
+  if (daysFromToday(date) > op.maxDaysAhead)
+    return `${op.name} sells tickets up to ${op.maxDaysAhead} days ahead`;
+  const w = await op.salesWindow?.().catch(() => null);
+  if (w && (date < w.first || date > w.last))
+    return `${op.name} sells online from ${fmtDay(w.first)} to ${fmtDay(w.last)}`;
+  return null;
+}
+
 /**
  * Bookable trips first, then by `fare` — the post-standard-online-discount price, the
  * same basis for every operator. `listFare` never affects ranking. `cheapest` excludes
@@ -149,9 +170,10 @@ export async function compare(
       routesChecked: 0,
     };
     coverage.set(op.id, cov);
-    if (daysFromToday(date) > op.maxDaysAhead) {
+    const notOnSale = await notOnSaleReason(op, date);
+    if (notOnSale) {
       cov.status = "not_on_sale";
-      cov.message = `${op.name} sells tickets up to ${op.maxDaysAhead} days ahead`;
+      cov.message = notOnSale;
       return;
     }
     try {
@@ -245,7 +267,7 @@ export async function scrapePopular(
     for (const [from, to] of cityPairs) {
       await Promise.allSettled(
         operators.map(async op => {
-          if (i > op.maxDaysAhead) return;
+          if (await notOnSaleReason(op, date)) return;
           for (const p of (await findRoutes(op.id, from, to)).pairs) {
             if (isRecent(op.id, p.from.id, p.to.id, date)) continue;
             await getFares(op.id, p.from.id, p.to.id, date).then(

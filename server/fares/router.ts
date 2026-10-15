@@ -13,7 +13,7 @@
 import { Router } from "express";
 import { getOperator, operators, unavailableOperators } from "../operators";
 import { knownCities, resolveCity } from "./cities";
-import { compare } from "./compare";
+import { compare, notOnSaleReason } from "./compare";
 import { buildNetwork } from "./network";
 import { lastScrape } from "./scheduler";
 import {
@@ -133,10 +133,8 @@ faresRouter.get("/operators/:op/fares", async (req, res) => {
     return res
       .status(400)
       .json({ error: "date must be YYYY-MM-DD, today to 90 days ahead" });
-  if (daysFromToday(date) > op.maxDaysAhead)
-    return res.status(422).json({
-      error: `${op.name} sells tickets up to ${op.maxDaysAhead} days ahead`,
-    });
+  const notOnSale = await notOnSaleReason(op, date);
+  if (notOnSale) return res.status(422).json({ error: notOnSale });
   try {
     // Only search pairs the operator actually lists (GUO answers unknown IDs with HTTP 500).
     const origin = (await getOrigins(op.id)).find(o => o.id === from);

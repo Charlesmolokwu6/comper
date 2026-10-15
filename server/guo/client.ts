@@ -147,6 +147,23 @@ export function parseRoutes(allRoutes: any[]): GuoRoute[] {
 }
 
 /** All bookable (domestic, non-"WC") departure terminals and the destinations each serves. */
+/**
+ * GUO's online booking window, from the settings embedded in its homepage (the search
+ * form's date picker uses the same StartDate/EndDate). Online sales start the next day.
+ */
+export async function fetchSalesWindow(): Promise<{
+  first: string;
+  last: string;
+} | null> {
+  const g = parseInertiaPage((await getSession()).homeHtml).props
+    .theGeneralSettings;
+  const ok = (d: unknown) =>
+    typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d);
+  return ok(g?.StartDate) && ok(g?.EndDate)
+    ? { first: g.StartDate, last: g.EndDate }
+    : null;
+}
+
 export async function fetchRoutes(): Promise<GuoRoute[]> {
   const s = await getSession();
   return parseRoutes(parseInertiaPage(s.homeHtml).props.allRoutes ?? []);
@@ -242,6 +259,9 @@ export async function fetchFares(
     // 419 = Laravel CSRF/session expired → retry once with a fresh session.
     if (res.status === 419 && attempt === 0) continue;
     if (!res.ok) throw new Error(`GUO /itinerary returned HTTP ${res.status}`);
+    // Outside its booking window GUO answers with its homepage (HTML), not JSON.
+    if (!res.headers.get("content-type")?.includes("json"))
+      throw new Error(`GUO isn't selling tickets for ${date} online`);
     const json = await res.json();
     if (!json?.schedule)
       throw new Error("GUO /itinerary response has no schedule (API changed?)");

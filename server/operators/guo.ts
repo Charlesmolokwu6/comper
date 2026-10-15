@@ -1,4 +1,9 @@
-import { fetchFares, fetchRoutes, type GuoRoute } from "../guo/client";
+import {
+  fetchFares,
+  fetchRoutes,
+  fetchSalesWindow,
+  type GuoRoute,
+} from "../guo/client";
 import type { Operator } from "./types";
 
 let routes: { at: number; data: GuoRoute[] } | null = null;
@@ -13,7 +18,9 @@ export const guo: Operator = {
   id: "guo",
   name: "GUO Transport",
   website: "https://guotransport.com",
-  maxDaysAhead: 30,
+  maxDaysAhead: 45,
+
+  salesWindow: fetchSalesWindow,
 
   async origins() {
     return (await getRoutes()).map(r => ({

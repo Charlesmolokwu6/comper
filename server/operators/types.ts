@@ -47,6 +47,11 @@ export interface Operator {
   website: string;
   /** Furthest date (days from today) the operator sells; searches beyond it are skipped. */
   maxDaysAhead: number;
+  /**
+   * The operator's own current booking window (YYYY-MM-DD, inclusive), when it publishes
+   * one. Dates outside it are reported as not on sale instead of searched.
+   */
+  salesWindow?(): Promise<{ first: string; last: string } | null>;
   /** Departure terminals in Nigeria. */
   origins(): Promise<Stop[]>;
   /** Places reachable from one origin. */

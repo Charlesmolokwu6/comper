@@ -39,3 +39,46 @@ describe("rankTrips", () => {
     expect(cheapest?.id).toBe("utako");
   });
 });
+
+import { notOnSaleReason } from "./compare";
+import { lagosDate } from "./store";
+
+describe("notOnSaleReason", () => {
+  const op = (extra: object = {}) =>
+    ({
+      id: "x",
+      name: "GUO Transport",
+      website: "",
+      maxDaysAhead: 45,
+      origins: async () => [],
+      destinations: async () => [],
+      search: async () => [],
+      ...extra,
+    }) as any;
+
+  it("uses the operator's own booking window when it publishes one (GUO: from tomorrow)", async () => {
+    const window = { first: lagosDate(1), last: lagosDate(45) };
+    const guo = op({ salesWindow: async () => window });
+    expect(await notOnSaleReason(guo, lagosDate(0))).toMatch(
+      /sells online from/
+    );
+    expect(await notOnSaleReason(guo, lagosDate(1))).toBeNull();
+  });
+
+  it("falls back to maxDaysAhead", async () => {
+    const pmt = op({ name: "Peace Mass Transit", maxDaysAhead: 4 });
+    expect(await notOnSaleReason(pmt, lagosDate(4))).toBeNull();
+    expect(await notOnSaleReason(pmt, lagosDate(5))).toMatch(
+      /up to 4 days ahead/
+    );
+  });
+
+  it("ignores a window lookup that fails", async () => {
+    const flaky = op({
+      salesWindow: async () => {
+        throw new Error("down");
+      },
+    });
+    expect(await notOnSaleReason(flaky, lagosDate(0))).toBeNull();
+  });
+});

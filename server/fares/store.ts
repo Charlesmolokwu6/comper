@@ -193,6 +193,14 @@ export function snapshotStops() {
 const validTrips = (trips: Trip[]) =>
   trips.filter(t => Number.isFinite(t.fare) && t.fare > 0);
 
+/**
+ * Failed searches are remembered for FARE_ERROR_TTL_MS. Without this, every re-poll of
+ * /api/compare re-queued the failing searches behind the operator's rate limit, so a
+ * failing operator stayed "pending" indefinitely and was sent ever more requests.
+ */
+const ERROR_TTL_MS = Number(process.env.FARE_ERROR_TTL_MS || 5 * 60_000);
+const failures = new Map<string, { at: number; error: Error }>();
+
 function refresh(
   operator: string,
   o: string,
@@ -200,18 +208,30 @@ function refresh(
   date: string
 ): Promise<FareEntry> {
   const k = fareKey(operator, o, d, date);
+  const failed = failures.get(k);
+  if (failed && Date.now() - failed.at < ERROR_TTL_MS)
+    return Promise.reject(failed.error);
   return singleFlight(k, async () => {
-    const entry: FareEntry = {
-      operator,
-      originId: o,
-      destinationId: d,
-      date,
-      trips: validTrips(await op(operator).search(o, d, date)),
-      fetchedAt: new Date().toISOString(),
-    };
-    fares.set(k, entry);
-    scheduleSave();
-    return entry;
+    try {
+      const entry: FareEntry = {
+        operator,
+        originId: o,
+        destinationId: d,
+        date,
+        trips: validTrips(await op(operator).search(o, d, date)),
+        fetchedAt: new Date().toISOString(),
+      };
+      fares.set(k, entry);
+      failures.delete(k);
+      scheduleSave();
+      return entry;
+    } catch (err: any) {
+      failures.set(k, {
+        at: Date.now(),
+        error: err instanceof Error ? err : new Error(String(err)),
+      });
+      throw err;
+    }
   });
 }
 

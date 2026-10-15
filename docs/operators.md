@@ -165,10 +165,18 @@ Cases it handles:
   `not_on_sale`, `pending` or `error`. Coverage carries no prices. An operator without live
   fares contributes no trips.
 - **`unavailableOperators`:** Libra and GIGM, with the reason.
+- **Booking windows:** an operator that publishes its own sales window is checked against it.
+  GUO sells online from tomorrow up to 45 days ahead (`StartDate`/`EndDate` in its homepage
+  settings), and answers same-day searches with its homepage, so today shows as `not_on_sale`
+  for GUO. PMT sells 4 days ahead.
 - **Partial answers:** the endpoint waits up to `COMPARE_WAIT_MS` (8 s). Operators still fetching
   are reported as `pending`, and their fares land in the cache for the next request.
 
 ### Rate limits and caching
+
+- **Failed searches are cached for 5 minutes** (`FARE_ERROR_TTL_MS`). Without this, every
+  4-second poll from the page re-queued an operator's failing searches behind its rate limit, so
+  that operator stayed "pending" indefinitely and was sent ever more requests.
 
 - **Spacing:** requests to each operator host go one at a time, at least `FARE_REQUEST_GAP_MS`
   (2 s) apart. This is enforced in `server/operators/http.ts` and covers every call, including
