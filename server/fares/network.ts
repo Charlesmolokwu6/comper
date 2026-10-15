@@ -5,6 +5,7 @@
  */
 import type { Stop } from "../operators";
 import { resolveCity, type MatchKind } from "./cities";
+import { placesNear } from "./geo";
 
 export interface NetworkDestination {
   city: string;
@@ -21,6 +22,8 @@ export interface NetworkCity {
   listed: boolean;
   operators: string[];
   destinations: NetworkDestination[];
+  /** Neighbourhoods/districts a traveller can pick as "near", with approximate locations. */
+  places: { name: string; lat: number; lon: number }[];
 }
 
 export function buildNetwork(
@@ -86,6 +89,7 @@ export function buildNetwork(
       operators: Array.from(t.ops).sort(),
       approximate: !t.exact,
     })).sort(byName),
+    places: placesNear(city),
   }))
     .filter(c => c.destinations.length)
     .sort(byName);

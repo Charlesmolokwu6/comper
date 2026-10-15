@@ -15,6 +15,7 @@ import {
   type Trip,
 } from "../operators";
 import { resolveCity, type CityMatch } from "./cities";
+import { stopLocation } from "./geo";
 import {
   daysFromToday,
   getDestinations,
@@ -28,6 +29,9 @@ export interface StopRef extends Stop {
   city: string;
   match: CityMatch["match"];
   note?: string;
+  /** Approximate location of the boarding/drop-off point, when known (geo.ts). */
+  lat: number | null;
+  lon: number | null;
 }
 
 export interface ComparedTrip extends Trip {
@@ -76,12 +80,17 @@ export interface Coverage {
  */
 const DESTS_PER_ORIGIN = Number(process.env.COMPARE_DESTS_PER_ORIGIN || 1);
 
-const ref = (s: Stop, m: CityMatch): StopRef => ({
-  ...s,
-  city: m.city,
-  match: m.match,
-  ...(m.note && { note: m.note }),
-});
+const ref = (s: Stop, m: CityMatch): StopRef => {
+  const at = stopLocation(m);
+  return {
+    ...s,
+    city: m.city,
+    match: m.match,
+    ...(m.note && { note: m.note }),
+    lat: at?.lat ?? null,
+    lon: at?.lon ?? null,
+  };
+};
 
 /** The (origin, destination) pairs to search between two cities, plus how many exist in total. */
 export async function findRoutes(

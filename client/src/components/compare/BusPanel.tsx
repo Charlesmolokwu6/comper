@@ -4,6 +4,7 @@ import { useCompare, type CompareQuery } from "@/hooks/useCompare";
 import { useNetwork } from "@/hooks/useNetwork";
 import { formatDay, lagosDate } from "@/lib/format";
 import { groupByOperator } from "@/lib/group";
+import type { Near } from "./NearPicker";
 import { OperatorCard } from "./OperatorCard";
 import { SearchForm, type SearchValues } from "./SearchForm";
 import { SearchProgress, SearchSummary } from "./SearchStatus";
@@ -16,6 +17,26 @@ function initialValues(): SearchValues {
     to: p.get("to"),
     date: date && date >= lagosDate() ? date : lagosDate(1),
   };
+}
+
+const NEAR_KEY = "compare.near";
+
+/** Per-city "boarding near" choices, remembered on this device only. */
+function loadNear(): Record<string, Near> {
+  try {
+    const v = JSON.parse(localStorage.getItem(NEAR_KEY) ?? "{}");
+    return v && typeof v === "object" ? v : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveNear(v: Record<string, Near>) {
+  try {
+    localStorage.setItem(NEAR_KEY, JSON.stringify(v));
+  } catch {
+    // Storage can be blocked; the choice still applies for this visit.
+  }
 }
 
 function SkeletonRow() {
@@ -37,7 +58,16 @@ export function BusPanel() {
   const { network, error: networkError } = useNetwork();
   const { state, search } = useCompare();
   const [values, setValues] = useState<SearchValues>(initialValues);
+  const [nearByCity, setNearByCity] = useState(loadNear);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const setNear = (city: string, near: Near | null) =>
+    setNearByCity(prev => {
+      const next = { ...prev };
+      if (near) next[city] = near;
+      else delete next[city];
+      saveNear(next);
+      return next;
+    });
 
   const run = (q: CompareQuery) => {
     const url = new URL(window.location.href);
@@ -69,7 +99,12 @@ export function BusPanel() {
   };
 
   const results = state.phase === "results" ? state.data : null;
-  const groups = results ? groupByOperator(results.trips) : [];
+  const near = results ? (nearByCity[results.from.city] ?? null) : null;
+  const groups = results ? groupByOperator(results.trips, near) : [];
+  // Same basis as the card order: with a location set that's each operator's nearest
+  // terminal, so the badge is worked out here rather than taken from the server.
+  const cheapestOp =
+    groups[0]?.best && !groups[0].bestIsApproximate ? groups[0].operator : null;
   const pendingOps = new Set(
     results?.coverage
       .filter(c => c.status === "pending")
@@ -85,6 +120,8 @@ export function BusPanel() {
         onChange={setValues}
         onSubmit={submit}
         busy={state.phase === "loading"}
+        near={values.from ? (nearByCity[values.from] ?? null) : null}
+        onNearChange={n => values.from && setNear(values.from, n)}
       />
 
       <div
@@ -139,7 +176,8 @@ export function BusPanel() {
                 {formatDay(results.date)}
                 {groups.length > 0 &&
                   ` · ${groups.length} ${groups.length === 1 ? "operator" : "operators"} · ${results.trips.length} departures`}
-                {" · "}cheapest first, 1 adult online fare
+                {" · "}cheapest first
+                {near ? ` from near ${near.name}` : ""}, 1 adult online fare
               </p>
               {state.pollError && (
                 <p className="mt-1 text-xs text-amber-200">
@@ -154,9 +192,8 @@ export function BusPanel() {
               <OperatorCard
                 key={g.operator}
                 group={g}
-                cheapest={
-                  !!results.cheapest && results.cheapest.operator === g.operator
-                }
+                cheapest={cheapestOp === g.operator}
+                near={near}
                 toCityName={results.to.name}
                 loading={pendingOps.has(g.operator)}
               />

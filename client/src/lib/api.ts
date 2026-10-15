@@ -8,6 +8,9 @@ export interface StopRef {
   city: string;
   match: MatchKind;
   note?: string;
+  /** Approximate terminal location; null when we don't know where it is. */
+  lat: number | null;
+  lon: number | null;
 }
 
 export interface ComparedTrip {
@@ -89,6 +92,14 @@ export interface NetworkCity {
   listed: boolean;
   operators: string[];
   destinations: NetworkDestination[];
+  /** Areas a traveller can pick as "near", with approximate locations. */
+  places: Place[];
+}
+
+export interface Place {
+  name: string;
+  lat: number;
+  lon: number;
 }
 
 export interface NetworkResponse {

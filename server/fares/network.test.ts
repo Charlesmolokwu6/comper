@@ -32,6 +32,7 @@ describe("buildNetwork", () => {
       name: "Lagos",
       operators: ["guo", "pmt"],
     });
+    expect(lagos.places.some(p => p.name === "Yaba")).toBe(true);
     expect(lagos.destinations).toEqual([
       // GUO also reaches Abuja exactly (Jibowu → ABUJA), so the city isn't flagged.
       {

@@ -19,6 +19,8 @@ export interface CityMatch {
   note?: string;
   /** Lower is a more central/canonical stop for the city (used to pick which stops to search). */
   rank: number;
+  /** The district alias the label names, e.g. "jibowu" for "Lagos (Jibowu--am)". */
+  area?: string;
 }
 
 interface CityDef {
@@ -324,12 +326,17 @@ export function resolveCity(label: string, state?: string): CityMatch | null {
         : bare
           ? 0
           : Math.max(1, ...sameCity.map(h => h.a.rank));
+    // Most specific district named for this city (longest alias), for locating the stop.
+    const areaHit = sameCity
+      .filter(h => h.a.kind !== "exact")
+      .sort((x, y) => y.a.text.length - x.a.text.length)[0];
     return {
       city: chosen.a.city,
       cityName: CITIES[chosen.a.city].name,
       match: kind,
       rank,
       ...(note && { note }),
+      ...(areaHit && { area: areaHit.a.text }),
     };
   }
 

@@ -83,4 +83,11 @@ describe("resolveCity", () => {
     expect(city("RESCHEDULE MY TRIP")).toBeNull();
     expect(city("")).toBeNull();
   });
+
+  it("records which district a stop is in, for locating it", () => {
+    expect(city("Lagos (Jibowu--am)")?.area).toBe("jibowu");
+    expect(city("LAGOS - CELE/OKOTA")?.area).toBeDefined();
+    expect(city("Lagos Ajah")?.area).toBe("ajah");
+    expect(city("ABUJA")?.area).toBeUndefined();
+  });
 });

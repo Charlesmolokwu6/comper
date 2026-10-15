@@ -82,3 +82,17 @@ describe("notOnSaleReason", () => {
     expect(await notOnSaleReason(flaky, lagosDate(0))).toBeNull();
   });
 });
+
+import { stopLocation } from "./geo";
+import { resolveCity } from "./cities";
+
+describe("stopLocation", () => {
+  it("locates terminals from their district, and leaves unknown places null", () => {
+    const at = (label: string) => stopLocation(resolveCity(label)!);
+    expect(at("Lagos (Jibowu--am)")).toEqual({ lat: 6.51878, lon: 3.36837 });
+    expect(at("Lagos - Mazamaza Terminal")).toEqual(at("MAZA MAZA"));
+    expect(at("Abuja-Mararaba Terminal")?.lon).toBeGreaterThan(7.55); // not GUO's copy of Utako's
+    expect(at("Lagos (Chisco HQ)")).toBeNull();
+    expect(at("ABUJA")).toBeNull();
+  });
+});

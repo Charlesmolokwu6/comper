@@ -3,6 +3,7 @@ import { ArrowDownUp, CalendarDays, Search } from "lucide-react";
 import type { NetworkResponse } from "@/lib/api";
 import { lagosDate } from "@/lib/format";
 import { CityPicker, type CityOption } from "./CityPicker";
+import { NearPicker, type Near } from "./NearPicker";
 
 /** The API accepts dates up to 90 days ahead; operators may sell less (shown per operator). */
 const MAX_DAYS_AHEAD = 90;
@@ -20,6 +21,8 @@ interface Props {
   onChange: (v: SearchValues) => void;
   onSubmit: () => void;
   busy: boolean;
+  near: Near | null;
+  onNearChange: (near: Near | null) => void;
 }
 
 export function SearchForm({
@@ -29,6 +32,8 @@ export function SearchForm({
   onChange,
   onSubmit,
   busy,
+  near,
+  onNearChange,
 }: Props) {
   const cities = network?.cities ?? [];
   const fromCity = cities.find(c => c.city === values.from);
@@ -150,6 +155,15 @@ export function SearchForm({
           </span>
         </label>
       </div>
+
+      {fromCity && fromCity.places?.length > 0 && (
+        <NearPicker
+          cityName={fromCity.name}
+          places={fromCity.places}
+          value={near}
+          onChange={onNearChange}
+        />
+      )}
 
       <button
         type="submit"

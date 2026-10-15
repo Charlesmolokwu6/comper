@@ -228,6 +228,15 @@ Flight.
 - **Every operator is visible:** each one keeps its status row, including errors, which show
   their details.
 - **Not included:** Libra and GIGM appear only in this note, never as "no route".
+- **Nearest terminal:** "Boarding near" under the form takes the device's location or an area
+  from `/api/network` `places`. Each operator card then shows only the closest terminal that
+  still has seats, and its headline, the card order and "Cheapest" all use that terminal's fare.
+  Other terminals are folded away under "Other terminals". Distances are straight-line and
+  labelled "about N km".
+  - Terminal and area coordinates are in `server/fares/data/areas.json`: GUO's own terminal
+    coordinates where they exist, OpenStreetMap otherwise. Stops with unknown locations
+    (Chisco Empire, for example) get no distance and are never chosen as nearest.
+  - The choice is remembered per city in `localStorage`.
 
 **Cab and Flight** show "Coming soon" with a disabled form and no numbers.
 

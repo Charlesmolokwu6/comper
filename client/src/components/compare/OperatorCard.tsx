@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   ChevronDown,
   Info,
+  Navigation,
   Route,
 } from "lucide-react";
 import type { ComparedTrip } from "@/lib/api";
@@ -15,7 +16,9 @@ import {
   prettyStop,
   sentenceCase,
 } from "@/lib/format";
-import type { OperatorGroup } from "@/lib/group";
+import { formatDistance } from "@/lib/geo";
+import type { BoardingPoint, OperatorGroup } from "@/lib/group";
+import type { Near } from "./NearPicker";
 import { cn } from "@/lib/utils";
 
 const FIRST_ROWS = 8;
@@ -119,6 +122,62 @@ interface Props {
   toCityName: string;
   /** More departures may still arrive for this operator. */
   loading: boolean;
+  near: Near | null;
+}
+
+function TripList({
+  trips,
+  toCityName,
+  sharedNotes,
+}: {
+  trips: ComparedTrip[];
+  toCityName: string;
+  sharedNotes: string[];
+}) {
+  const [showAll, setShowAll] = useState(false);
+  const rows = showAll ? trips : trips.slice(0, FIRST_ROWS);
+  return (
+    <>
+      <ul className="divide-y divide-border">
+        {rows.map(t => (
+          <DepartureRow
+            key={`${t.from.id}:${t.id}`}
+            t={t}
+            toCityName={toCityName}
+            sharedNotes={sharedNotes}
+          />
+        ))}
+      </ul>
+      {!showAll && trips.length > FIRST_ROWS && (
+        <button
+          type="button"
+          onClick={() => setShowAll(true)}
+          className="mb-3 h-11 w-full rounded-xl border border-border text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+        >
+          Show {trips.length - FIRST_ROWS} more
+        </button>
+      )}
+    </>
+  );
+}
+
+function PointHeading({ p }: { p: BoardingPoint }) {
+  return (
+    <h4 className="flex items-baseline justify-between gap-3 pt-4 text-sm font-semibold text-foreground">
+      <span>
+        {p.name}
+        {p.distanceKm != null && (
+          <span className="font-normal text-muted-foreground">
+            {" "}
+            · {formatDistance(p.distanceKm)}
+          </span>
+        )}
+      </span>
+      <span className="font-normal tabular-nums text-muted-foreground">
+        {p.best ? `from ${formatNaira(p.best.fare)}` : "Sold out"}
+      </span>
+    </h4>
+  );
 }
 
 export function OperatorCard({
@@ -126,19 +185,21 @@ export function OperatorCard({
   cheapest,
   toCityName,
   loading,
+  near,
 }: Props) {
   const [open, setOpen] = useState(false);
-  const [showAll, setShowAll] = useState(false);
+  const [showOthers, setShowOthers] = useState(false);
   const listId = useId();
   const best = g.best;
-  // Chisco lists Jibowu (am) and Jibowu (pm) separately; they're one place to a traveller.
-  const boarding = Array.from(new Set(g.boardingPoints.map(prettyStop)));
-  const count = g.trips.length;
-  const rows = showAll ? g.trips : g.trips.slice(0, FIRST_ROWS);
-  const span =
-    formatTime(g.firstDeparture) === formatTime(g.lastDeparture)
-      ? formatTime(g.firstDeparture)
-      : `${formatTime(g.firstDeparture)}–${formatTime(g.lastDeparture)}`;
+  const nearest = g.nearest;
+  // With a location set, the card is about the one terminal closest to the traveller.
+  const shown = nearest ? nearest.trips : g.trips;
+  const others = nearest ? g.points.filter(p => p !== nearest) : [];
+  const count = shown.length;
+  const times = shown.map(t => t.departure).sort();
+  const first = formatTime(times[0]);
+  const last = formatTime(times[times.length - 1]);
+  const span = first === last ? first : `${first}–${last}`;
 
   return (
     <article
@@ -171,11 +232,31 @@ export function OperatorCard({
               {count} {count === 1 ? "departure" : "departures"} · {span}
               {loading && " · more loading"}
             </p>
-            <p className="mt-0.5 truncate text-sm text-muted-foreground">
-              {boarding.length === 1
-                ? `Boards at ${boarding[0]}`
-                : `${boarding.length} boarding points`}
-            </p>
+            {nearest ? (
+              <p className="mt-1.5 flex items-start gap-1.5 text-sm text-neutral-200">
+                <Navigation
+                  aria-hidden
+                  className="mt-0.5 size-3.5 shrink-0 text-primary"
+                />
+                <span>
+                  Board at <span className="font-semibold">{nearest.name}</span>
+                  {nearest.distanceKm != null && near && (
+                    <span className="text-muted-foreground">
+                      {" "}
+                      · {formatDistance(nearest.distanceKm)} from {near.name}
+                    </span>
+                  )}
+                </span>
+              </p>
+            ) : (
+              <p className="mt-0.5 truncate text-sm text-muted-foreground">
+                {g.points.length === 1
+                  ? `Boards at ${g.points[0].name}`
+                  : near
+                    ? `${g.points.length} boarding points · locations unknown`
+                    : `${g.points.length} boarding points`}
+              </p>
+            )}
           </div>
 
           <div className="shrink-0 text-right">
@@ -216,7 +297,9 @@ export function OperatorCard({
         <span className="mt-4 flex items-center gap-1.5 text-sm font-medium text-foreground">
           {open
             ? "Hide departures"
-            : `See ${count === 1 ? "departure" : `all ${count} departures`}`}
+            : nearest
+              ? `See ${count === 1 ? "departure" : `${count} departures`} from ${nearest.name}`
+              : `See ${count === 1 ? "departure" : `all ${count} departures`}`}
           <ChevronDown
             aria-hidden
             className={cn("size-4 transition-transform", open && "rotate-180")}
@@ -234,27 +317,45 @@ export function OperatorCard({
             {g.sharedNotes.map(sentenceCase).join(" · ")}
           </p>
         )}
-        <ul className="divide-y divide-border">
-          {rows.map(t => (
-            <DepartureRow
-              key={`${t.from.id}:${t.id}`}
-              t={t}
-              toCityName={toCityName}
-              sharedNotes={g.sharedNotes}
-            />
-          ))}
-        </ul>
-        {!showAll && count > FIRST_ROWS && (
-          <button
-            type="button"
-            onClick={() => setShowAll(true)}
-            className="mb-3 h-11 w-full rounded-xl border border-border text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
-          >
-            Show {count - FIRST_ROWS} more
-          </button>
+        <TripList
+          trips={shown}
+          toCityName={toCityName}
+          sharedNotes={g.sharedNotes}
+        />
+        {others.length > 0 && (
+          <div className="border-t border-border">
+            <button
+              type="button"
+              aria-expanded={showOthers}
+              onClick={() => setShowOthers(o => !o)}
+              className="flex min-h-11 w-full items-center justify-between gap-2 text-sm text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary"
+            >
+              {showOthers
+                ? "Hide other terminals"
+                : `Other ${g.operatorName} terminals (${others.length})`}
+              <ChevronDown
+                aria-hidden
+                className={cn(
+                  "size-4 transition-transform",
+                  showOthers && "rotate-180"
+                )}
+              />
+            </button>
+            {showOthers &&
+              others.map(p => (
+                <section key={p.name}>
+                  <PointHeading p={p} />
+                  <TripList
+                    trips={p.trips}
+                    toCityName={toCityName}
+                    sharedNotes={g.sharedNotes}
+                  />
+                </section>
+              ))}
+          </div>
         )}
         <p className="pb-4 pt-1 text-xs text-muted-foreground">
-          {g.trips.some(t => t.deepLink)
+          {shown.some(t => t.deepLink)
             ? `Book opens this search on ${g.operatorName}'s site.`
             : `Book opens ${g.operatorName}'s site: search the same terminal, date and time there.`}
         </p>
