@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { guoRouter } from "./guo/router";
 import { faresRouter } from "./fares/router";
+import { flightsRouter } from "./flights/router";
 import { startScheduler } from "./fares/scheduler";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,6 +21,7 @@ async function startServer() {
       : path.resolve(__dirname, "..", "dist", "public");
 
   app.use("/api/guo", guoRouter);
+  app.use("/api/flights", flightsRouter);
   app.use("/api", faresRouter);
   app.use("/api", (_req, res) => {
     res.status(404).json({ error: "Not found" });

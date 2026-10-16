@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="CACHE-CONTROL" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Mon, 22 Jul 2002 11:12:01 GMT" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../CDNLocal/css/fonts.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" rel="stylesheet" />
+<link href="../Themes/FlatGrayCalendar/jquery-ui-1.10.0.custom.css"  rel="stylesheet" />
+<link href="../Themes/smoothness/jquery-ui-1.10.0.custom.css"  rel="stylesheet" />
+<link href="../css/bootstrap-SharedStyleSheet.css"  rel="stylesheet" />
+<link href="../CustomerFiles/MaxAir/StyleSheets/MaxAirStyleSheet.css"  rel="stylesheet" />
+<link id="favicon" href="../images/favico.ico" rel="shortcut icon" type="image/x-icon"/><link href="../images/favico.ico" rel="icon" type="image/x-icon"/><link rel="stylesheet" href="https://customer2.videcom.com/MaxAir/VARS/Public/css/pages/generic/shared.css" /><link rel="stylesheet" href="https://customer2.videcom.com/MaxAir/VARS/Public/css/pages/generic/flightcal.css" /><link rel="stylesheet" type="text/css" href="/MaxAir/VARS/Public/css/bootstrap-lobibox.css" /><link rel="stylesheet" type="text/css" href="../css/refinesearch.css" /><link rel="stylesheet" type="text/css" href="../css/calendar.css" />
+    <title>Flight Calendar</title>
+    <link rel="stylesheet" type="text/css" href="../css/calendar.css" />
+    <link rel="stylesheet" type="text/css" href="../css/refinesearch.css" />
+<title>
+	Max Air - Select
+</title></head>
+<body id="MasterPageBody" class="IBEMasterBodyContent">
+    <iframe tabindex='-1' id="topiFrame" class="" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" height="140px" width="100%" src="/MaxAir/VARS/Public/CustomerFiles/MaxAir/HeaderFooter/header.htm " allowTransparency=True ></iframe>
+    <input type="hidden" id="VarsSessionID" name="VarsSessionID" value="b31d84e9-cd59-467c-942f-50146531f8e3" class="" />
+    <form method="post" action="./FlightCal.aspx?VARSSessionID=b31d84e9-cd59-467c-942f-50146531f8e3" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTgwODQzNzA3MA9kFgJmD2QWAgIDD2QWAgIID2QWBgIBDxYCHglpbm5lcmh0bWwFrgE8aW5wdXQgbmFtZT0iX19SZXF1ZXN0VmVyaWZpY2F0aW9uVG9rZW4iIHR5cGU9ImhpZGRlbiIgdmFsdWU9IjNQUDk4R0kxNkwydDdMT01NVFNyQjRmaXYta0NKVVZ3cXVKendmT3JDQTJSSUN0T1UxTW9xVENRU2pINlVRV2l1ZVBoa3BXVFg0SkN4WnBMMTZZckplNDBEZk9TUE45R1JsUTVqU3l1T2lZMSIgLz5kAgMPFgIfAAWHAjxpbnB1dCB0eXBlPSdoaWRkZW4nIG5hbWU9J1NreUZseVRvaycgdmFsdWU9J3FwRnlTYUQySjUwUzhUdmhUeWplTmxXZVRzWGlLeVFmVmV4b0tJenF2bjIycDZLK3Y0eVNobTI0dUZBTDdkSjNrbkdoSy9aUTIyOS9ocDFmKzZEcXFDaFQyZUdETDV3ZjZzNlpNMlRabnVvbi9MYWlMc0RYeDR0WmZ0cXd4c2lGeG8wY2JkUWJjZ3VlSmJVdnB4T3lpMmEyS1NVaXlTbzJoZXZvaWwxS3JxWldWcG1NRERLcEJqdWVTTzRxR2RkU0puWEtwYkg0a2RqOUV3d1FkcVpsWXc9PSc+ZAIHDxYCHgVjbGFzcwUgY29udGFpbmVyLWZsdWlkIG1hc3Rlci1jb250YWluZXJkZADhv33IYihqNCoXDmttp/zlFNA63GNE4bknGd5oB4e7" />
+</div>
+<div class="aspNetHidden">
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="75F7D916" />
+</div>
+        <div id="antiFT"><input name="__RequestVerificationToken" type="hidden" value="3PP98GI16L2t7LOMMTSrB4fiv-kCJUVwquJzwfOrCA2RICtOU1MoqTCQSjH6UQWiuePhkpWTX4JCxZpL16YrJe40DfOSPN9GRlQ5jSyuOiY1" /></div>
+        <div id="SkyFlyTok"><input type='hidden' name='SkyFlyTok' value='qpFySaD2J50S8TvhTyjeNlWeTsXiKyQfVexoKIzqvn22p6K+v4yShm24uFAL7dJ3knGhK/ZQ229/hp1f+6DqqChT2eGDL5wf6s6ZM2TZnuon/LaiLsDXx4tZftqwxsiFxo0cbdQbcgueJbUvpxOyi2a2KSUiySo2hevoil1KrqZWVpmMDDKpBjueSO4qGddSJnXKpbH4kdj9EwwQdqZlYw=='></div>
+        <header class="hidden-lg hidden-md hidden-sm hidden-xs bs-docs-nav navbar navbar-static-top navbar-inverse " ><div class="container-fluid" ><div class=" row" ><div class=" navbar-header" ><button class="collapsed navbar-toggle pull-right"  data-toggle="collapse" data-target="#bs-navbar" type="button"><span class="icon-bar " ></span><span class="icon-bar " ></span><span class="icon-bar " ></span></button></div><nav class="collapse navbar-collapse"  id="bs-navbar" ><ul class="nav navbar-nav"  id="divMiniBasket" ><li class=" hidden-sm hidden-md hidden-lg  dropdown" ><a class="dropdown-toggle has-submenu"  href="#" data-toggle="dropdown">Basket: <span class="caret" ></span></a><ul class="miniBasket dropdown-menu" ><li><div class="mini-basket row" ><div class="col-md-12" ><h3>Basket</h3></div><div class="col-md-12" ><div class=" bs-callout bs-callout-danger bs-callout-valert" ><h4>BasketEmpty</h4>Your basket is currently empty</div></div></div></li></ul></li><li class="hidden-lg hidden-md" ><a aria-label="Link to refine search panel" href="http://maxair.com.ng/">Refine Search</a></li></ul></nav></div></div></header>
+        <div id="masterDiv" class="container-fluid master-container">
+            <div class="row">
+    <!-- reCAPTCHA modal dialog for public FlightCal.aspx - triggered by Next button on this page -->
+    <div id="flightCalRecaptchaDialog" title="Security Check" class="recaptcha-dialog" style="display:none;">
+        <p>Please complete the security check to continue.</p>
+        <div class="g-recaptcha"
+             data-sitekey="6LdLnEkUAAAAAHXOBwElwS1CY7cI0UadkdxKh9XK"
+             data-callback="recaptchaGenericCallback">
+        </div>
+    </div>
+    <div class="">
+        <div id="Content_divTitle" class="div-title modal-header hidden">
+            <h3 id="myModalLabel" style="color:#da291c; font-weight:bold;">
+                Search results
+            </h3>
+        </div>
+    </div>
+    <div id="RefineSearchRulesBasketMobilePublicViewSwap">
+        <div id="Content_leftSearch" class="col-md-4 col-lg-3 col-xs-12 left-col">
+            <div class="">
+                <div id="divRefineSearchPanel">
+                    <div class="panel panel-default refine-search-panel">
+<div class="panel-heading">
+<div class="row">
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+<h4 class="heading-refine-flight-search"  >Refine Search</h4> 
+</div>
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+<span class="pull-right clickable ">
+<span class="fa fa-minus-square-o fa-2x " title=""  ></span>
+</span>
+</div>
+</div>
+</div>
+<div class="panel-body">
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12">
+<div class="form-group form-group-sm">
+<label for="Origin" title="From" class="">From</label>
+<select name="Origin" id="Origin" class="form-control">
+<option value=""></option> <option value="ABV" country="NG">Abuja (ABV)</option><option value="BCU" country="NG">Bauchi (BCU)</option><option value="KEB" country="NG">Birnin Kebbi (KEB)</option><option value="KAN" country="NG">Kano (KAN)</option><option value="DKA" country="NG">Katsina (DKA)</option><option value="LOS" selected="selected" country="NG">Lagos (LOS)</option><option value="MIU" country="NG">Maiduguri (MIU)</option><option value="PHC" country="NG">Port Harcourt (PHC)</option><option value="YOL" country="NG">Yola (YOL)</option>
+</select>
+</div>
+</div>
+<div class="col-lg- col-md-12 col-sm-12">
+<div class="form-group form-group-sm">
+<label for="Destination" title="To" class="">To</label>
+<select name="Destination" id="Destination" class=" form-control">
+<option value=""></option> <option value="ABV" selected="selected"  country="NG">Abuja (ABV)</option><option value="KAN" country="NG">Kano (KAN)</option><option value="MIU" country="NG">Maiduguri (MIU)</option>
+</select></div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12 ">
+<div class="form-group form-group-sm">
+<div Class="btn-group btn-group-sm trip-buttons" data-toggle="buttons"><label tabindex='0' class="journey-type btn btn-default btn-outline btn-rounded"><input tabindex='-1' name = "ReturnTrip" id="ReturnTrip1" type="radio" value="chkJourneyTypeReturn"> Return</label><label tabindex='0' class="journey-type btn btn-default btn-outline btn-rounded active"><input tabindex='-1' name = "ReturnTrip" id="ReturnTrip2" type="radio"  checked="checked"  value="chkJourneyTypeOneWay" >One Way</label></div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12  col-sm-12 col-xs-12 departure-date-col">
+<div class="form-group form-group-sm RSLeaving">
+<label title="Leaving" class=""  for="departuredate" >Leaving</label>
+<div class="input-group " ><input class="form-control datepicker" readonly="readonly" type="text" id="departuredate" name="departuredate" value="24-Oct-2026" /><span Class="input-group-addon" onclick="$('#departuredate').focus();"><i class="fa fa-calendar"></i></span></div>
+</div>
+</div>
+<div class="col-md-12  col-sm-12 col-xs-12 return-date-col">
+<div class="form-group form-group-sm RSReturning">
+<label title="Returning" class=""  for="returndate" >Returning</label>
+<div class="input-group " ><input class="form-control datepicker" readonly="readonly" type="text" id="returndate" name="returndate" value="28-Oct-2026" /><span Class="input-group-addon" onclick="$('#returndate').focus();"><i class="fa fa-calendar"></i></span></div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pax-age-adults-col">
+<div class="form-group form-group-sm pax-age-tooltip pax-age-adults">
+<label class="RefineSearchWhoIsTravellingPaxType" for="NumberOfAdults">Adults</label>
+:<select id="NumberOfAdults" name="Adults" class=" form-control paxSelectControl">
+<option value="1" id="Adults_1"  selected>1</option>
+<option value="2" id="Adults_2" >2</option>
+<option value="3" id="Adults_3" >3</option>
+<option value="4" id="Adults_4" >4</option>
+<option value="5" id="Adults_5" >5</option>
+<option value="6" id="Adults_6" >6</option>
+<option value="7" id="Adults_7" >7</option>
+<option value="8" id="Adults_8" >8</option>
+<option value="9" id="Adults_9" >9</option>
+</select>
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pax-age-children-col">
+<div class="form-group form-group-sm pax-age-tooltip pax-age-children">
+<label class="RefineSearchWhoIsTravellingPaxType" for="NumberOfChildren">Children</label>
+:<select id="NumberOfChildren" name="Children" class=" form-control paxSelectControl">
+<option value="0" selected>0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+</select>
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pax-age-infants-col">
+<div class="form-group form-group-sm pax-age-tooltip pax-age-infants">
+<label class="RefineSearchWhoIsTravellingPaxType" for="NumberOfInfants">Infants</label>
+:<select id="NumberOfInfants" name="Infants" class=" form-control paxSelectControl">
+<option value="0" selected>0</option>
+<option value="1">1</option>
+</select>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 evoucher-col">
+<div class="form-group form-group-sm">
+<label for="EVoucher" title="EVoucher" class="">EVoucher</label>
+<input name="EVoucher" id="EVoucher" class="form-control" type="text" value="" placeholder="EVoucher" />
+</div>
+</div>
+</div>
+</div>
+<div class="panel-footer">
+<div id="RefineSearchCheck" Class="RefineSearchCheck"   >
+<span class="fa fa-warning text-danger " title="Javascript InitRefineSearch FAILED"  ></span>
+</div>
+<div class="row">
+<div class="col-md-12 text-center">
+<button class="btn  btn-next " id="refineSearchButton" href="#"  type="button"   >
+Search Again <i class="fa fa-search"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+                </div>
+                <div id="divBasket2">
+<div class="basket-panel click-blue-screen basket-visible-xs basket-visible-sm panel  panel-default " ><div class=" panel-heading" ><div class=" row" ><div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" ><h4>Shopping Basket</h4></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" ><span class="pull-right clickable" ><span class="fa fa-minus-square-o fa-2x" ></span></span></div></div></div><div class="panel-body" ><div class=" bs-callout bs-callout-danger bs-callout-valert" ><h4>BasketEmpty</h4>Your basket is currently empty</div></div></div>
+                </div>
+            </div>
+        </div>
+        <div id="Content_middelResult" class="col-md-8 col-lg-9 col-sm-12 col-xs-12" role="main">
+            <div id="Content_divProgressBar" class="divProgressBar">
+                <div id="progressBarContent" Class="progressBarContent click-pw-login hidden-xs "   >
+<table class="progressBarTab" >
+<tr >
+<td  class="progressBarButton progressBarPrev" ><button class="btn  btn-default  btn-prev" id="PageNavButtonTopFlightCalBack" href="#"  type="button"    aira-label="go to previous page" >
+<i class="fa fa-caret-left"></i> Previous
+</button>
+</td>
+<td  class="progressBarItem progressBarSearch progressBarCompletedItem" ><span class="fa fa-check-circle progress-bar-completed-icon" title=""  ></span>
+<a href="http://maxair.com.ng/?VarsSessionID=b31d84e9-cd59-467c-942f-50146531f8e3" >
+<b>1</b>. Search</a>
+</td>
+<td  class="progressBarItem progressBarSelect progressBarCurrentItem" ><span class="fa fa-check-circle progress-bar-current-icon" title=""  style="display:none;"  ></span>
+<a >
+<b>2</b>. Select</a>
+</td>
+<td  class="progressBarItem progressBarPay " ><span class="fa fa-circle-o progress-bar-unselected-icon" title=""  style="display:none;"  ></span>
+<a >
+<b>3</b>. Pay</a>
+</td>
+<td  class="progressBarItem progressBarSummary " ><span class="fa fa-circle-o progress-bar-unselected-icon" title=""  style="display:none;"  ></span>
+<a >
+<b>4</b>. Summary</a>
+</td>
+<td  class="progressBarButton progressBarNext" ><button class="btn  btn-default pull-right  btn-next" id="PageNavButtonTopFlightCalNext" href="#"  type="button"    aira-label="go to next page" >
+Next <i class="fa fa-caret-right"></i>
+</button>
+</td>
+</tr>
+</table>
+</div>
+            </div>
+            <div id="Content_divMobile" class="div-title-mobile modal-header hidden">
+                <h3 id="myModalLabel-mobile" style="color:#da291c; font-weight:bold;">
+                    Search results
+                </h3>
+            </div>
+            <div class="calDiv">
+                <div id="calView_0">
+                    <input type="hidden" id="Mode" name="Mode" value="single" class="" />
+<input type="hidden" id="IsAdsLoggedIn" name="IsAdsLoggedIn" value="false" class="" />
+<div class="panel flt-cal-panel">
+<div id="CalDaysBar_0" Class="panel-heading"   >
+<div class="row outbound-info-row">
+<div class="col-md-12 col-xs-12 cal-col">
+<h3 class=""> Outbound: Lagos to Abuja </h3>
+</div>
+</div>
+<div class="row tabs-row">
+<div class="col-md-12 col-xs-12 cal-col">
+<ul class="nav nav-tabs nav-justified">
+<li class="left-li"><a href="#" class="btn-a" >
+<div class="btn-dummyDiv" >&nbsp;</div> 
+<button class="btn  btn-prev ButtonClick btn btn-default pull-left dayBack hidden-sm hidden-xs" id="" href="#"  type="button"   data-newday="20 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-left fa-2x"></i> 
+</button>
+<button class="btn  btn-prev ButtonClick btn btn-default pull-left dayBack hidden-lg hidden-md hidden-xs" id="" href="#"  type="button"   data-newday="21 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-left fa-2x"></i> 
+</button>
+<button class="btn  btn-prev ButtonClick btn btn-default pull-left dayBack hidden-lg hidden-md hidden-sm" id="" href="#"  type="button"   data-newday="22 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-left fa-2x"></i> 
+</button>
+</a>
+</li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="21 Oct 2026" href="colTab0" data-index="0"><div class="cal-tab1" >Wed,21 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="120,000.00 NGN">120,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="22 Oct 2026" href="colTab1" data-index="0"><div class="cal-tab1" >Thu,22 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="120,000.00 NGN">120,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class=" total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="23 Oct 2026" href="colTab2" data-index="0"><div class="cal-tab1" >Fri,23 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="120,000.00 NGN">120,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class=" total-tabs-7 active tab-active " ><a class="dayTab"  data-toggle="tab" data-newday="24 Oct 2026" href="colTab3" data-index="0"><div class="cal-tab1" >Sat,24 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="120,000.00 NGN">120,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true">Day 24 Oct 2026 Selected</div></a></li><li class=" total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="25 Oct 2026" href="colTab4" data-index="0"><div class="cal-tab1" >Sun,25 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="120,000.00 NGN">120,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="26 Oct 2026" href="colTab5" data-index="0"><div class="cal-tab1" >Mon,26 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="120,000.00 NGN">120,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="27 Oct 2026" href="colTab6" data-index="0"><div class="cal-tab1" >Tue,27 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="110,000.00 NGN">110,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="right-li"><a href="#" class="btn-a" >
+<div class="btn-dummyDiv" >&nbsp;</div> 
+<button class="btn  btn-next ButtonClick btn btn-default pull-right dayForward hidden-sm hidden-xs" id="" href="#"  type="button"   data-newday="28 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-right fa-2x"></i> 
+</button>
+<button class="btn  btn-next ButtonClick btn btn-default pull-right dayForward hidden-lg hidden-md hidden-xs" id="" href="#"  type="button"   data-newday="27 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-right fa-2x"></i> 
+</button>
+<button class="btn  btn-next ButtonClick btn btn-default pull-right dayForward hidden-lg hidden-md hidden-sm" id="" href="#"  type="button"   data-newday="26 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-right fa-2x"></i> 
+</button>
+</a>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="panel-body">
+<div class="tab-content">
+<div id="tab3primary" Class="tab-pane fade in active"   >
+<div class=" panel-group "  id="cal-accordion-0" ><div class=" flt-panel  panel panel-default " ><div class="panel-heading flt-panel-heading "  data-row-index="1" data-panel-index="0"><a data-toggle="collapse" data-parent="#cal-accordion-0" data-target="#cal-accordion-0-1" href="javascript:void(0);"><div aria-live="polite" aria-atomic="true" class="sr-only flt-message">   <!-- initially blank --> </div>
+<div id="flt_row_0_0" Class="row no-gutter flt-row "   >
+<div class="col-xs-4 col-sm-3 cal-col cal-Depart-time">
+<div class="row">
+<div class="hidden-xs hidden-sm col-lg-2">
+</div>
+<div class="col-lg-10">
+<div class="time">09:25</div><div class="flightDate">24 Oct</div><div class="city">Lagos</div></div>
+</div>
+</div>
+<div class="col-xs-4 col-sm-3 hidden-xs flight-duration-info-container">
+<div class="row">
+<div class="col-lg-12 flightDuration">
+1h 10m</div>
+<div class="col-lg-12 flightLegs">
+<span class="fa fa-map-marker " title=""  ></span>
+<span class="fa fa-long-arrow-right " title=""  ></span>
+<span class="fa fa-plane " title=""  ></span>
+<span class="" >Non-stop</span>
+</span>
+<div class="flightnumber">
+VM1640</div>
+</div>
+</div>
+</div>
+<div class="col-xs-4 col-sm-3 cal-col cal-Arrive-time">
+<div class="row">
+<div class="hidden-xs hidden-sm col-lg-2">
+</div>
+<div class="col-lg-10">
+<div class="time">10:35</div><div class="flightDate">24 Oct</div><div class="city">Abuja</div></div>
+</div>
+</div>
+<div class="col-xs-4 col-sm-3 cal-col cal-fare">
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fare-from">
+from</div>
+<div  Class="col-lg-12  col-md-12 col-sm-12 col-xs-12 fare-price-small price-display-"   data-original-amount='120000' data-original-currency='ngn' >
+120,000.00 NGN</div>
+</div>
+</div>
+</div>
+</a></div><div class="panel-collapse collapse "  id="cal-accordion-0-1"  data-row-index="1" data-panel-index="0"><div class="panel-body" ><div id="cls_row_0_0" Class="row no-gutter flt-row flt-classes"   >
+<div class="col-xs-12 col-sm-12 col-lg-12">
+<div class="row flt-cls-row">
+<div class="col-xs-12 col-sm-4 col-lg-4 col-md-4  flt-class cal-col">
+<div tabindex='0' class="panel panel-default classbands-3 Economy classband-panel-1" data-fareid="0_0_0_0_T_Economy" data-not-valid-with="" data-classband="Economy" > <div class="classband-name-and-price-row panel-heading" style="background-color:#f7a288;color:#200202;" ><div class="row row-over-ride">
+<div class="hidden-lg hidden-md hidden-sm col-xs-1 custom-col-xs-12 class-band-info" ><span class="fa fa-2x fa-question-circle text-primary help-tip"  data-toggle="popover" data-html="true" title="Economy" data-content="<ul class='fa-ul cls-list'>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-up'></i>Fully Changeable Ticket ( fare difference and change fee may apply)</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-suitcase'></i>Baggage Allowance 20Kg</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-briefcase'></i>Hand Luggage Allowance is one piece  8KG  ( 45 cm x 35 cm x 20 cm)</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-down'></i>No show fee may apply</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-up'></i>Validity of ticket - 1 year from date of purchase</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-coffee'></i>Complimentary snack and beverages</li>
+</ul>
+"></span></div><div class="class-band-name-container col-lg-12 col-md-12 col-xs-6 pull-left">
+<h4 class="class-band-name"  >Economy</h4> 
+<div aria-live="polite" aria-atomic="true" class="sr-only class-message">   <!-- initially blank --> </div>
+</div>
+</div>
+<div class="row row-over-ride">
+<div class="class-price-container  col-lg-12 col-md-12 col-xs-12 text-right ">
+<div class="cls-price-from text-right ">from</div><div class="cls-price FareClass-price text-right  price-display-ngn"  data-original-amount='120000' data-original-currency='ngn'>120,000.00 NGN</div></div>
+</div>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-options-header-line'></div><div class="panel-body hidden-xs panel-body-classdetails" style="background-color:#6bf2d7;color:#180505;" ><ul class="fa-ul cls-list">
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-up"></i>Fully Changeable Ticket ( fare difference and change fee may apply)</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-suitcase"></i>Baggage Allowance 20Kg</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-briefcase"></i>Hand Luggage Allowance is one piece  8KG  ( 45 cm x 35 cm x 20 cm)</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-down"></i>No show fee may apply</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-up"></i>Validity of ticket - 1 year from date of purchase</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-coffee"></i>Complimentary snack and beverages</li>
+</ul>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-options-footer-line'></div><div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-divider-border'></div><div class="panel-footer" style="background-color:#f7a288;color:#200202;"><div class=" row" ><div class="col-xs-12 seats-count" >Only 9 seats left</div></div><div class=" row" ></div></div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-4 col-lg-4 col-md-4  flt-class cal-col">
+<div tabindex='0' class="panel panel-default classbands-3 Premium-economy classband-panel-2 panel-danger disabled" data-fareid="" data-not-valid-with="" data-classband="Premium economy" > <div class="classband-name-and-price-row panel-heading" style="background-color:#2df022;color:#0f0104;" ><div class="row row-over-ride">
+<div class="hidden-lg hidden-md hidden-sm col-xs-1 custom-col-xs-12 class-band-info" ><span class="fa fa-2x fa-question-circle text-primary help-tip"  data-toggle="popover" data-html="true" title="Premium economy" data-content="<ul class='fa-ul cls-list'>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-up'></i>Fully Changeable Ticket ( fare difference and change fee may apply)</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-suitcase'></i>Baggage Allowance 20Kg</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-briefcase'></i>Hand Luggage Allowance is one piece  8KG  ( 45 cm x 35 cm x 20 cm)</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-down'></i>No show fee may apply</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-up'></i>Validity of ticket - 1 year from date of purchase</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-coffee'></i>Complimentary snack and beverages</li>
+</ul>
+"></span></div><div class="class-band-name-container col-lg-12 col-md-12 col-xs-6 pull-left">
+<h4 class="class-band-name"  >Premium economy</h4> 
+<div aria-live="polite" aria-atomic="true" class="sr-only class-message">   <!-- initially blank --> </div>
+</div>
+</div>
+<div class="row row-over-ride">
+<div class="class-price-container  col-lg-12 col-md-12 col-xs-12 text-right zero-availability">
+<div class="cls-price-from text-right ">&nbsp;</div><div class="cls-price FareClass-price text-right zero-availability-price ">Sold&nbsp;out</div></div>
+</div>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-options-header-line'></div><div class="panel-body hidden-xs panel-body-classdetails" style="background-color:#e7d1d1;color:#110101;" ><ul class="fa-ul cls-list">
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-up"></i>Fully Changeable Ticket ( fare difference and change fee may apply)</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-suitcase"></i>Baggage Allowance 20Kg</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-briefcase"></i>Hand Luggage Allowance is one piece  8KG  ( 45 cm x 35 cm x 20 cm)</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-down"></i>No show fee may apply</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-up"></i>Validity of ticket - 1 year from date of purchase</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-coffee"></i>Complimentary snack and beverages</li>
+</ul>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-divider-border'></div><div class="panel-footer" style="background-color:#2df022;color:#0f0104;"><div class=" row" ><div class="Premium economy col-xs-12 seats-none" >No seats</div></div><div class=" row" ><span>&nbsp;</span></div></div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-4 col-lg-4 col-md-4  flt-class cal-col">
+<div tabindex='0' class="panel panel-default classbands-3 Business classband-panel-3" data-fareid="0_0_0_2_L_Business" data-not-valid-with="" data-classband="Business" > <div class="classband-name-and-price-row panel-heading" style="background-color:#eabdf2;color:#14141a;" ><div class="row row-over-ride">
+<div class="hidden-lg hidden-md hidden-sm col-xs-1 custom-col-xs-12 class-band-info" ><span class="fa fa-2x fa-question-circle text-primary help-tip"  data-toggle="popover" data-html="true" title="Business" data-content="<ul class='fa-ul cls-list'>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-up'></i>Fully Changeable Ticket ( fare difference and change fee may apply)</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-suitcase'></i>Baggage Allowance 30Kg</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-briefcase'></i>Hand Luggage Allowance is one piece 8kg (45cm x 35cm x 20cm)</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-down'></i>No show fee may apply</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-thumbs-up'></i>Validity of ticket - 1 year from date of purchase</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-coffee'></i>Complimentary snack and beverages</li>
+</ul>
+"></span></div><div class="class-band-name-container col-lg-12 col-md-12 col-xs-6 pull-left">
+<h4 class="class-band-name"  >Business</h4> 
+<div aria-live="polite" aria-atomic="true" class="sr-only class-message">   <!-- initially blank --> </div>
+</div>
+</div>
+<div class="row row-over-ride">
+<div class="class-price-container  col-lg-12 col-md-12 col-xs-12 text-right ">
+<div class="cls-price-from text-right ">from</div><div class="cls-price FareClass-price text-right  price-display-ngn"  data-original-amount='290000' data-original-currency='ngn'>290,000.00 NGN</div></div>
+</div>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-options-header-line'></div><div class="panel-body hidden-xs panel-body-classdetails" style="background-color:#e1d33d;color:#272424;" ><ul class="fa-ul cls-list">
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-up"></i>Fully Changeable Ticket ( fare difference and change fee may apply)</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-suitcase"></i>Baggage Allowance 30Kg</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-briefcase"></i>Hand Luggage Allowance is one piece 8kg (45cm x 35cm x 20cm)</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-down"></i>No show fee may apply</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-thumbs-up"></i>Validity of ticket - 1 year from date of purchase</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-coffee"></i>Complimentary snack and beverages</li>
+</ul>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-options-footer-line'></div><div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-divider-border'></div><div class="panel-footer" style="background-color:#eabdf2;color:#14141a;"><div class=" row" ><div class="col-xs-12 seats-count" >Only 4 seats left</div></div><div class=" row" ></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div></div></div></div>
+</div>
+<div id="CalendarCheck_0" ></div></div>
+</div>
+                </div>
+                <div id="calView_1">
+                </div>
+                <div id="calView_2">
+                </div>
+                <div id="calView_3">
+                </div>
+                <div id="calView_4">
+                </div>
+                <div id="calView_5">
+                </div>
+                <div id="calView_6">
+                </div>
+                <div id="calView_7">
+                </div>
+                <div id="calView_Disclaimer">
+                </div>
+            </div>
+            <div id="mobileCalendarSearchAndBasket"></div>
+            <div id="PageNavButtonBottomFlightCal" Class="PageNavigationButtons container-fluid"   >
+<button class="btn  btn-default  btn-prev" id="PageNavButtonBottomFlightCalBack" href="#"  type="button"    aira-label="go to previous page" >
+<i class="fa fa-caret-left"></i> Previous
+</button>
+<button class="btn  btn-default pull-right  btn-next" id="PageNavButtonBottomFlightCalNext" href="#"  type="submit"    aira-label="go to next page" >
+Next <i class="fa fa-caret-right"></i>
+</button>
+</div>
+        </div>
+    </div>
+    <div id="Content_rightMarketing" class=".hidden">
+    </div>
+            </div>
+        </div>
+    </form>
+    <div id="spinnerModal" class="modal "  data-backdrop="static" data-keyboard="false" ><div  Class="modal-dialog spinner"   >
+<div class="modal-content">
+<div class="modal-header modal-header-primary">
+<span class="" >Loading</span>
+</div>
+<div class="modal-body">
+<span class="fa fa-refresh fa-spin fa-3x " title=""  ></span>
+<span class="" style="padding-left:30px;"  >Please Wait...</span>
+</div>
+</div>
+</div>
+</div>
+    <iframe tabindex='-1' id="bottomiFrame" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" height="100px" width="100%" src="" allowTransparency=True ></iframe>
+    <footer class="footer navbar-inverse" ><span class="pull-right small" >192.168.100.51</span><div class="container" ><div class=" row" ><span class="text-muted" >powered by</span><a class="lead"  target="_blank" href="http://www.videcom.com"><i>Videcom</i></a></div></div><div class="container" ></div></footer>
+</body>
+</html>

@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="CACHE-CONTROL" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Mon, 22 Jul 2002 11:12:01 GMT" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../CDNLocal/css/fonts.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" rel="stylesheet" />
+<link href="../Themes/FlatGrayCalendar/jquery-ui-1.10.0.custom.css"  rel="stylesheet" />
+<link href="../Themes/smoothness/jquery-ui-1.10.0.custom.css"  rel="stylesheet" />
+<link href="../css/bootstrap-SharedStyleSheet.css"  rel="stylesheet" />
+<link href="../CustomerFiles/RanoAir/StyleSheets/RanoAirStyleSheet.css"  rel="stylesheet" />
+<link id="favicon" href="../images/favico.ico" rel="shortcut icon" type="image/x-icon"/><link href="../images/favico.ico" rel="icon" type="image/x-icon"/><link rel="stylesheet" href="https://customer3.videcom.com/RanoAir/VARS/Public/css/pages/generic/shared.css" /><link rel="stylesheet" href="https://customer3.videcom.com/RanoAir/VARS/Public/css/pages/generic/flightcal.css" /><link rel="stylesheet" type="text/css" href="/RanoAir/VARS/Public/css/bootstrap-lobibox.css" /><link rel="stylesheet" type="text/css" href="../css/refinesearch.css" /><link rel="stylesheet" type="text/css" href="../css/calendar.css" />
+    <title>Flight Calendar</title>
+    <link rel="stylesheet" type="text/css" href="../css/calendar.css" />
+    <link rel="stylesheet" type="text/css" href="../css/refinesearch.css" />
+<title>
+	Rano Air - Select
+</title></head>
+<body id="MasterPageBody" class="IBEMasterBodyContent">
+    <iframe tabindex='-1' id="topiFrame" class="" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" height="130px" width="100%" src="/RanoAir/VARS/Public/CustomerFiles/RanoAir/HeaderFooter/header.htm " allowTransparency=True ></iframe>
+    <input type="hidden" id="VarsSessionID" name="VarsSessionID" value="c8616e8f-e98b-429b-a232-766974dc61ad" class="" />
+    <form method="post" action="./FlightCal.aspx?VARSSessionID=c8616e8f-e98b-429b-a232-766974dc61ad" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTY3NDgyMjc1Nw9kFgJmD2QWAgIDD2QWAgIID2QWBgIBDxYCHglpbm5lcmh0bWwFrgE8aW5wdXQgbmFtZT0iX19SZXF1ZXN0VmVyaWZpY2F0aW9uVG9rZW4iIHR5cGU9ImhpZGRlbiIgdmFsdWU9IlI0UUtMRkMzby1lNUk0dW0wQjc1a054bmkxZV93cUNkazdWRElSWGtkdmMzdFNubExTdzBzS0JNRjNxaGE4UU9VbkVGMExpUXhpbU5TeVVLdGxwcks2VEdVbTFLM1BReHBhWjk0WmVNWWVZMSIgLz5kAgMPFgIfAAWHAjxpbnB1dCB0eXBlPSdoaWRkZW4nIG5hbWU9J1NreUZseVRvaycgdmFsdWU9J1R4dGFsaUgzMVczQlNwWTU0UEdjQkVmekUvRWJPMnQrbGVKNFRnZmxlaU9LL3QzZVFKbUwwNnh2dTA5cnA4a29qT3NONDlyV3VHUHZURTNKR1B5K3Vjemx3TS93cUZvTTdXSVU5M3pKQ2FBNVA3VTlNNHZWSzBKQ1RvZndYOWpUWDdPN0lOd3RvNjQvRUJsMk5iUkFSenk3citBaUM5Yjlta25IZG9qVHQxSmdIQkZTcEtKLzRKSU1aNjd1b3hZUGVYOGFvMDErWERzSkJZcngxcC94WGc9PSc+ZAIHDxYCHgVjbGFzcwUgY29udGFpbmVyLWZsdWlkIG1hc3Rlci1jb250YWluZXJkZExBz3TxBZdAd8aD72OTOS+ldB/8CrtgOJCMaPlWUWsN" />
+</div>
+<div class="aspNetHidden">
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="2ED6D805" />
+</div>
+        <div id="antiFT"><input name="__RequestVerificationToken" type="hidden" value="R4QKLFC3o-e5I4um0B75kNxni1e_wqCdk7VDIRXkdvc3tSnlLSw0sKBMF3qha8QOUnEF0LiQximNSyUKtlprK6TGUm1K3PQxpaZ94ZeMYeY1" /></div>
+        <div id="SkyFlyTok"><input type='hidden' name='SkyFlyTok' value='TxtaliH31W3BSpY54PGcBEfzE/EbO2t+leJ4TgfleiOK/t3eQJmL06xvu09rp8kojOsN49rWuGPvTE3JGPy+uczlwM/wqFoM7WIU93zJCaA5P7U9M4vVK0JCTofwX9jTX7O7INwto64/EBl2NbRARzy7r+AiC9b9mknHdojTt1JgHBFSpKJ/4JIMZ67uoxYPeX8ao01+XDsJBYrx1p/xXg=='></div>
+        <header class="hidden-lg hidden-md hidden-sm hidden-xs bs-docs-nav navbar navbar-static-top navbar-inverse " ><div class="container-fluid" ><div class=" row" ><div class=" navbar-header" ><button class="collapsed navbar-toggle pull-right"  data-toggle="collapse" data-target="#bs-navbar" type="button"><span class="icon-bar " ></span><span class="icon-bar " ></span><span class="icon-bar " ></span></button></div><nav class="collapse navbar-collapse"  id="bs-navbar" ><ul class="nav navbar-nav"  id="divMiniBasket" ><li class=" hidden-sm hidden-md hidden-lg  dropdown" ><a class="dropdown-toggle has-submenu"  href="#" data-toggle="dropdown">Basket: <span class="caret" ></span></a><ul class="miniBasket dropdown-menu" ><li><div class="mini-basket row" ><div class="col-md-12" ><h3>Basket</h3></div><div class="col-md-12" ><div class=" bs-callout bs-callout-danger bs-callout-valert" ><h4>BasketEmpty</h4>Your basket is currently empty</div></div></div></li></ul></li><li class="hidden-lg hidden-md" ><a aria-label="Link to refine search panel" href="CustomerPanels/Requirements.aspx">Refine Search</a></li></ul></nav></div></div></header>
+        <div id="masterDiv" class="container-fluid master-container">
+            <div class="row">
+    <div class="">
+        <div id="Content_divTitle" class="div-title modal-header hidden">
+            <h3 id="myModalLabel" style="color:#da291c; font-weight:bold;">
+                Search results
+            </h3>
+        </div>
+    </div>
+    <div id="RefineSearchRulesBasketMobilePublicViewSwap">
+        <div id="Content_leftSearch" class="col-md-4 col-lg-3 col-xs-12 left-col">
+            <div class="">
+                <div id="divRefineSearchPanel">
+                    <div class="panel panel-default refine-search-panel">
+<div class="panel-heading">
+<div class="row">
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+<h4 class="heading-refine-flight-search"  >Refine Search</h4> 
+</div>
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+<span class="pull-right clickable ">
+<span class="fa fa-minus-square-o fa-2x " title=""  ></span>
+</span>
+</div>
+</div>
+</div>
+<div class="panel-body">
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12">
+<div class="form-group form-group-sm">
+<label for="Origin" title="From" class="">From</label>
+<select name="Origin" id="Origin" class="form-control">
+<option value="ABV" country="NG">ABUJA (ABV)</option><option value="BCU" country="NG">BAUCHI (BCU)</option><option value="GMO" country="NG">GOMBE (GMO)</option><option value="KAD" country="NG">KADUNA (KAD)</option><option value="KAN" country="NG">KANO (KAN)</option><option value="DKA" country="NG">KATSINA (DKA)</option><option value="LOS" selected="selected" country="NG">LAGOS (MMA2) (LOS)</option><option value="MIU" country="NG">MAIDUGURI (MIU)</option><option value="SKO" country="NG">SOKOTO (SKO)</option><option value="QRW" country="NG">WARRI (QRW)</option>
+</select>
+</div>
+</div>
+<div class="col-lg- col-md-12 col-sm-12">
+<div class="form-group form-group-sm">
+<label for="Destination" title="To" class="">To</label>
+<select name="Destination" id="Destination" class=" form-control">
+<option value="ABV" selected="selected"  country="NG">ABUJA (ABV)</option><option value="KAD" country="NG">KADUNA (KAD)</option><option value="KAN" country="NG">KANO (KAN)</option><option value="QRW" country="NG">WARRI (QRW)</option>
+</select></div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12 ">
+<div class="form-group form-group-sm">
+<div Class="btn-group btn-group-sm trip-buttons" data-toggle="buttons"><label tabindex='0' class="journey-type btn btn-default btn-outline btn-rounded"><input tabindex='-1' name = "ReturnTrip" id="ReturnTrip1" type="radio" value="chkJourneyTypeReturn"> Return</label><label tabindex='0' class="journey-type btn btn-default btn-outline btn-rounded active"><input tabindex='-1' name = "ReturnTrip" id="ReturnTrip2" type="radio"  checked="checked"  value="chkJourneyTypeOneWay" >One Way</label><label tabindex='0' Class="journey-type-multi-city btn btn-default btn-outline btn-rounded "><a tabindex='-1' name href="/RanoAir/VARS/Public/b/MultiCityBS.aspx?VARSSessionID=c8616e8f-e98b-429b-a232-766974dc61ad"  onclick="window.location='/RanoAir/VARS/Public/b/MultiCityBS.aspx?VARSSessionID=c8616e8f-e98b-429b-a232-766974dc61ad'">Multi-city</a></label></div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12  col-sm-12 col-xs-12 departure-date-col">
+<div class="form-group form-group-sm RSLeaving">
+<label title="Leaving" class=""  for="departuredate" >Leaving</label>
+<div class="input-group " ><input class="form-control datepicker" readonly="readonly" type="text" id="departuredate" name="departuredate" value="24-Oct-2026" /><span Class="input-group-addon" onclick="$('#departuredate').focus();"><i class="fa fa-calendar"></i></span></div>
+</div>
+</div>
+<div class="col-md-12  col-sm-12 col-xs-12 return-date-col">
+<div class="form-group form-group-sm RSReturning">
+<label title="Returning" class=""  for="returndate" >Returning</label>
+<div class="input-group " ><input class="form-control datepicker" readonly="readonly" type="text" id="returndate" name="returndate" value="28-Oct-2026" /><span Class="input-group-addon" onclick="$('#returndate').focus();"><i class="fa fa-calendar"></i></span></div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pax-age-adults-col">
+<div class="form-group form-group-sm pax-age-tooltip pax-age-adults">
+<label class="RefineSearchWhoIsTravellingPaxType" for="NumberOfAdults">Adults</label>
+:<select id="NumberOfAdults" name="Adults" class=" form-control paxSelectControl">
+<option value="1" id="Adults_1"  selected>1</option>
+<option value="2" id="Adults_2" >2</option>
+<option value="3" id="Adults_3" >3</option>
+<option value="4" id="Adults_4" >4</option>
+<option value="5" id="Adults_5" >5</option>
+<option value="6" id="Adults_6" >6</option>
+<option value="7" id="Adults_7" >7</option>
+<option value="8" id="Adults_8" >8</option>
+<option value="9" id="Adults_9" >9</option>
+</select>
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pax-age-children-col">
+<div class="form-group form-group-sm pax-age-tooltip pax-age-children">
+<label class="RefineSearchWhoIsTravellingPaxType" for="NumberOfChildren">Children</label>
+:<select id="NumberOfChildren" name="Children" class=" form-control paxSelectControl">
+<option value="0" selected>0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+</select>
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pax-age-infants-col">
+<div class="form-group form-group-sm pax-age-tooltip pax-age-infants">
+<label class="RefineSearchWhoIsTravellingPaxType" for="NumberOfInfants">Infants</label>
+:<select id="NumberOfInfants" name="Infants" class=" form-control paxSelectControl">
+<option value="0" selected>0</option>
+<option value="1">1</option>
+</select>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 evoucher-col">
+<div class="form-group form-group-sm">
+<label for="EVoucher" title="EVoucher" class="">EVoucher</label>
+<input name="EVoucher" id="EVoucher" class="form-control" type="text" value="" placeholder="EVoucher" />
+</div>
+</div>
+</div>
+</div>
+<div class="panel-footer">
+<div id="RefineSearchCheck" Class="RefineSearchCheck"   >
+<span class="fa fa-warning text-danger " title="Javascript InitRefineSearch FAILED"  ></span>
+</div>
+<div class="row">
+<div class="col-md-12 text-center">
+<button class="btn  btn-next " id="refineSearchButton" href="#"  type="button"   >
+Search Again <i class="fa fa-search"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+                </div>
+                <div id="divBasket2">
+<div class="basket-panel click-blue-screen basket-visible-xs basket-visible-sm panel  panel-default " ><div class=" panel-heading" ><div class=" row" ><div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" ><h4>Shopping Basket</h4></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" ><span class="pull-right clickable" ><span class="fa fa-minus-square-o fa-2x" ></span></span></div></div></div><div class="panel-body" ><div class=" bs-callout bs-callout-danger bs-callout-valert" ><h4>BasketEmpty</h4>Your basket is currently empty</div></div></div>
+                </div>
+            </div>
+        </div>
+        <div id="Content_middelResult" class="col-md-8 col-lg-9 col-sm-12 col-xs-12" role="main">
+            <div id="Content_divProgressBar" class="divProgressBar">
+                <div id="progressBarContent" Class="progressBarContent click-pw-login hidden-xs "   >
+<table class="progressBarTab" >
+<tr >
+<td  class="progressBarButton progressBarPrev" ><button class="btn  btn-default  btn-prev" id="PageNavButtonTopFlightCalBack" href="#"  type="button"    aira-label="go to previous page" >
+<i class="fa fa-caret-left"></i> Previous
+</button>
+</td>
+<td  class="progressBarItem progressBarSearch progressBarCompletedItem" ><span class="fa fa-check-circle progress-bar-completed-icon" title=""  ></span>
+<a href="CustomerPanels/Requirements.aspx?VarsSessionID=c8616e8f-e98b-429b-a232-766974dc61ad" >
+<b>1</b>. Search</a>
+</td>
+<td  class="progressBarItem progressBarSelect progressBarCurrentItem" ><span class="fa fa-check-circle progress-bar-current-icon" title=""  style="display:none;"  ></span>
+<a >
+<b>2</b>. Select</a>
+</td>
+<td  class="progressBarItem progressBarOptions " ><span class="fa fa-circle-o progress-bar-unselected-icon" title=""  style="display:none;"  ></span>
+<a >
+<b>3</b>. Options</a>
+</td>
+<td  class="progressBarItem progressBarPay " ><span class="fa fa-circle-o progress-bar-unselected-icon" title=""  style="display:none;"  ></span>
+<a >
+<b>4</b>. Pay</a>
+</td>
+<td  class="progressBarItem progressBarSummary " ><span class="fa fa-circle-o progress-bar-unselected-icon" title=""  style="display:none;"  ></span>
+<a >
+<b>5</b>. Summary</a>
+</td>
+<td  class="progressBarButton progressBarNext" ><button class="btn  btn-default pull-right  btn-next" id="PageNavButtonTopFlightCalNext" href="#"  type="button"    aira-label="go to next page" >
+Next <i class="fa fa-caret-right"></i>
+</button>
+</td>
+</tr>
+</table>
+</div>
+            </div>
+            <div id="Content_divMobile" class="div-title-mobile modal-header hidden">
+                <h3 id="myModalLabel-mobile" style="color:#da291c; font-weight:bold;">
+                    Search results
+                </h3>
+            </div>
+            <div class="calDiv">
+                <div id="calView_0">
+                    <input type="hidden" id="Mode" name="Mode" value="single" class="" />
+<input type="hidden" id="IsAdsLoggedIn" name="IsAdsLoggedIn" value="false" class="" />
+<div class="panel flt-cal-panel">
+<div id="CalDaysBar_0" Class="panel-heading"   >
+<div class="row outbound-info-row">
+<div class="col-md-12 col-xs-12 cal-col">
+<h3 class=""> Outbound: LAGOS (MMA2) to ABUJA </h3>
+</div>
+</div>
+<div class="row tabs-row">
+<div class="col-md-12 col-xs-12 cal-col">
+<ul class="nav nav-tabs nav-justified">
+<li class="left-li"><a href="#" class="btn-a" >
+<div class="btn-dummyDiv" >&nbsp;</div> 
+<button class="btn  btn-prev ButtonClick btn btn-default pull-left dayBack hidden-sm hidden-xs" id="" href="#"  type="button"   data-newday="20 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-left fa-2x"></i> 
+</button>
+<button class="btn  btn-prev ButtonClick btn btn-default pull-left dayBack hidden-lg hidden-md hidden-xs" id="" href="#"  type="button"   data-newday="21 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-left fa-2x"></i> 
+</button>
+<button class="btn  btn-prev ButtonClick btn btn-default pull-left dayBack hidden-lg hidden-md hidden-sm" id="" href="#"  type="button"   data-newday="22 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-left fa-2x"></i> 
+</button>
+</a>
+</li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="21 Oct 2026" href="colTab0" data-index="0"><div class="cal-tab1" >Wed,21 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="115,000.00 NGN">115,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="22 Oct 2026" href="colTab1" data-index="0"><div class="cal-tab1" >Thu,22 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="115,000.00 NGN">115,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class=" total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="23 Oct 2026" href="colTab2" data-index="0"><div class="cal-tab1" >Fri,23 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="125,000.00 NGN">125,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class=" total-tabs-7 active tab-active " ><a class="dayTab"  data-toggle="tab" data-newday="24 Oct 2026" href="colTab3" data-index="0"><div class="cal-tab1" >Sat,24 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="115,000.00 NGN">115,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true">Day 24 Oct 2026 Selected</div></a></li><li class=" total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="25 Oct 2026" href="colTab4" data-index="0"><div class="cal-tab1" >Sun,25 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="125,000.00 NGN">125,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="26 Oct 2026" href="colTab5" data-index="0"><div class="cal-tab1" >Mon,26 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="115,000.00 NGN">115,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="hidden-sm hidden-xs total-tabs-7 tab-inactive " ><a class="dayTab"  data-toggle="tab" data-newday="27 Oct 2026" href="colTab6" data-index="0"><div class="cal-tab1" >Tue,27 Oct</div><div class="cal-tab2" >from</div><div class="cal-tab3 small-price-tab "  data-original-amount="125,000.00 NGN">125,000.00 NGN</div><div class="sr-only dayTabNoClick-message "  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div><div class="no-flt" ></div><div class="sr-only dayTab-message"  aria-live="polite" aria-atomic="true"> <!-- initially blank --></div></a></li><li class="right-li"><a href="#" class="btn-a" >
+<div class="btn-dummyDiv" >&nbsp;</div> 
+<button class="btn  btn-next ButtonClick btn btn-default pull-right dayForward hidden-sm hidden-xs" id="" href="#"  type="button"   data-newday="28 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-right fa-2x"></i> 
+</button>
+<button class="btn  btn-next ButtonClick btn btn-default pull-right dayForward hidden-lg hidden-md hidden-xs" id="" href="#"  type="button"   data-newday="27 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-right fa-2x"></i> 
+</button>
+<button class="btn  btn-next ButtonClick btn btn-default pull-right dayForward hidden-lg hidden-md hidden-sm" id="" href="#"  type="button"   data-newday="26 Oct 2026" data-index="0"  >
+<i class="fa fa-chevron-circle-right fa-2x"></i> 
+</button>
+</a>
+</li></ul>
+</div>
+</div>
+</div>
+<div class="panel-body">
+<div class="tab-content">
+<div id="tab3primary" Class="tab-pane fade in active"   >
+<div class=" panel-group "  id="cal-accordion-0" ><div class=" flt-panel  panel panel-default " ><div class="panel-heading flt-panel-heading "  data-row-index="1" data-panel-index="0"><a data-toggle="collapse" data-parent="#cal-accordion-0" data-target="#cal-accordion-0-1" href="javascript:void(0);"><div aria-live="polite" aria-atomic="true" class="sr-only flt-message">   <!-- initially blank --> </div>
+<div id="flt_row_0_0" Class="row no-gutter flt-row "   >
+<div class="col-xs-4 col-sm-3 cal-col cal-Depart-time">
+<div class="row">
+<div class="hidden-xs hidden-sm col-lg-2">
+</div>
+<div class="col-lg-10">
+<div class="time">11:30</div><div class="flightDate">24 Oct</div><div class="city">LAGOS (MMA2)</div></div>
+</div>
+</div>
+<div class="col-xs-4 col-sm-3 hidden-xs flight-duration-info-container">
+<div class="row">
+<div class="col-lg-12 flightDuration">
+1h 10m</div>
+<div class="col-lg-12 flightLegs">
+<span class="fa fa-map-marker " title=""  ></span>
+<span class="fa fa-long-arrow-right " title=""  ></span>
+<span class="fa fa-plane " title=""  ></span>
+<span class="" >Non-stop</span>
+</span>
+<div class="flightnumber">
+R42001</div>
+</div>
+</div>
+</div>
+<div class="col-xs-4 col-sm-3 cal-col cal-Arrive-time">
+<div class="row">
+<div class="hidden-xs hidden-sm col-lg-2">
+</div>
+<div class="col-lg-10">
+<div class="time">12:40</div><div class="flightDate">24 Oct</div><div class="city">ABUJA</div></div>
+</div>
+</div>
+<div class="col-xs-4 col-sm-3 cal-col cal-fare">
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fare-from">
+from</div>
+<div  Class="col-lg-12  col-md-12 col-sm-12 col-xs-12 fare-price-small price-display-"   data-original-amount='115000' data-original-currency='ngn' >
+115,000.00 NGN</div>
+</div>
+</div>
+</div>
+</a></div><div class="panel-collapse collapse "  id="cal-accordion-0-1"  data-row-index="1" data-panel-index="0"><div class="panel-body" ><div id="cls_row_0_0" Class="row no-gutter flt-row flt-classes"   >
+<div class="col-xs-12 col-sm-12 col-lg-12">
+<div class="row flt-cls-row">
+<div class="col-xs-12 col-sm-12 col-lg-12 col-md-12  flt-class cal-col">
+<div tabindex='0' class="panel panel-default classbands-1 Economy classband-panel-1" data-fareid="0_0_0_0_X_Economy" data-not-valid-with="" data-classband="Economy" > <div class="classband-name-and-price-row panel-heading" style="background-color:#920885;color:#ffffff;" ><div class="row row-over-ride">
+<div class="hidden-lg hidden-md hidden-sm col-xs-1 custom-col-xs-12 class-band-info" ><span class="fa fa-2x fa-question-circle text-primary help-tip"  data-toggle="popover" data-html="true" title="Economy" data-content="<ul class='fa-ul cls-list'>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-rotate-right'></i>Changeable and upgradeable. Fare Difference and a Change Fee (NGN10,000), No Show Fee (15,000) may apply.</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-ban'></i>Ticket is not refundable</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-suitcase'></i>Baggage Allowance: Check-In (15KG) | Cabin (6KG) | Excess (N1,000/KG)</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-calendar'></i>Ticket Validity is One (1) year from date of travel</li>
+<li tabindex='0'><i class='fa-li fa cls-icon fa-wheelchair'></i>Zero mobility passengers are not allowed</li>
+</ul>
+"></span></div><div class="class-band-name-container col-lg-12 col-md-12 col-xs-6 pull-left">
+<h4 class="class-band-name"  >Economy</h4> 
+<div aria-live="polite" aria-atomic="true" class="sr-only class-message">   <!-- initially blank --> </div>
+</div>
+</div>
+<div class="row row-over-ride">
+<div class="class-price-container  col-lg-12 col-md-12 col-xs-12 text-right ">
+<div class="cls-price-from text-right ">from</div><div class="cls-price FareClass-price text-right  price-display-ngn"  data-original-amount='115000' data-original-currency='ngn'>115,000.00 NGN</div></div>
+</div>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-options-header-line'></div><div class="panel-body hidden-xs panel-body-classdetails">
+<ul class="fa-ul cls-list">
+<li tabindex="0"><i class="fa-li fa cls-icon fa-rotate-right"></i>Changeable and upgradeable. Fare Difference and a Change Fee (NGN10,000), No Show Fee (15,000) may apply.</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-ban"></i>Ticket is not refundable</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-suitcase"></i>Baggage Allowance: Check-In (15KG) | Cabin (6KG) | Excess (N1,000/KG)</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-calendar"></i>Ticket Validity is One (1) year from date of travel</li>
+<li tabindex="0"><i class="fa-li fa cls-icon fa-wheelchair"></i>Zero mobility passengers are not allowed</li>
+</ul>
+</div>
+<div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-options-footer-line'></div><div style='display:none;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12 classband-divider-border'></div><div class="panel-footer" style="background-color:#920885;color:#ffffff;"><div class=" row" ><div class="col-xs-12 seats-count" >Only 3 seats left</div></div><div class=" row" ></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div></div></div></div>
+</div>
+<div id="CalendarCheck_0" ></div></div>
+</div>
+                </div>
+                <div id="calView_1">
+                </div>
+                <div id="calView_2">
+                </div>
+                <div id="calView_3">
+                </div>
+                <div id="calView_4">
+                </div>
+                <div id="calView_5">
+                </div>
+                <div id="calView_6">
+                </div>
+                <div id="calView_7">
+                </div>
+                <div id="calView_Disclaimer">
+                </div>
+            </div>
+            <div id="mobileCalendarSearchAndBasket"></div>
+            <div id="PageNavButtonBottomFlightCal" Class="PageNavigationButtons container-fluid"   >
+<button class="btn  btn-default  btn-prev" id="PageNavButtonBottomFlightCalBack" href="#"  type="button"    aira-label="go to previous page" >
+<i class="fa fa-caret-left"></i> Previous
+</button>
+<button class="btn  btn-default pull-right  btn-next" id="PageNavButtonBottomFlightCalNext" href="#"  type="submit"    aira-label="go to next page" >
+Next <i class="fa fa-caret-right"></i>
+</button>
+</div>
+        </div>
+    </div>
+    <div id="Content_rightMarketing" class=".hidden">
+    </div>
+            </div>
+        </div>
+    </form>
+    <div id="spinnerModal" class="modal "  data-backdrop="static" data-keyboard="false" ><div  Class="modal-dialog spinner"   >
+<div class="modal-content">
+<div class="modal-header modal-header-primary">
+<span class="" >Loading</span>
+</div>
+<div class="modal-body">
+<span class="fa fa-refresh fa-spin fa-3x " title=""  ></span>
+<span class="" style="padding-left:30px;"  >Please Wait...</span>
+</div>
+</div>
+</div>
+</div>
+    <iframe tabindex='-1' id="bottomiFrame" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" height="100px" width="100%" src="../CustomerFiles/RanoAir/HeaderFooter/footer.htm" allowTransparency=True ></iframe>
+    <footer class="footer navbar-inverse" ><span class="pull-right small" >192.168.100.168</span><div class="container" ><div class=" row" ><span class="text-muted" >powered by</span><a class="lead"  target="_blank" href="http://www.videcom.com"><i>Videcom</i></a></div></div><div class="container" ></div></footer>
+</body>
+</html>
