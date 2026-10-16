@@ -209,3 +209,18 @@ export const fetchFlightNetwork = (signal?: AbortSignal) =>
     "/api/flights/network",
     signal
   );
+
+// ---- Places (server/places/router.ts) ----
+
+export interface Place {
+  name: string;
+  address: string;
+  lat: number;
+  lon: number;
+}
+
+export const fetchPlaces = (q: string, signal?: AbortSignal) =>
+  getJson<{ places: Place[] }>(
+    `/api/places?${new URLSearchParams({ q })}`,
+    signal
+  );

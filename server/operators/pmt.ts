@@ -74,6 +74,18 @@ export const pmt: Operator = {
   id: "pmt",
   name: "Peace Mass Transit",
   website: "https://pmt.ng",
+  // PMT's own home-page search form submits GET /guest/trips/search with these fields, so the
+  // same link opens the results for this exact trip (only within PMT's short sales window,
+  // which is the only time we show PMT fares anyway).
+  bookingUrl(originId, destinationId, date) {
+    return `${BASE}/guest/trips/search?${new URLSearchParams({
+      trip_type: "one_way",
+      from: originId,
+      to: destinationId,
+      date,
+      passengers: "1",
+    })}`;
+  },
   maxDaysAhead: 4,
 
   async origins() {

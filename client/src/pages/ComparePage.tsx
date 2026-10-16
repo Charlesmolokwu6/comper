@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Bus, CarTaxiFront, Plane } from "lucide-react";
 import { BusPanel } from "@/components/compare/BusPanel";
-import { ComingSoonPanel } from "@/components/compare/ComingSoonPanel";
+import { CabPanel } from "@/components/compare/CabPanel";
 import { FlightPanel } from "@/components/compare/FlightPanel";
 import { SiteShell } from "@/components/compare/SiteShell";
 import { cn } from "@/lib/utils";
@@ -21,7 +21,7 @@ const MODES: {
     label: "Intra-City Cab",
     short: "Cab",
     icon: CarTaxiFront,
-    live: false,
+    live: true,
   },
   {
     id: "flight",
@@ -103,11 +103,10 @@ function ModeTabs({
 
 export default function ComparePage() {
   // "Change search" on the flight results links back with ?mode=flight.
-  const [mode, setMode] = useState<Mode>(() =>
-    new URLSearchParams(window.location.search).get("mode") === "flight"
-      ? "flight"
-      : "bus"
-  );
+  const [mode, setMode] = useState<Mode>(() => {
+    const m = new URLSearchParams(window.location.search).get("mode");
+    return m === "flight" || m === "cab" ? m : "bus";
+  });
 
   return (
     <SiteShell>
@@ -134,12 +133,7 @@ export default function ComparePage() {
             hidden={mode !== m.id}
           >
             {m.id === "bus" && <BusPanel />}
-            {m.id === "cab" && (
-              <ComingSoonPanel
-                mode="Cab"
-                examples="Uber, Bolt, inDrive or the other ride-hailing apps"
-              />
-            )}
+            {m.id === "cab" && <CabPanel />}
             {m.id === "flight" && <FlightPanel />}
           </div>
         ))}

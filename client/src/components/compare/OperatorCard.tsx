@@ -10,6 +10,7 @@ import {
 import type { ComparedTrip } from "@/lib/api";
 import {
   formatAge,
+  formatDay,
   formatNaira,
   formatSeats,
   formatTime,
@@ -25,10 +26,14 @@ import {
   type VehicleOption,
 } from "@/lib/vehicles";
 import type { Near } from "./NearPicker";
+import { BookingGuide } from "./BookingGuide";
 import { VehicleThumb } from "./VehicleIcon";
 import { cn } from "@/lib/utils";
 
 const FIRST_ROWS = 8;
+
+const BOOK_CLASS =
+  "inline-flex min-h-8 items-center gap-0.5 rounded-md px-1 text-xs font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-primary";
 
 function DepartureRow({
   t,
@@ -105,19 +110,44 @@ function DepartureRow({
         <span className="text-base font-bold tabular-nums text-foreground">
           {formatNaira(t.fare)}
         </span>
-        <a
-          href={t.bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-8 items-center gap-0.5 rounded-md px-1 text-xs font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-primary"
-        >
-          Book
-          <ArrowUpRight aria-hidden className="size-3.5" />
-          <span className="sr-only">
-            {t.operatorName} {formatTime(t.departure)} from{" "}
-            {prettyStop(t.from.name)} (opens in a new tab)
-          </span>
-        </a>
+        {t.deepLink ? (
+          <a
+            href={t.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={BOOK_CLASS}
+          >
+            Book
+            <ArrowUpRight aria-hidden className="size-3.5" />
+            <span className="sr-only">
+              {t.operatorName} {formatTime(t.departure)} from{" "}
+              {prettyStop(t.from.name)} (opens in a new tab)
+            </span>
+          </a>
+        ) : (
+          <BookingGuide
+            operatorName={t.operatorName}
+            url={t.bookingUrl}
+            triggerClassName={BOOK_CLASS}
+            srLabel={`${t.operatorName} ${formatTime(t.departure)} from ${prettyStop(t.from.name)}`}
+            rows={[
+              {
+                label: "From",
+                value: prettyStop(t.from.name),
+                theirName: t.from.name,
+              },
+              {
+                label: "To",
+                value: prettyStop(t.to.name),
+                theirName: t.to.name,
+              },
+              { label: "Date", value: formatDay(t.departure.slice(0, 10)) },
+              { label: "Departs", value: formatTime(t.departure) },
+              { label: "Bus", value: prettyVehicle(t.vehicle) },
+              { label: "Fare", value: formatNaira(t.fare) },
+            ]}
+          />
+        )}
       </div>
     </li>
   );
@@ -474,7 +504,7 @@ export function OperatorCard({
         <p className="pb-4 pt-1 text-xs text-muted-foreground">
           {shown.some(t => t.deepLink)
             ? `Book opens this search on ${g.operatorName}'s site.`
-            : `Book opens ${g.operatorName}'s site: search the same terminal, date and time there.`}
+            : `Book shows the exact trip to pick, then opens ${g.operatorName}'s site.`}
         </p>
       </div>
     </article>
