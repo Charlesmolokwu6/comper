@@ -1,6 +1,6 @@
 import { AlertTriangle, RotateCw } from "lucide-react";
-import type { Coverage, UnavailableOperator } from "@/lib/api";
-import { quietStatuses } from "@/lib/group";
+import type { UnavailableOperator } from "@/lib/api";
+import { quietStatuses, type CoverageLike } from "@/lib/group";
 
 const list = (names: string[]) =>
   names.length <= 1
@@ -8,7 +8,7 @@ const list = (names: string[]) =>
     : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 
 /** Thin progress line shown only while operators are still answering. */
-export function SearchProgress({ coverage }: { coverage: Coverage[] }) {
+export function SearchProgress({ coverage }: { coverage: CoverageLike[] }) {
   const done = coverage.filter(c => c.status !== "pending").length;
   const waiting = coverage
     .filter(c => c.status === "pending")
@@ -49,11 +49,14 @@ export function SearchSummary({
   timedOut,
   unavailable,
   onRetry,
+  explanation,
 }: {
-  coverage: Coverage[];
+  coverage: CoverageLike[];
   timedOut: boolean;
   unavailable: UnavailableOperator[];
   onRetry: () => void;
+  /** Why the unavailable operators are missing; defaults to the bus wording (login needed). */
+  explanation?: string;
 }) {
   const q = quietStatuses(coverage, timedOut);
   const lines: string[] = [];
@@ -102,9 +105,8 @@ export function SearchSummary({
             {unavailable.length === 1 ? "isn't" : "aren't"} included
           </summary>
           <p className="mt-1 max-w-prose">
-            Their fare search only works after logging in to their booking
-            system, which we don't do without their permission. This says
-            nothing about their routes or prices.
+            {explanation ??
+              "Their fare search only works after logging in to their booking system, which we don't do without their permission. This says nothing about their routes or prices."}
           </p>
         </details>
       )}

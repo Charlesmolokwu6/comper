@@ -9,7 +9,7 @@ export const POLL_MAX_MS = 120_000;
  * has been running for less than POLL_MAX_MS.
  */
 export function shouldPoll(
-  coverage: Coverage[],
+  coverage: Pick<Coverage, "status">[],
   startedAt: number,
   now: number
 ) {

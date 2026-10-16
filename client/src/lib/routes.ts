@@ -27,3 +27,25 @@ export function lastSearch(): Partial<SearchQuery> {
     return {};
   }
 }
+
+export const flightsPath = (q: SearchQuery) =>
+  `/flights/${encodeURIComponent(q.from)}/${encodeURIComponent(q.to)}/${q.date}`;
+
+const LAST_FLIGHT_KEY = "compare.lastFlightSearch";
+
+export function rememberFlightSearch(q: SearchQuery) {
+  try {
+    localStorage.setItem(LAST_FLIGHT_KEY, JSON.stringify(q));
+  } catch {
+    // Storage may be blocked; the form just starts empty.
+  }
+}
+
+export function lastFlightSearch(): Partial<SearchQuery> {
+  try {
+    const v = JSON.parse(localStorage.getItem(LAST_FLIGHT_KEY) ?? "{}");
+    return v && typeof v === "object" ? v : {};
+  } catch {
+    return {};
+  }
+}

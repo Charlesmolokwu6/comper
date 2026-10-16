@@ -136,3 +136,76 @@ export const fetchCompare = (
 
 export const tripKey = (t: ComparedTrip) =>
   `${t.operator}:${t.from.id}:${t.id}`;
+
+// ---- Flights (server/flights/router.ts) ----
+
+export type Cabin = "economy" | "premium";
+
+export interface FlightFare {
+  /** The airline's own fare name, e.g. "Economy Saver", "ValueLite". */
+  name: string;
+  cabin: Cabin;
+  /** One adult, taxes included, as the airline shows it. */
+  price: number;
+}
+
+export interface ComparedFlight {
+  flightNumber: string;
+  from: string;
+  to: string;
+  fromName: string;
+  toName: string;
+  /** "YYYY-MM-DD HH:mm", Lagos time. */
+  departure: string;
+  arrival: string;
+  duration: string | null;
+  stops: number;
+  /** Bookable fares, cheapest first. */
+  fares: FlightFare[];
+  airline: string;
+  airlineName: string;
+  website: string;
+  bookingUrl: string;
+  deepLink: boolean;
+  soldOut: boolean;
+  fetchedAt: string;
+}
+
+export interface FlightCoverage {
+  operator: string;
+  operatorName: string;
+  status: "fares" | "no_trips" | "no_route" | "pending" | "error";
+  message?: string;
+}
+
+export interface FlightsResponse {
+  from: { city: string; name: string };
+  to: { city: string; name: string };
+  date: string;
+  flights: ComparedFlight[];
+  coverage: FlightCoverage[];
+  unavailableOperators: UnavailableOperator[];
+}
+
+export interface FlightNetworkCity {
+  city: string;
+  name: string;
+  destinations: { city: string; name: string; operators: string[] }[];
+}
+
+export const fetchFlights = (
+  from: string,
+  to: string,
+  date: string,
+  signal?: AbortSignal
+) =>
+  getJson<FlightsResponse>(
+    `/api/flights/compare?${new URLSearchParams({ from, to, date })}`,
+    signal
+  );
+
+export const fetchFlightNetwork = (signal?: AbortSignal) =>
+  getJson<{ complete: boolean; cities: FlightNetworkCity[] }>(
+    "/api/flights/network",
+    signal
+  );

@@ -54,14 +54,16 @@ export function parseVidecomResults(
   to: string,
   date: string
 ): Flight[] {
-  const active = html.match(
-    /tab-active[^>]*>\s*<a[^>]*data-newday="([^"]+)"/
-  )?.[1];
+  // Every results page says which day is selected for screen readers ("Day 24 Oct 2026 Selected").
+  const active =
+    html.match(/Day (\d{1,2} \w{3} \d{4}) Selected/)?.[1] ??
+    html.match(/tab-active[^>]*>\s*<a[^>]*data-newday="([^"]+)"/)?.[1];
   if (!active)
     throw new Error("Videcom results page not recognised (layout changed?)");
   const [ad, am, ay] = active.split(" ");
   if (isoFromDayMonth(`${ad} ${am}`, `${ay}-01-01`).slice(5) !== date.slice(5))
     throw new Error(`Videcom showed ${active} instead of ${date}`);
+  if (/No Flight available on selected date/i.test(html)) return [];
 
   const flights: Flight[] = [];
   for (const chunk of html.split(/<div class="\s*flt-panel\b/).slice(1)) {

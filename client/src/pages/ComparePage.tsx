@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Bus, CarTaxiFront, Plane } from "lucide-react";
 import { BusPanel } from "@/components/compare/BusPanel";
 import { ComingSoonPanel } from "@/components/compare/ComingSoonPanel";
+import { FlightPanel } from "@/components/compare/FlightPanel";
 import { SiteShell } from "@/components/compare/SiteShell";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +28,7 @@ const MODES: {
     label: "Domestic Flight",
     short: "Flight",
     icon: Plane,
-    live: false,
+    live: true,
   },
 ];
 
@@ -101,13 +102,18 @@ function ModeTabs({
 }
 
 export default function ComparePage() {
-  const [mode, setMode] = useState<Mode>("bus");
+  // "Change search" on the flight results links back with ?mode=flight.
+  const [mode, setMode] = useState<Mode>(() =>
+    new URLSearchParams(window.location.search).get("mode") === "flight"
+      ? "flight"
+      : "bus"
+  );
 
   return (
     <SiteShell>
       <div className="pb-6 pt-6 sm:pt-10">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
-          Live bus fares across Nigeria,{" "}
+          Live bus and flight fares across Nigeria,{" "}
           <span className="text-primary">side by side.</span>
         </h1>
         <p className="mt-3 max-w-prose text-base text-muted-foreground">
@@ -134,12 +140,7 @@ export default function ComparePage() {
                 examples="Uber, Bolt, inDrive or the other ride-hailing apps"
               />
             )}
-            {m.id === "flight" && (
-              <ComingSoonPanel
-                mode="Flight"
-                examples="the domestic airlines we've looked at"
-              />
-            )}
+            {m.id === "flight" && <FlightPanel />}
           </div>
         ))}
       </div>

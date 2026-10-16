@@ -58,6 +58,17 @@ describe("Videcom (United Nigeria, Max Air, Rano Air)", () => {
     ).toThrow(/instead of/);
   });
 
+  it("reads a day with no flights as empty, not as an error", () => {
+    expect(
+      parseVidecomResults(
+        fixture("videcom-maxair-LOS-PHC-none.html"),
+        "LOS",
+        "PHC",
+        "2026-10-17"
+      )
+    ).toEqual([]);
+  });
+
   it("formats dates the way Videcom links expect", () => {
     expect(videcomDate("2026-10-04")).toBe("4oct2026");
   });

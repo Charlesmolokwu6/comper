@@ -28,6 +28,7 @@ export function lagosDate(days = 0, now = Date.now()) {
 /** "3 h ago" / "25 min ago" */
 export function formatAge(iso: string, now = Date.now()) {
   const mins = Math.max(0, Math.round((now - Date.parse(iso)) / 60_000));
+  if (mins < 1) return "just now";
   if (mins < 60) return `${mins} min ago`;
   const h = Math.round(mins / 60);
   return h < 48 ? `${h} h ago` : `${Math.round(h / 24)} days ago`;

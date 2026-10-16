@@ -7,6 +7,7 @@ import { resultsPath } from "./lib/routes";
 import ComparePage from "./pages/ComparePage";
 import NotFound from "./pages/NotFound";
 import ResultsPage from "./pages/ResultsPage";
+import FlightResultsPage from "./pages/FlightResultsPage";
 
 /** Old shared links (/?from=&to=&date=) open the results page. */
 function Home() {
@@ -28,6 +29,15 @@ function App({ locationHook }: { locationHook?: BaseLocationHook }) {
               <Route path="/results/:from/:to/:date">
                 {p => (
                   <ResultsPage
+                    from={decodeURIComponent(p.from)}
+                    to={decodeURIComponent(p.to)}
+                    date={p.date}
+                  />
+                )}
+              </Route>
+              <Route path="/flights/:from/:to/:date">
+                {p => (
+                  <FlightResultsPage
                     from={decodeURIComponent(p.from)}
                     to={decodeURIComponent(p.to)}
                     date={p.date}

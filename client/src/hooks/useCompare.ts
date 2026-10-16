@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchCompare, type CompareResponse } from "@/lib/api";
+import { fetchCompare, type CompareResponse, type Coverage } from "@/lib/api";
 import { POLL_INTERVAL_MS, shouldPoll } from "@/lib/polling";
 
 export interface CompareQuery {
@@ -8,13 +8,20 @@ export interface CompareQuery {
   date: string;
 }
 
-export type CompareState =
+type Fetcher<R> = (
+  from: string,
+  to: string,
+  date: string,
+  signal?: AbortSignal
+) => Promise<R>;
+
+export type CompareState<R = CompareResponse> =
   | { phase: "idle" }
   | { phase: "loading"; query: CompareQuery }
   | {
       phase: "results";
       query: CompareQuery;
-      data: CompareResponse;
+      data: R;
       /** Still re-polling for operators that are pending. */
       polling: boolean;
       /** Gave up waiting; operators still pending have timed out. */
@@ -28,8 +35,10 @@ export type CompareState =
  * Runs a comparison and keeps re-fetching while operators are still `pending`. Each
  * response is the server's full current snapshot, so it simply replaces the last one.
  */
-export function useCompare() {
-  const [state, setState] = useState<CompareState>({ phase: "idle" });
+export function useCompare<
+  R extends { coverage: Pick<Coverage, "status">[] } = CompareResponse,
+>(fetcher: Fetcher<R> = fetchCompare as unknown as Fetcher<R>) {
+  const [state, setState] = useState<CompareState<R>>({ phase: "idle" });
   const run = useRef<{
     ctrl: AbortController;
     timer?: ReturnType<typeof setTimeout>;
@@ -54,7 +63,7 @@ export function useCompare() {
 
     const poll = async (first: boolean) => {
       try {
-        const data = await fetchCompare(
+        const data = await fetcher(
           query.from,
           query.to,
           query.date,

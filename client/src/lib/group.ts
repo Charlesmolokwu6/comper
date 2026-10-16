@@ -132,8 +132,17 @@ export function groupByOperator(
 }
 
 /** Operators that returned no fares, grouped into sentences for one quiet summary line. */
-export function quietStatuses(coverage: Coverage[], timedOut: boolean) {
-  const names = (pred: (c: Coverage) => boolean) =>
+export interface CoverageLike {
+  operatorName: string;
+  status: string;
+  message?: string;
+}
+
+export function quietStatuses<C extends CoverageLike>(
+  coverage: C[],
+  timedOut: boolean
+) {
+  const names = (pred: (c: C) => boolean) =>
     coverage.filter(pred).map(c => c.operatorName);
   return {
     noTrips: names(c => c.status === "no_trips"),
