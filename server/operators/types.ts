@@ -78,3 +78,11 @@ export interface UnavailableOperator {
   website: string;
   reason: string;
 }
+
+/** The operator refused the date as too far ahead; `days` is the window it stated. */
+export class NotOnSaleError extends Error {
+  constructor(public days: number) {
+    super(`sells tickets up to ${days} days ahead`);
+    this.name = "NotOnSaleError";
+  }
+}

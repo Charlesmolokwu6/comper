@@ -8,7 +8,7 @@
  * `farePrice` crossed out (online discount).
  */
 import { FOREIGN, requestJson, to24h } from "./http";
-import type { Operator, Stop } from "./types";
+import { NotOnSaleError, type Operator, type Stop } from "./types";
 
 const BASE = "https://chiscotransport.com.ng";
 
@@ -22,7 +22,8 @@ export const chisco: Operator = {
   id: "chisco",
   name: "Chisco Transport",
   website: "https://chiscotransport.com.ng",
-  maxDaysAhead: 30,
+  // "You can not book beyond 14 days in advance" (checked Oct 2026, every route).
+  maxDaysAhead: 14,
 
   async origins() {
     const json = await requestJson(`${BASE}/api/terminals`);
@@ -55,6 +56,10 @@ export const chisco: Operator = {
     const data = json?.data;
     // "202 No available trip for the selected route currently" = no trips that day.
     if (data?.code === "202") return [];
+    const beyond = /beyond (\d+) days/i.exec(
+      `${data?.code} ${data?.shortDescription}`
+    );
+    if (beyond) throw new NotOnSaleError(Number(beyond[1]));
     if (data?.code !== "200")
       throw new Error(
         `Chisco search returned code ${data?.code}: ${data?.shortDescription}`

@@ -29,3 +29,4 @@ export const unavailableOperators: UnavailableOperator[] = [
 ];
 
 export type { Operator, Stop, Trip } from "./types";
+export { NotOnSaleError } from "./types";

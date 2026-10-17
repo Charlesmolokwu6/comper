@@ -8,6 +8,7 @@
  * `pending`; their fares land in the cache for the next request.
  */
 import {
+  NotOnSaleError,
   operators,
   unavailableOperators,
   type Operator,
@@ -204,6 +205,7 @@ export async function compare(
         return;
       }
       const errors: string[] = [];
+      const refusals: (NotOnSaleError | null)[] = [];
       for (const p of pairs) {
         try {
           const res = await getFares(op.id, p.from.id, p.to.id, date);
@@ -244,11 +246,25 @@ export async function compare(
             });
           }
         } catch (err: any) {
+          refusals.push(err instanceof NotOnSaleError ? err : null);
           errors.push(`${p.from.name} → ${p.to.name}: ${err.message}`);
         }
         cov.routesChecked++;
       }
       const found = trips.some(t => t.operator === op.id);
+      // The operator's window is shorter than maxDaysAhead says: report it as not on sale.
+      const refused = refusals.find(Boolean);
+      if (
+        !found &&
+        refused &&
+        refusals.length === pairs.length &&
+        refusals.every(Boolean)
+      ) {
+        cov.status = "not_on_sale";
+        cov.message = `${op.name} ${refused.message}`;
+        cov.onSaleUntil = lagosDate(refused.days);
+        return;
+      }
       cov.status = found
         ? "fares"
         : errors.length === pairs.length
