@@ -428,6 +428,9 @@ export default function ResultsPage({
             {results && (
               <SearchSummary
                 coverage={results.coverage}
+                withFares={Array.from(
+                  new Set(results.trips.map(t => t.operatorName))
+                )}
                 timedOut={timedOut}
                 unavailable={results.unavailableOperators}
                 onRetry={() => search({ from, to, date })}

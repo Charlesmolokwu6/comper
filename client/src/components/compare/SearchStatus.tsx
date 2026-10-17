@@ -50,6 +50,7 @@ export function SearchSummary({
   unavailable,
   onRetry,
   explanation,
+  withFares = [],
 }: {
   coverage: CoverageLike[];
   timedOut: boolean;
@@ -57,8 +58,14 @@ export function SearchSummary({
   onRetry: () => void;
   /** Why the unavailable operators are missing; defaults to the bus wording (login needed). */
   explanation?: string;
+  /** Operators already showing fares: a timeout there means partial results, not failure. */
+  withFares?: string[];
 }) {
   const q = quietStatuses(coverage, timedOut);
+  const partial = q.errors.filter(
+    c => c.status === "pending" && withFares.includes(c.operatorName)
+  );
+  q.errors = q.errors.filter(c => !partial.includes(c));
   const lines: string[] = [];
   if (q.noTrips.length)
     lines.push(`No trips on this date: ${list(q.noTrips)}.`);
@@ -88,6 +95,22 @@ export function SearchSummary({
           >
             <RotateCw aria-hidden className="size-3.5" />
             Retry
+          </button>
+        </div>
+      )}
+      {partial.length > 0 && (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-muted-foreground">
+          <span className="min-w-0 flex-1">
+            Some departures from {list(partial.map(c => c.operatorName))} may be
+            missing: it was still answering when we stopped waiting.
+          </span>
+          <button
+            type="button"
+            onClick={onRetry}
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border px-3 font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+          >
+            <RotateCw aria-hidden className="size-3.5" />
+            Check again
           </button>
         </div>
       )}
