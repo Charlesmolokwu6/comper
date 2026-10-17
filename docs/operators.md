@@ -263,12 +263,11 @@ Chisco keep the search inside their pages (GUO posts to `/itinerary`, ABC's resu
 can fill it in. Their Book button opens a "Book on X's site" step listing exactly what to pick
 (terminal as they name it, date, time, bus, fare) with a copy button, then opens the site.
 
-**Cab** (`client/src/components/compare/CabPanel.tsx`) never shows a price: Uber, Bolt and inDrive
+**Cab** (`client/src/components/compare/CabPanel.tsx`) never shows a price: Bolt and inDrive
 only price trips inside their apps, after login, and with surge. Pickup (or GPS) and drop-off
 come from `/api/places` (`server/places/`: our known airports and areas first, then
-OpenStreetMap Nominatim, Nigeria only, 1 request/s, cached a day). "Open Uber" uses Uber's
-documented universal link (`m.uber.com/looking?pickup=…&drop[0]=…`) with both points filled
-in. Bolt and inDrive publish no trip link, so their buttons open the app and a "copy drop-off"
+OpenStreetMap Nominatim, Nigeria only, 1 request/s, cached a day). Uber left Nigeria on
+2 September 2026 and was removed. Bolt and inDrive publish no trip link, so their buttons open the app and a "copy drop-off"
 button makes it one paste.
 
 **Flight** is live: see `docs/flights.md`.

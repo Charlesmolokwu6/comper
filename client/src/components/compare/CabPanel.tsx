@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 import { PlaceInput } from "./PlaceInput";
 
 /**
- * Cab tab. Uber, Bolt and inDrive only show live prices inside their apps, after login, and
- * they change with demand, so this tab never shows a price. It opens each app with the trip
- * filled in where the app's public links allow (Uber), and makes the rest one paste away.
+ * Cab tab. Bolt and inDrive only show live prices inside their apps, after login, and they
+ * change with demand, so this tab never shows a price. Neither publishes a trip link, so it
+ * opens each app and makes the drop-off one paste away.
  */
 export function CabPanel() {
   const [pickup, setPickup] = useState<CabPoint | null>(null);
