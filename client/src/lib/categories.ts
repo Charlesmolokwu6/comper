@@ -1,4 +1,5 @@
 import type { ComparedTrip } from "./api";
+import { vehicleKind } from "./vehicles";
 
 /** The three ways the results page splits fares, in tab order. */
 export type Category = "luxury" | "sienna" | "regular";
@@ -7,7 +8,7 @@ export const CATEGORIES: { id: Category; label: string; note: string }[] = [
   {
     id: "luxury",
     label: "Luxury bus",
-    note: "Classes the operator itself calls Luxury, Luxurious, Executive, VIP or Premium.",
+    note: "Full-size coaches, including classes the operator calls Luxury, Executive or VIP.",
   },
   {
     id: "sienna",
@@ -17,15 +18,22 @@ export const CATEGORIES: { id: Category; label: string; note: string }[] = [
   {
     id: "regular",
     label: "Regular bus",
-    note: "Everything else: Hiace, Sprinter, standard coaches and seat-count classes.",
+    note: "Minibuses: Hiace, Sprinter and other buses of up to 18 seats.",
   },
 ];
 
-/** Decided from the operator's own class name only, never guessed from the price. */
+/**
+ * Decided from the vehicle the operator names, never guessed from the price: a full-size
+ * coach is a luxury bus (as travellers call it) whatever the class name, a minibus is
+ * regular even when the class says "Executive".
+ */
 export function categoryOf(vehicle: string): Category {
   const v = vehicle.toLowerCase();
   if (/\bsienna\b/.test(v)) return "sienna";
-  if (/luxur|executive|\bvip\b|premium/.test(v)) return "luxury";
+  const kind = vehicleKind(vehicle);
+  if (kind === "minibus") return "regular";
+  if (kind === "coach" || /luxur|executive|\bvip\b|premium/.test(v))
+    return "luxury";
   return "regular";
 }
 
