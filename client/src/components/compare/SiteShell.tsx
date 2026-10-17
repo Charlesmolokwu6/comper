@@ -1,10 +1,11 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
+import { InstallButton } from "./InstallButton";
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      <header className="mx-auto flex w-full max-w-5xl items-center px-4 pt-6 sm:px-6 sm:pt-8">
+      <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-4 pt-6 sm:px-6 sm:pt-8">
         <Link
           href="/"
           className="flex items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
@@ -12,6 +13,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <span aria-hidden className="size-3 rounded-sm bg-primary" />
           <span className="text-lg font-extrabold tracking-tight">Compare</span>
         </Link>
+        <InstallButton />
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-16 sm:px-6">
