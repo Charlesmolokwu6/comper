@@ -1,5 +1,9 @@
 # Deploying Compare
 
+**Live:** https://compare-6ze8.onrender.com, a Render free web service (`srv-db9gnnrrjlhs73ep5stg`) in
+the "Comper" workspace, Frankfurt, Docker, auto-deploying branch
+`claude/guo-live-prices-playwright-6xojq5`. Every push to that branch redeploys.
+
 The app is one Node server (Express API and the built React site). The root `Dockerfile` runs it on
 any container host. It listens on `$PORT`, which Render sets for you.
 

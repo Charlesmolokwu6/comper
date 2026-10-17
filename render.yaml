@@ -5,6 +5,7 @@ services:
     name: compare
     runtime: docker
     plan: free
+    region: frankfurt
     branch: claude/guo-live-prices-playwright-6xojq5
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/fares/status
