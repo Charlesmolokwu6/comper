@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { PlaceInput } from "./PlaceInput";
 
 /**
- * Cab tab. Bolt and inDrive only show live prices inside their apps, after login, and they
+ * Cab tab. Bolt, LagRide and inDrive only show live prices inside their apps, after login, and they
  * change with demand, so this tab never shows a price. Neither publishes a trip link, so it
  * opens each app and makes the drop-off one paste away.
  */

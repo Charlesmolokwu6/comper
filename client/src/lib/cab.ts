@@ -31,6 +31,13 @@ export const CAB_PROVIDERS: CabProvider[] = [
     note: "Bolt has no public trip link: paste your drop-off when Bolt opens.",
   },
   {
+    id: "lagride",
+    name: "LagRide",
+    link: () => "https://lagride.ng/",
+    prefills: false,
+    note: "Lagos State's cab service, Lagos only, fixed fares by distance: paste your drop-off in the LagRide app.",
+  },
+  {
     id: "indrive",
     name: "inDrive",
     link: () => "https://indrive.com/en-ng/",

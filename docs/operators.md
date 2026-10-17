@@ -267,7 +267,8 @@ can fill it in. Their Book button opens a "Book on X's site" step listing exactl
 only price trips inside their apps, after login, and with surge. Pickup (or GPS) and drop-off
 come from `/api/places` (`server/places/`: our known airports and areas first, then
 OpenStreetMap Nominatim, Nigeria only, 1 request/s, cached a day). Uber left Nigeria on
-2 September 2026 and was removed. Bolt and inDrive publish no trip link, so their buttons open the app and a "copy drop-off"
+2 September 2026 and was removed. Bolt, LagRide (lagride.ng: per-trip fares only in its
+app; the site lists only daily and weekly hire) and inDrive publish no trip link, so their buttons open the app and a "copy drop-off"
 button makes it one paste.
 
 **Flight** is live: see `docs/flights.md`.
