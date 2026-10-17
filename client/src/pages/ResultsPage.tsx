@@ -214,11 +214,13 @@ export default function ResultsPage({
 
   const go = (d: string) => navigate(resultsPath({ from, to, date: d }));
 
-  // Every operator is answering "not on sale yet": the date is past all their sales windows.
+  // Every operator that runs the route answers "not on sale yet": the date is past their
+  // sales windows. Operators that don't run the route have no say.
+  const onRoute = results?.coverage.filter(c => c.status !== "no_route") ?? [];
   const latestOnSale =
-    results?.coverage.length &&
-    results.coverage.every(c => c.status === "not_on_sale" && c.onSaleUntil)
-      ? results.coverage
+    onRoute.length &&
+    onRoute.every(c => c.status === "not_on_sale" && c.onSaleUntil)
+      ? onRoute
           .map(c => c.onSaleUntil!)
           .sort()
           .at(-1)!
