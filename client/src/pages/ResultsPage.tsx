@@ -214,6 +214,17 @@ export default function ResultsPage({
 
   const go = (d: string) => navigate(resultsPath({ from, to, date: d }));
 
+  // Every operator is answering "not on sale yet": the date is past all their sales windows.
+  const latestOnSale =
+    results?.coverage.length &&
+    results.coverage.every(c => c.status === "not_on_sale" && c.onSaleUntil)
+      ? results.coverage
+          .map(c => c.onSaleUntil!)
+          .sort()
+          .at(-1)!
+      : null;
+  const tooFarAhead = latestOnSale != null && date > latestOnSale;
+
   return (
     <SiteShell>
       <div className="mx-auto max-w-3xl pt-6 sm:pt-8">
@@ -359,10 +370,30 @@ export default function ResultsPage({
                     aria-hidden
                     className="mx-auto size-8 text-muted-foreground"
                   />
-                  <p className="mt-3 font-semibold">
-                    No {activeLabel.label.toLowerCase()} fares for this date
-                  </p>
-                  {otherWithFares.length > 0 ? (
+                  {tooFarAhead ? (
+                    <>
+                      <p className="mt-3 font-semibold">
+                        Tickets for {formatDay(date)} aren't on sale yet
+                      </p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Operators open bookings a few weeks ahead. The latest
+                        date you can book right now is{" "}
+                        {formatDay(latestOnSale!)}.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => go(latestOnSale!)}
+                        className="mt-4 h-10 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                      >
+                        See fares for {formatDay(latestOnSale!)}
+                      </button>
+                    </>
+                  ) : (
+                    <p className="mt-3 font-semibold">
+                      No {activeLabel.label.toLowerCase()} fares for this date
+                    </p>
+                  )}
+                  {tooFarAhead ? null : otherWithFares.length > 0 ? (
                     <div className="mt-3 flex flex-wrap justify-center gap-2">
                       {otherWithFares.map(c => (
                         <button

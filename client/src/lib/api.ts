@@ -61,6 +61,8 @@ export interface Coverage {
   routesSearched: number;
   routesChecked: number;
   message?: string;
+  /** For not_on_sale: the last date the operator currently sells online. */
+  onSaleUntil?: string;
 }
 
 export interface UnavailableOperator {

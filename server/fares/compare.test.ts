@@ -40,7 +40,7 @@ describe("rankTrips", () => {
   });
 });
 
-import { notOnSaleReason } from "./compare";
+import { lastOnSale, notOnSaleReason } from "./compare";
 import { lagosDate } from "./store";
 
 describe("notOnSaleReason", () => {
@@ -80,6 +80,14 @@ describe("notOnSaleReason", () => {
       },
     });
     expect(await notOnSaleReason(flaky, lagosDate(0))).toBeNull();
+  });
+
+  it("reports the last date on sale: the earlier of the window and maxDaysAhead", async () => {
+    expect(await lastOnSale(op({ maxDaysAhead: 30 }))).toBe(lagosDate(30));
+    const short = op({
+      salesWindow: async () => ({ first: lagosDate(1), last: lagosDate(20) }),
+    });
+    expect(await lastOnSale(short)).toBe(lagosDate(20));
   });
 });
 

@@ -6,7 +6,8 @@ import { CityPicker, type CityOption } from "./CityPicker";
 import { NearPicker, type Near } from "./NearPicker";
 
 /** The API accepts dates up to 90 days ahead; operators may sell less (shown per operator). */
-const MAX_DAYS_AHEAD = 90;
+// The longest operator sales window (GUO, 45 days); nothing is on sale beyond it.
+const MAX_DAYS_AHEAD = 45;
 
 export interface SearchValues {
   from: string | null;

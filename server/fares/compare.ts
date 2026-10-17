@@ -70,6 +70,8 @@ export interface Coverage {
   routesSearched: number;
   routesChecked: number;
   message?: string;
+  /** For not_on_sale: the last date the operator currently sells online. */
+  onSaleUntil?: string;
 }
 
 /**
@@ -136,6 +138,13 @@ export async function notOnSaleReason(
   return null;
 }
 
+/** The last date `op` currently sells online: its own sales window, capped by maxDaysAhead. */
+export async function lastOnSale(op: Operator): Promise<string> {
+  const cap = lagosDate(op.maxDaysAhead);
+  const w = await op.salesWindow?.().catch(() => null);
+  return w && w.last < cap ? w.last : cap;
+}
+
 /**
  * Bookable trips first, then by `fare` — the post-standard-online-discount price, the
  * same basis for every operator. `listFare` never affects ranking. `cheapest` excludes
@@ -183,6 +192,7 @@ export async function compare(
     if (notOnSale) {
       cov.status = "not_on_sale";
       cov.message = notOnSale;
+      cov.onSaleUntil = await lastOnSale(op);
       return;
     }
     try {
