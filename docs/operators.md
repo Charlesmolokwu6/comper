@@ -168,7 +168,8 @@ Cases it handles:
 - **Booking windows:** an operator that publishes its own sales window is checked against it.
   GUO sells online from tomorrow up to 45 days ahead (`StartDate`/`EndDate` in its homepage
   settings), and answers same-day searches with its homepage, so today shows as `not_on_sale`
-  for GUO. PMT sells 4 days ahead.
+  for GUO. PMT sells 4 days ahead, Okeyson 9, Chisco 14 (it refuses later dates) and ABC 29
+  (Okeyson and ABC return empty results past that; checked Oct 2026).
 - **Partial answers:** the endpoint waits up to `COMPARE_WAIT_MS` (8 s). Operators still fetching
   are reported as `pending`, and their fares land in the cache for the next request.
 

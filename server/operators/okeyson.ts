@@ -186,7 +186,8 @@ export const okeyson: Operator = {
   id: "okeyson",
   name: "Okeyson Transports",
   website: "https://www.okeysontransports.com",
-  maxDaysAhead: 30,
+  // Trips run to 9 days ahead; day 10 onwards comes back empty (checked Oct 2026).
+  maxDaysAhead: 9,
 
   // The results page Okeyson's own search form redirects to; verified to render this search.
   bookingUrl(originId, destinationId, date) {

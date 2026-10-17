@@ -35,7 +35,8 @@ export const abc: Operator = {
   id: "abc",
   name: "ABC Transport",
   website: "https://www.abctransport.com",
-  maxDaysAhead: 30,
+  // Trips run to 29 days ahead; day 30 onwards comes back empty (checked Oct 2026).
+  maxDaysAhead: 29,
 
   async origins() {
     const seen = new Map<string, Stop>();
