@@ -196,3 +196,53 @@
 .maplibregl-ctrl-attrib-button {
   filter: invert(1);
 }
+
+/* Map pins (TripMap): pickup pulses like a radar ping; drop-off is a square pin. */
+.pin-pickup {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #c0f11c;
+  border: 3px solid #0a0c06;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
+}
+.pin-pickup::before,
+.pin-pickup::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid #c0f11c;
+  animation: pin-ping 2.2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+.pin-pickup::after {
+  animation-delay: 1.1s;
+}
+@keyframes pin-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+.pin-dropoff {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #fff;
+  border: 4px solid #0a0c06;
+  box-shadow:
+    0 0 0 2px #c0f11c,
+    0 2px 8px rgb(0 0 0 / 0.5);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pin-pickup::before,
+  .pin-pickup::after {
+    animation: none;
+    opacity: 0;
+  }
+}

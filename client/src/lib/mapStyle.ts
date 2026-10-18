@@ -106,7 +106,7 @@ const PALETTES: Record<MapLook | MapDraft, Palette> = {
     waterLabel: "#557a77",
     park: "#dbe9c9",
     built: "#ecefe3",
-    building: "#e1e5d6",
+    building: "#dfe3d3",
     minor: "#ffffff",
     street: "#ffffff",
     main: "#fbfdf3",
@@ -145,7 +145,7 @@ const PALETTES: Record<MapLook | MapDraft, Palette> = {
     waterLabel: "#4f7682",
     park: "#152010",
     built: "#171b0e",
-    building: "#1e2414",
+    building: "#3a4626",
     minor: "#1d2313",
     street: "#283018",
     main: "#38441b",
@@ -273,7 +273,7 @@ const isClass = (...classes: string[]) =>
 /** The palette behind each look the app offers. Dark is "5B", picked by the owner. */
 const LOOK_PALETTE: Record<MapLook, MapLook | MapDraft> = {
   dark: "olive3",
-  light: "light",
+  light: "dayOlive",
 };
 
 export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
@@ -296,6 +296,13 @@ export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
   return {
     version: 8,
     glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
+    // Light from the upper left: building walls fall into shade, rooftops stay bright.
+    light: {
+      anchor: "viewport",
+      color: "#ffffff",
+      intensity: look === "light" || look === "dayOlive" ? 0.35 : 0.5,
+      position: [1.3, 210, 35],
+    },
     sources: {
       osm: {
         type: "vector",
@@ -361,13 +368,32 @@ export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
           "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.5, 14, 2],
         },
       },
+      // 3D buildings that rise out of the ground as you zoom in (heights from OpenStreetMap).
       {
         id: "buildings",
-        type: "fill",
+        type: "fill-extrusion",
         source: "osm",
         "source-layer": "building",
-        minzoom: 14,
-        paint: { "fill-color": c.building, "fill-opacity": 0.9 },
+        minzoom: 13.5,
+        paint: {
+          "fill-extrusion-color": c.building,
+          "fill-extrusion-opacity": 0.92,
+          "fill-extrusion-vertical-gradient": true,
+          "fill-extrusion-height": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            13.5,
+            0,
+            15.5,
+            ["coalesce", ["get", "render_height"], 8],
+          ] as any,
+          "fill-extrusion-base": [
+            "coalesce",
+            ["get", "render_min_height"],
+            0,
+          ] as any,
+        },
       },
       // Casings first, then fills, so junctions read cleanly.
       ...roads.map(([id, classes, w, minzoom]) => ({

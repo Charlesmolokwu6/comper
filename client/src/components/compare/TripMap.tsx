@@ -29,10 +29,61 @@ function savedLook(): Look {
   }
 }
 
-function dot(fill: string, ring: string) {
+/** Pickup: lime dot with a radar-style pulse. Drop-off: a square pin, as ride apps do. */
+function pin(kind: "pickup" | "dropoff") {
   const el = document.createElement("div");
-  el.style.cssText = `width:16px;height:16px;border-radius:50%;background:${fill};border:3px solid ${ring};box-shadow:0 1px 4px rgb(0 0 0 / .5)`;
+  el.className = kind === "pickup" ? "pin-pickup" : "pin-dropoff";
   return el;
+}
+
+const reducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+/** Distance-based positions along a line, for moving the light at an even speed. */
+function measure(line: [number, number][]) {
+  const cum = [0];
+  for (let i = 1; i < line.length; i++) {
+    const [x1, y1] = line[i - 1];
+    const [x2, y2] = line[i];
+    cum.push(cum[i - 1] + Math.hypot(x2 - x1, (y2 - y1) * 1.0));
+  }
+  const total = cum[cum.length - 1] || 1;
+  return (t: number): [number, number] => {
+    const d = t * total;
+    let i = 1;
+    while (i < cum.length - 1 && cum[i] < d) i++;
+    const seg = cum[i] - cum[i - 1] || 1;
+    const f = Math.min(1, Math.max(0, (d - cum[i - 1]) / seg));
+    const [x1, y1] = line[i - 1];
+    const [x2, y2] = line[i];
+    return [x1 + (x2 - x1) * f, y1 + (y2 - y1) * f];
+  };
+}
+
+/** Reveals the route up to `p` (0–1) through each route layer's line-gradient. */
+function reveal(m: maplibregl.Map, p: number, look: Look) {
+  const cut = (colour: string) =>
+    p >= 1
+      ? colour
+      : ([
+          "step",
+          ["line-progress"],
+          colour,
+          Math.max(p, 0.0001),
+          "rgba(0,0,0,0)",
+        ] as any);
+  const ink = look === "light" ? "#14170c" : "rgba(0,0,0,0.5)";
+  if (m.getLayer("trip-glow"))
+    m.setPaintProperty(
+      "trip-glow",
+      "line-gradient",
+      cut("rgba(192,241,28,0.45)")
+    );
+  if (m.getLayer("trip-casing"))
+    m.setPaintProperty("trip-casing", "line-gradient", cut(ink));
+  if (m.getLayer("trip-line"))
+    m.setPaintProperty("trip-line", "line-gradient", cut(LIME));
 }
 
 /**
@@ -49,6 +100,7 @@ export default function TripMap({
   const box = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<maplibregl.Marker[]>([]);
+  const frame = useRef<number | null>(null);
   const [look, setLook] = useState<Look>(savedLook);
   const [ready, setReady] = useState(0);
   const [route, setRoute] = useState<RoadRoute | null>(null);
@@ -64,6 +116,7 @@ export default function TripMap({
       attributionControl: { compact: true },
       dragRotate: false,
       pitchWithRotate: false,
+      maxPitch: 60,
     });
     m.touchZoomRotate.disableRotation();
     m.addControl(
@@ -80,6 +133,7 @@ export default function TripMap({
     );
     map.current = m;
     return () => {
+      if (frame.current) cancelAnimationFrame(frame.current);
       m.remove();
       map.current = null;
     };
@@ -138,7 +192,19 @@ export default function TripMap({
     };
     const src = m.getSource("trip") as maplibregl.GeoJSONSource | undefined;
     if (src) src.setData(data);
-    else m.addSource("trip", { type: "geojson", data });
+    // lineMetrics lets the line-gradient reveal the route from start to end.
+    else m.addSource("trip", { type: "geojson", data, lineMetrics: true });
+    const point = {
+      type: "Feature" as const,
+      properties: {},
+      geometry: { type: "Point" as const, coordinates: line[0] ?? LAGOS },
+    };
+    const comet = m.getSource("trip-comet") as
+      | maplibregl.GeoJSONSource
+      | undefined;
+    if (comet) comet.setData(point);
+    else m.addSource("trip-comet", { type: "geojson", data: point });
+
     // A style switch drops our layers; put them back, under the place names.
     if (!m.getLayer("trip-line")) {
       const before = m.getLayer(FIRST_LABEL_LAYER)
@@ -152,26 +218,18 @@ export default function TripMap({
             type: "line",
             source: "trip",
             layout: round,
-            paint: {
-              "line-color": LIME,
-              "line-width": 16,
-              "line-blur": 10,
-              "line-opacity": 0.45,
-            },
+            paint: { "line-width": 18, "line-blur": 12 },
           },
           before
         );
+      // Light map: a dark "ink" route with a lime core, like Bolt's bold route line.
       m.addLayer(
         {
           id: "trip-casing",
           type: "line",
           source: "trip",
           layout: round,
-          paint: {
-            "line-color": "#000",
-            "line-width": 10,
-            "line-opacity": look === "light" ? 0.8 : 0.5,
-          },
+          paint: { "line-width": look === "light" ? 9 : 10 },
         },
         before
       );
@@ -181,20 +239,44 @@ export default function TripMap({
           type: "line",
           source: "trip",
           layout: round,
-          paint: { "line-color": LIME, "line-width": 5 },
+          paint: { "line-width": look === "light" ? 3.5 : 5 },
         },
         before
       );
+      // The light that travels along the route.
+      m.addLayer({
+        id: "trip-comet-glow",
+        type: "circle",
+        source: "trip-comet",
+        paint: {
+          "circle-radius": 13,
+          "circle-color": LIME,
+          "circle-opacity": 0,
+          "circle-blur": 1,
+        },
+      });
+      m.addLayer({
+        id: "trip-comet",
+        type: "circle",
+        source: "trip-comet",
+        paint: {
+          "circle-radius": 4.5,
+          "circle-color": "#ffffff",
+          "circle-stroke-color": LIME,
+          "circle-stroke-width": 2,
+          "circle-opacity": 0,
+          "circle-stroke-opacity": 0,
+        },
+      });
     }
-    // Straight dashed line while the road loads or if it can't be found.
-    m.setPaintProperty("trip-line", "line-dasharray", route ? [1, 0] : [2, 2]);
+    m.setPaintProperty("trip-line", "line-opacity", route ? 1 : 0.5);
 
     markers.current.forEach(mk => mk.remove());
     markers.current = [];
     const pts: [number, number][] = [];
     if (a) {
       markers.current.push(
-        new maplibregl.Marker({ element: dot(LIME, "#000") })
+        new maplibregl.Marker({ element: pin("pickup") })
           .setLngLat([a.lon, a.lat])
           .addTo(m)
       );
@@ -202,27 +284,89 @@ export default function TripMap({
     }
     if (b) {
       markers.current.push(
-        new maplibregl.Marker({ element: dot("#fff", LIME) })
+        new maplibregl.Marker({ element: pin("dropoff") })
           .setLngLat([b.lon, b.lat])
           .addTo(m)
       );
       pts.push([b.lon, b.lat]);
     }
+
+    if (frame.current) cancelAnimationFrame(frame.current);
+    frame.current = null;
+    const still = reducedMotion();
     const all = [...line, ...pts];
     if (all.length > 1) {
       const bounds = all.reduce(
         (bb, c) => bb.extend(c),
         new maplibregl.LngLatBounds(all[0], all[0])
       );
-      // Extra room at the top for the Dark/Light switch, at the right for the zoom buttons.
-      m.fitBounds(bounds, {
-        padding: { top: 64, bottom: 28, left: 28, right: 56 },
+      // Room at the top for the Dark/Light switch, at the right for the zoom buttons.
+      const cam = m.cameraForBounds(bounds, {
+        padding: { top: 70, bottom: 36, left: 36, right: 60 },
         maxZoom: 16,
-        duration: 600,
       });
-    } else if (all.length === 1) m.easeTo({ center: all[0], zoom: 14 });
+      if (cam?.center != null && cam.zoom != null) {
+        // Tilted, the far end recedes; zoom out a touch so the whole trip still fits.
+        const target = {
+          center: cam.center,
+          zoom: route ? cam.zoom - 0.45 : cam.zoom,
+          pitch: route ? 48 : 0,
+          bearing: route ? -14 : 0,
+        };
+        if (still) m.jumpTo(target);
+        else
+          m.flyTo({ ...target, duration: route ? 2200 : 700, essential: true });
+      }
+    } else if (all.length === 1)
+      m.easeTo({ center: all[0], zoom: 14, pitch: 0 });
+
+    // The route draws itself, then a light travels along it on a loop.
+    if (!route || still || line.length < 2) {
+      reveal(m, 1, look);
+      return;
+    }
+    const at = measure(line);
+    const DRAW = 1600;
+    const TRAVEL = 3600;
+    const PAUSE = 900;
+    const start = performance.now() + (m.isMoving() ? 900 : 0);
+    const tick = (now: number) => {
+      const mm = map.current;
+      if (!mm || !mm.getLayer("trip-line")) return;
+      const t = now - start;
+      if (t < DRAW) {
+        const e = Math.max(0, t) / DRAW;
+        reveal(mm, 1 - Math.pow(1 - e, 3), look);
+      } else {
+        reveal(mm, 1, look);
+        const loop = (t - DRAW) % (TRAVEL + PAUSE);
+        const on = loop < TRAVEL;
+        const f = on ? loop / TRAVEL : 1;
+        const pos = at(f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2);
+        (mm.getSource("trip-comet") as maplibregl.GeoJSONSource).setData({
+          type: "Feature",
+          properties: {},
+          geometry: { type: "Point", coordinates: pos },
+        });
+        const o = on ? Math.min(1, Math.min(loop, TRAVEL - loop) / 300) : 0;
+        mm.setPaintProperty("trip-comet", "circle-opacity", o);
+        mm.setPaintProperty("trip-comet", "circle-stroke-opacity", o);
+        mm.setPaintProperty("trip-comet-glow", "circle-opacity", o * 0.6);
+      }
+      frame.current = requestAnimationFrame(tick);
+    };
+    reveal(m, 0, look);
+    frame.current = requestAnimationFrame(tick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon]);
+
+  // Stop the animation when the map goes away.
+  useEffect(
+    () => () => {
+      if (frame.current) cancelAnimationFrame(frame.current);
+    },
+    []
+  );
 
   const typedOnly =
     (pickup && !located(pickup)) || (dropoff && !located(dropoff));
@@ -281,8 +425,7 @@ export default function TripMap({
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <span
             aria-hidden
-            className="size-2.5 rounded-full border-2 bg-white"
-            style={{ borderColor: LIME }}
+            className="size-2.5 rounded-[3px] border-2 border-black bg-white"
           />
           Drop-off
         </span>
