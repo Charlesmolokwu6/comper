@@ -13,6 +13,8 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import type { NetworkTerminal } from "@/lib/api";
+import { parsePlace, placeString } from "@/lib/places";
 import { cn } from "@/lib/utils";
 
 export interface CityOption {
@@ -20,13 +22,16 @@ export interface CityOption {
   name: string;
   /** Shown as a short warning next to the name, e.g. only reachable via Mararaba. */
   hint?: string;
+  /** The city's terminals; listed under it when there's more than one to choose from. */
+  terminals?: NetworkTerminal[];
 }
 
 interface Props {
   label: string;
+  /** A place: "lagos" or "lagos~ajah" (lib/places.ts). */
   value: string | null;
   options: CityOption[];
-  onChange: (city: string) => void;
+  onChange: (place: string) => void;
   disabled?: boolean;
   placeholder: string;
   /** Shown under the list, e.g. "More routes loading…". */
@@ -43,7 +48,15 @@ export function CityPicker({
   footer,
 }: Props) {
   const [open, setOpen] = useState(false);
-  const selected = options.find(o => o.city === value);
+  const place = parsePlace(value);
+  const selected = options.find(o => o.city === place?.city);
+  const selectedTerminal = selected?.terminals?.find(
+    t => t.key === place?.terminal
+  );
+  const pick = (v: string) => {
+    onChange(v);
+    setOpen(false);
+  };
   const id = `picker-${label.toLowerCase()}`;
 
   return (
@@ -79,7 +92,19 @@ export function CityPicker({
                   : "text-muted-foreground"
               )}
             >
-              {selected?.name ?? placeholder}
+              {selected ? (
+                <>
+                  {selected.name}
+                  {selectedTerminal && (
+                    <span className="font-medium text-muted-foreground">
+                      {" "}
+                      · {selectedTerminal.name}
+                    </span>
+                  )}
+                </>
+              ) : (
+                placeholder
+              )}
             </span>
             <ChevronDown
               aria-hidden
@@ -98,37 +123,77 @@ export function CityPicker({
             }
           >
             <CommandInput
-              placeholder={`Search ${label.toLowerCase()} city…`}
+              placeholder="Search a city or terminal…"
               className="h-12 text-base"
             />
             <CommandList className="max-h-72">
-              <CommandEmpty>No city found.</CommandEmpty>
+              <CommandEmpty>No city or terminal found.</CommandEmpty>
               <CommandGroup>
-                {options.map(o => (
-                  <CommandItem
-                    key={o.city}
-                    value={o.name}
-                    onSelect={() => {
-                      onChange(o.city);
-                      setOpen(false);
-                    }}
-                    className="flex min-h-11 items-center gap-2 px-3 text-base data-[selected=true]:bg-accent"
-                  >
-                    <Check
-                      aria-hidden
-                      className={cn(
-                        "size-4 text-primary",
-                        o.city === value ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    <span className="flex-1 truncate">{o.name}</span>
-                    {o.hint && (
-                      <span className="text-xs text-muted-foreground">
-                        {o.hint}
-                      </span>
-                    )}
-                  </CommandItem>
-                ))}
+                {options.map(o => {
+                  const terminals =
+                    o.terminals && o.terminals.length > 1 ? o.terminals : [];
+                  const cityOnly = o.city === place?.city && !place?.terminal;
+                  return (
+                    <div key={o.city}>
+                      <CommandItem
+                        value={o.name}
+                        onSelect={() => pick(o.city)}
+                        className="flex min-h-11 items-center gap-2 px-3 text-base data-[selected=true]:bg-accent"
+                      >
+                        <Check
+                          aria-hidden
+                          className={cn(
+                            "size-4 text-primary",
+                            cityOnly ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        <span className="flex-1 truncate">{o.name}</span>
+                        {o.hint ? (
+                          <span className="text-xs text-muted-foreground">
+                            {o.hint}
+                          </span>
+                        ) : (
+                          terminals.length > 0 && (
+                            <span className="text-xs text-muted-foreground">
+                              All terminals
+                            </span>
+                          )
+                        )}
+                      </CommandItem>
+                      {terminals.map(t => {
+                        const v = placeString(o.city, t.key);
+                        return (
+                          <CommandItem
+                            key={v}
+                            value={`${o.name} ${t.name}`}
+                            onSelect={() => pick(v)}
+                            className="flex min-h-10 items-center gap-2 py-1.5 pl-9 pr-3 text-sm data-[selected=true]:bg-accent"
+                          >
+                            <Check
+                              aria-hidden
+                              className={cn(
+                                "size-3.5 text-primary",
+                                value === v ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            <span className="flex-1 truncate">
+                              <span className="text-muted-foreground">
+                                {o.name} ·{" "}
+                              </span>
+                              {t.name}
+                            </span>
+                            <span className="text-xs tabular-nums text-muted-foreground">
+                              {t.operators.length}{" "}
+                              {t.operators.length === 1
+                                ? "company"
+                                : "companies"}
+                            </span>
+                          </CommandItem>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
               </CommandGroup>
             </CommandList>
             {footer && (

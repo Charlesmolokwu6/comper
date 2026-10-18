@@ -20,6 +20,7 @@ import {
 } from "@/lib/categories";
 import { formatDay, formatNaira, lagosDate } from "@/lib/format";
 import { groupByOperator } from "@/lib/group";
+import { parsePlace } from "@/lib/places";
 import { rememberSearch, resultsPath } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
@@ -168,13 +169,29 @@ export default function ResultsPage({
   }, [from, to, date, validDate, search]);
 
   const results = state.phase === "results" ? state.data : null;
-  const fromCity = network?.cities.find(c => c.city === from);
-  const fromName = results?.from.name ?? fromCity?.name ?? titleFromId(from);
-  const toName =
-    results?.to.name ??
-    fromCity?.destinations.find(d => d.city === to)?.name ??
-    titleFromId(to);
-  const near = nearFor(from);
+  // from/to may name a terminal too: "lagos~ajah" (lib/places.ts).
+  const fromPlace = parsePlace(from) ?? { city: from, terminal: null };
+  const toPlace = parsePlace(to) ?? { city: to, terminal: null };
+  const fromCity = network?.cities.find(c => c.city === fromPlace.city);
+  const toDest = fromCity?.destinations.find(d => d.city === toPlace.city);
+  const fromName =
+    results?.from.name ?? fromCity?.name ?? titleFromId(fromPlace.city);
+  const toName = results?.to.name ?? toDest?.name ?? titleFromId(toPlace.city);
+  const terminalName = (
+    place: { terminal: string | null },
+    list: { key: string; name: string }[] | undefined,
+    side: "from" | "to"
+  ) =>
+    place.terminal
+      ? (list?.find(t => t.key === place.terminal)?.name ??
+        results?.trips.find(t => t[side].terminal === place.terminal)?.[side]
+          .terminalName ??
+        titleFromId(place.terminal))
+      : null;
+  const fromTerminalName = terminalName(fromPlace, fromCity?.terminals, "from");
+  const toTerminalName = terminalName(toPlace, toDest?.terminals, "to");
+  // A chosen boarding terminal already says where they board.
+  const near = fromPlace.terminal ? null : nearFor(fromPlace.city);
   const timedOut = state.phase === "results" && state.timedOut;
   const pollError = state.phase === "results" ? state.pollError : null;
   const pending = !!results?.coverage.some(c => c.status === "pending");
@@ -239,7 +256,14 @@ export default function ResultsPage({
         </Link>
 
         <h1 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
-          {fromName} → {toName}
+          {fromName}
+          {fromTerminalName && (
+            <span className="text-muted-foreground"> · {fromTerminalName}</span>
+          )}{" "}
+          → {toName}
+          {toTerminalName && (
+            <span className="text-muted-foreground"> · {toTerminalName}</span>
+          )}
         </h1>
 
         {validDate && (
@@ -268,12 +292,40 @@ export default function ResultsPage({
           </div>
         )}
 
-        {fromCity && fromCity.places.length > 0 && (
+        {(fromTerminalName || toTerminalName) && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            Only buses{" "}
+            {fromTerminalName && (
+              <>
+                from <span className="text-foreground">{fromTerminalName}</span>
+              </>
+            )}
+            {fromTerminalName && toTerminalName && " "}
+            {toTerminalName && (
+              <>
+                to <span className="text-foreground">{toTerminalName}</span>
+              </>
+            )}
+            .{" "}
+            <Link
+              href={resultsPath({
+                from: fromPlace.city,
+                to: toPlace.city,
+                date,
+              })}
+              className="rounded font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+            >
+              Show all terminals
+            </Link>
+          </p>
+        )}
+
+        {fromCity && !fromPlace.terminal && fromCity.places.length > 0 && (
           <NearPicker
             cityName={fromCity.name}
             places={fromCity.places}
             value={near}
-            onChange={n => setNear(from, n)}
+            onChange={n => setNear(fromPlace.city, n)}
           />
         )}
       </div>

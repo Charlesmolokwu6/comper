@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { useNear } from "@/hooks/useNear";
 import { useNetwork } from "@/hooks/useNetwork";
 import { lagosDate } from "@/lib/format";
+import { cityOf } from "@/lib/places";
 import { lastSearch, rememberSearch, resultsPath } from "@/lib/routes";
 import { SearchForm, type SearchValues } from "./SearchForm";
 
@@ -38,8 +39,11 @@ export function BusPanel() {
       onChange={setValues}
       onSubmit={submit}
       busy={false}
-      near={nearFor(values.from)}
-      onNearChange={n => values.from && setNear(values.from, n)}
+      near={nearFor(cityOf(values.from))}
+      onNearChange={n => {
+        const city = cityOf(values.from);
+        if (city) setNear(city, n);
+      }}
     />
   );
 }

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { ArrowDownUp, CalendarDays, Search } from "lucide-react";
 import type { NetworkResponse } from "@/lib/api";
 import { lagosDate } from "@/lib/format";
+import { cityOf, parsePlace, placeString } from "@/lib/places";
 import { CityPicker, type CityOption } from "./CityPicker";
 import { NearPicker, type Near } from "./NearPicker";
 
@@ -10,6 +11,7 @@ import { NearPicker, type Near } from "./NearPicker";
 const MAX_DAYS_AHEAD = 45;
 
 export interface SearchValues {
+  /** Places: "lagos" or "lagos~ajah" (lib/places.ts). */
   from: string | null;
   to: string | null;
   date: string;
@@ -37,13 +39,17 @@ export function SearchForm({
   onNearChange,
 }: Props) {
   const cities = network?.cities ?? [];
-  const fromCity = cities.find(c => c.city === values.from);
+  const fromKey = cityOf(values.from);
+  const toKey = cityOf(values.to);
+  const fromCity = cities.find(c => c.city === fromKey);
+  const fromTerminal = parsePlace(values.from)?.terminal ?? null;
 
   const fromOptions: CityOption[] = useMemo(
     () =>
       cities.map(c => ({
         city: c.city,
         name: c.name,
+        terminals: c.terminals,
       })),
     [cities]
   );
@@ -53,6 +59,7 @@ export function SearchForm({
         city: d.city,
         name: d.name,
         hint: d.approximate ? "approx. match" : undefined,
+        terminals: d.terminals,
       })),
     [fromCity]
   );
@@ -63,13 +70,25 @@ export function SearchForm({
       : undefined;
   const today = lagosDate();
   const canSwap = !!values.from && !!values.to;
+  // A terminal survives the swap only if it exists on the other side.
   const swap = () => {
-    const back = cities.find(c => c.city === values.to);
-    const reachable = back?.destinations.some(d => d.city === values.from);
+    const back = cities.find(c => c.city === toKey);
+    const dest = back?.destinations.find(d => d.city === fromKey);
+    const keep = (
+      place: string | null,
+      terminals: { key: string }[] | undefined
+    ) => {
+      const p = parsePlace(place);
+      if (!p) return null;
+      return placeString(
+        p.city,
+        terminals?.some(t => t.key === p.terminal) ? p.terminal : null
+      );
+    };
     onChange({
       ...values,
-      from: values.to,
-      to: reachable ? values.from : null,
+      from: keep(values.to, back?.terminals),
+      to: dest ? keep(values.from, dest.terminals) : null,
     });
   };
 
@@ -89,8 +108,8 @@ export function SearchForm({
           options={fromOptions}
           onChange={from => {
             const stillReachable = cities
-              .find(c => c.city === from)
-              ?.destinations.some(d => d.city === values.to);
+              .find(c => c.city === cityOf(from))
+              ?.destinations.some(d => d.city === toKey);
             onChange({
               ...values,
               from,
@@ -157,7 +176,7 @@ export function SearchForm({
         </label>
       </div>
 
-      {fromCity && fromCity.places?.length > 0 && (
+      {fromCity && !fromTerminal && fromCity.places?.length > 0 && (
         <NearPicker
           cityName={fromCity.name}
           places={fromCity.places}

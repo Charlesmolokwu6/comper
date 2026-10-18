@@ -17,6 +17,7 @@ import {
 } from "../operators";
 import { resolveCity, type CityMatch } from "./cities";
 import { stopLocation } from "./geo";
+import { terminalOf } from "./terminals";
 import {
   daysFromToday,
   getDestinations,
@@ -33,6 +34,15 @@ export interface StopRef extends Stop {
   /** Approximate location of the boarding/drop-off point, when known (geo.ts). */
   lat: number | null;
   lon: number | null;
+  /** The terminal as travellers know it (terminals.ts), e.g. "ajah" / "Ajah". */
+  terminal: string;
+  terminalName: string;
+}
+
+/** A specific boarding and/or drop-off terminal the traveller picked. */
+export interface TerminalChoice {
+  fromTerminal?: string | null;
+  toTerminal?: string | null;
 }
 
 export interface ComparedTrip extends Trip {
@@ -85,9 +95,12 @@ const DESTS_PER_ORIGIN = Number(process.env.COMPARE_DESTS_PER_ORIGIN || 1);
 
 const ref = (s: Stop, m: CityMatch): StopRef => {
   const at = stopLocation(m);
+  const t = terminalOf(s, m);
   return {
     ...s,
     city: m.city,
+    terminal: t.key,
+    terminalName: t.name,
     match: m.match,
     ...(m.note && { note: m.note }),
     lat: at?.lat ?? null,
@@ -95,23 +108,35 @@ const ref = (s: Stop, m: CityMatch): StopRef => {
   };
 };
 
-/** The (origin, destination) pairs to search between two cities, plus how many exist in total. */
+/**
+ * The (origin, destination) pairs to search between two cities, plus how many exist in total.
+ * Without a chosen drop-off, only the most central one per origin is searched; with one,
+ * every stop of that terminal is (e.g. Chisco's separate morning and evening entries).
+ */
 export async function findRoutes(
   operatorId: string,
   fromCity: string,
-  toCity: string
+  toCity: string,
+  choice: TerminalChoice = {}
 ) {
   const pairs: { from: StopRef; to: StopRef }[] = [];
   let total = 0;
   for (const o of await getOrigins(operatorId)) {
     const om = resolveCity(o.name, o.state);
     if (om?.city !== fromCity) continue;
+    if (choice.fromTerminal && terminalOf(o, om).key !== choice.fromTerminal)
+      continue;
     const dests = (await getDestinations(operatorId, o.id))
       .map(d => ({ d, m: resolveCity(d.name, d.state) }))
       .filter((x): x is { d: Stop; m: CityMatch } => x.m?.city === toCity)
+      .filter(
+        x =>
+          !choice.toTerminal || terminalOf(x.d, x.m).key === choice.toTerminal
+      )
       .sort((a, b) => a.m.rank - b.m.rank);
     total += dests.length;
-    for (const { d, m } of dests.slice(0, DESTS_PER_ORIGIN))
+    const picked = choice.toTerminal ? dests : dests.slice(0, DESTS_PER_ORIGIN);
+    for (const { d, m } of picked)
       pairs.push({ from: ref(o, om), to: ref(d, m) });
   }
   return { pairs, total };
@@ -174,7 +199,8 @@ export async function compare(
   fromCity: string,
   toCity: string,
   date: string,
-  waitMs: number
+  waitMs: number,
+  choice: TerminalChoice = {}
 ) {
   const trips: ComparedTrip[] = [];
   const coverage = new Map<string, Coverage>();
@@ -197,11 +223,22 @@ export async function compare(
       return;
     }
     try {
-      const { pairs, total } = await findRoutes(op.id, fromCity, toCity);
+      const { pairs, total } = await findRoutes(
+        op.id,
+        fromCity,
+        toCity,
+        choice
+      );
       cov.routesFound = total;
       cov.routesSearched = pairs.length;
       if (!pairs.length) {
         cov.status = "no_route";
+        // Runs between the cities, just not from/to the terminal picked.
+        if (
+          (choice.fromTerminal || choice.toTerminal) &&
+          (await findRoutes(op.id, fromCity, toCity)).pairs.length
+        )
+          cov.message = "terminal";
         return;
       }
       const errors: string[] = [];

@@ -71,6 +71,10 @@ export function SearchSummary({
     lines.push(`No trips on this date: ${list(q.noTrips)}.`);
   if (q.noRoute.length)
     lines.push(`Doesn't run this route: ${list(q.noRoute)}.`);
+  if (q.notAtTerminal.length)
+    lines.push(
+      `Runs this route, but not from or to the terminal you picked: ${list(q.notAtTerminal)}.`
+    );
   for (const c of q.notOnSale)
     lines.push(
       `${c.message ?? `${c.operatorName} isn't selling this date yet`}.`

@@ -11,6 +11,9 @@ export interface StopRef {
   /** Approximate terminal location; null when we don't know where it is. */
   lat: number | null;
   lon: number | null;
+  /** The terminal as travellers know it, e.g. "ajah" / "Ajah". */
+  terminal: string;
+  terminalName: string;
 }
 
 export interface ComparedTrip {
@@ -88,6 +91,15 @@ export interface NetworkDestination {
   name: string;
   operators: string[];
   approximate: boolean;
+  /** Drop-off terminals in this city reachable from the origin city. */
+  terminals: NetworkTerminal[];
+}
+
+/** A terminal as travellers know it ("Ajah", "Upper Iweka"), across operators. */
+export interface NetworkTerminal {
+  key: string;
+  name: string;
+  operators: string[];
 }
 
 export interface NetworkCity {
@@ -98,6 +110,8 @@ export interface NetworkCity {
   destinations: NetworkDestination[];
   /** Areas a traveller can pick as "near", with approximate locations. */
   places: Place[];
+  /** Boarding terminals in this city that have routes. */
+  terminals: NetworkTerminal[];
 }
 
 export interface Place {

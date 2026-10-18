@@ -146,7 +146,11 @@ export function quietStatuses<C extends CoverageLike>(
     coverage.filter(pred).map(c => c.operatorName);
   return {
     noTrips: names(c => c.status === "no_trips"),
-    noRoute: names(c => c.status === "no_route"),
+    noRoute: names(c => c.status === "no_route" && c.message !== "terminal"),
+    /** Run between the cities, but not from/to the terminal the traveller picked. */
+    notAtTerminal: names(
+      c => c.status === "no_route" && c.message === "terminal"
+    ),
     notOnSale: coverage.filter(c => c.status === "not_on_sale"),
     errors: coverage.filter(
       c => c.status === "error" || (timedOut && c.status === "pending")

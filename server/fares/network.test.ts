@@ -33,7 +33,7 @@ describe("buildNetwork", () => {
       operators: ["guo", "pmt"],
     });
     expect(lagos.places.some(p => p.name === "Yaba")).toBe(true);
-    expect(lagos.destinations).toEqual([
+    expect(lagos.destinations).toMatchObject([
       // GUO also reaches Abuja exactly (Jibowu → ABUJA), so the city isn't flagged.
       {
         city: "abuja",
@@ -42,6 +42,15 @@ describe("buildNetwork", () => {
         approximate: false,
       },
       { city: "enugu", name: "Enugu", operators: ["guo"], approximate: false },
+    ]);
+    // GUO's "MAZA MAZA" and PMT's "Mazamaza" are one terminal.
+    expect(lagos.terminals).toEqual([
+      { key: "jibowu", name: "Jibowu", operators: ["guo"] },
+      { key: "mazamaza", name: "Maza Maza", operators: ["guo", "pmt"] },
+    ]);
+    expect(lagos.destinations[0].terminals).toEqual([
+      { key: "abuja", name: "Abuja", operators: ["guo"] },
+      { key: "mararaba", name: "Mararaba", operators: ["guo", "pmt"] },
     ]);
   });
 

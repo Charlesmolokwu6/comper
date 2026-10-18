@@ -14,6 +14,7 @@ import { Router } from "express";
 import { getOperator, operators, unavailableOperators } from "../operators";
 import { knownCities, resolveCity } from "./cities";
 import { compare, notOnSaleReason } from "./compare";
+import { splitPlace } from "./terminals";
 import { buildNetwork } from "./network";
 import { lastScrape } from "./scheduler";
 import {
@@ -45,8 +46,11 @@ const withCity = <T extends { name: string; state?: string }>(s: T) => ({
 });
 
 faresRouter.get("/compare", async (req, res) => {
-  const from = resolveCity(String(req.query.from ?? ""));
-  const to = resolveCity(String(req.query.to ?? ""));
+  // "lagos~ajah" names a city and, optionally, one of its terminals (terminals.ts).
+  const fromPlace = splitPlace(String(req.query.from ?? ""));
+  const toPlace = splitPlace(String(req.query.to ?? ""));
+  const from = resolveCity(fromPlace.city);
+  const to = resolveCity(toPlace.city);
   const date = parseDate(req.query.date);
   if (!from || !to)
     return res.status(400).json({
@@ -58,10 +62,23 @@ faresRouter.get("/compare", async (req, res) => {
     return res
       .status(400)
       .json({ error: "date must be YYYY-MM-DD, today to 90 days ahead" });
-  const result = await compare(from.city, to.city, date, COMPARE_WAIT_MS);
+  const result = await compare(from.city, to.city, date, COMPARE_WAIT_MS, {
+    fromTerminal: fromPlace.terminal,
+    toTerminal: toPlace.terminal,
+  });
   res.json({
-    from: { query: req.query.from, city: from.city, name: from.cityName },
-    to: { query: req.query.to, city: to.city, name: to.cityName },
+    from: {
+      query: req.query.from,
+      city: from.city,
+      name: from.cityName,
+      terminal: fromPlace.terminal,
+    },
+    to: {
+      query: req.query.to,
+      city: to.city,
+      name: to.cityName,
+      terminal: toPlace.terminal,
+    },
     ...result,
   });
 });
