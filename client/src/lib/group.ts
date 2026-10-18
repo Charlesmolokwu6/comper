@@ -136,6 +136,7 @@ export interface CoverageLike {
   operatorName: string;
   status: string;
   message?: string;
+  unpriced?: number;
 }
 
 export function quietStatuses<C extends CoverageLike>(
@@ -145,7 +146,9 @@ export function quietStatuses<C extends CoverageLike>(
   const names = (pred: (c: C) => boolean) =>
     coverage.filter(pred).map(c => c.operatorName);
   return {
-    noTrips: names(c => c.status === "no_trips"),
+    noTrips: names(c => c.status === "no_trips" && !c.unpriced),
+    /** Listed departures but published no fare for them. */
+    unpriced: coverage.filter(c => c.status === "no_trips" && !!c.unpriced),
     noRoute: names(c => c.status === "no_route" && c.message !== "terminal"),
     /** Run between the cities, but not from/to the terminal the traveller picked. */
     notAtTerminal: names(

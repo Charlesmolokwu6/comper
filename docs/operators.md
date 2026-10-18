@@ -142,12 +142,14 @@ Cases it handles:
 
 `GET /api/compare?from=Lagos&to=Abuja&date=YYYY-MM-DD`
 
-- **Which pairs it searches:** for each operator it finds every origin in the "from" city. For each
-  origin it searches only the most central destination in the "to" city: the bare city name
-  first, then central areas such as Utako, with approximate areas last. GUO lists 86
-  Lagos→Abuja terminal/drop-off pairs, so searching all of them would mean about 86 requests per
-  date. `COMPARE_DESTS_PER_ORIGIN` raises the limit. Every pair can still be searched through
-  `/api/operators/:op/fares`.
+- **Which pairs it searches:** for each operator it finds every origin in the "from" city and
+  every drop-off in the "to" city, most central first (the bare city name, then central areas
+  such as Utako, approximate areas last). Each origin gets its most central drop-off, then the
+  other drop-offs are added round-robin, up to 16 routes per operator
+  (`COMPARE_ROUTES_PER_OPERATOR`). A one-terminal origin such as Onitsha therefore covers all
+  of GUO's 16 Lagos drop-offs; searching only the central one missed buses that run elsewhere.
+  Picking a terminal (`to=lagos~ajah`) searches every stop of that terminal. Every pair can
+  still be searched through `/api/operators/:op/fares`.
 - **Trips:** one list across all operators, with the same fields for every operator. They are
   sorted with bookable trips first, then by fare. The same bus reached via two drop-offs appears
   once. `approximate: true` and `matchNotes` mark any fuzzy city match.

@@ -83,15 +83,34 @@ export interface Coverage {
   message?: string;
   /** For not_on_sale: the last date the operator currently sells online. */
   onSaleUntil?: string;
+  /** Departures the operator listed for the date without a fare, so none are shown. */
+  unpriced?: number;
 }
 
 /**
- * Destinations searched per origin. Operators often list many drop-off points in one
- * city (GUO: ABUJA, ABUJA - KUBWA, ABUJA - UTAKO, …) served by the same buses, so by
- * default only the most central one is searched. All are available per operator via
- * /api/operators/:op/fares.
+ * Routes searched per operator for a whole-city search. Each origin gets its most central
+ * drop-off first; the rest of the budget goes to the other drop-offs, round-robin. Without
+ * this, Onitsha → Lagos searched one of GUO's 16 Lagos drop-offs and missed buses that run
+ * to the others. Every route is still one request, spaced out and cached (store.ts).
  */
-const DESTS_PER_ORIGIN = Number(process.env.COMPARE_DESTS_PER_ORIGIN || 1);
+const ROUTES_PER_OPERATOR = Number(
+  process.env.COMPARE_ROUTES_PER_OPERATOR || 16
+);
+
+/** Round-robin over per-origin lists: every list's first item, then every second, … */
+export function spreadPick<T>(lists: T[][], budget: number): T[] {
+  const out: T[] = [];
+  for (let i = 0; out.length < budget; i++) {
+    let any = false;
+    for (const l of lists)
+      if (i < l.length) {
+        any = true;
+        if (out.length < budget) out.push(l[i]);
+      }
+    if (!any) break;
+  }
+  return out;
+}
 
 const ref = (s: Stop, m: CityMatch): StopRef => {
   const at = stopLocation(m);
@@ -110,8 +129,9 @@ const ref = (s: Stop, m: CityMatch): StopRef => {
 
 /**
  * The (origin, destination) pairs to search between two cities, plus how many exist in total.
- * Without a chosen drop-off, only the most central one per origin is searched; with one,
- * every stop of that terminal is (e.g. Chisco's separate morning and evening entries).
+ * Without a chosen drop-off, every drop-off is searched up to ROUTES_PER_OPERATOR, most
+ * central first; with one, every stop of that terminal is (e.g. Chisco's separate morning
+ * and evening entries).
  */
 export async function findRoutes(
   operatorId: string,
@@ -119,7 +139,7 @@ export async function findRoutes(
   toCity: string,
   choice: TerminalChoice = {}
 ) {
-  const pairs: { from: StopRef; to: StopRef }[] = [];
+  const perOrigin: { from: StopRef; to: StopRef }[][] = [];
   let total = 0;
   for (const o of await getOrigins(operatorId)) {
     const om = resolveCity(o.name, o.state);
@@ -135,10 +155,14 @@ export async function findRoutes(
       )
       .sort((a, b) => a.m.rank - b.m.rank);
     total += dests.length;
-    const picked = choice.toTerminal ? dests : dests.slice(0, DESTS_PER_ORIGIN);
-    for (const { d, m } of picked)
-      pairs.push({ from: ref(o, om), to: ref(d, m) });
+    if (dests.length)
+      perOrigin.push(
+        dests.map(({ d, m }) => ({ from: ref(o, om), to: ref(d, m) }))
+      );
   }
+  const pairs = choice.toTerminal
+    ? perOrigin.flat()
+    : spreadPick(perOrigin, Math.max(ROUTES_PER_OPERATOR, perOrigin.length));
   return { pairs, total };
 }
 
@@ -246,6 +270,7 @@ export async function compare(
       for (const p of pairs) {
         try {
           const res = await getFares(op.id, p.from.id, p.to.id, date);
+          if (res.unpriced) cov.unpriced = (cov.unpriced ?? 0) + res.unpriced;
           const notes = [p.from.note, p.to.note].filter(
             (n): n is string => !!n
           );

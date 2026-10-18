@@ -69,6 +69,10 @@ export function SearchSummary({
   const lines: string[] = [];
   if (q.noTrips.length)
     lines.push(`No trips on this date: ${list(q.noTrips)}.`);
+  if (q.unpriced.length)
+    lines.push(
+      `${list(q.unpriced.map(c => c.operatorName))} ${q.unpriced.length === 1 ? "has" : "have"} buses on this date but no online price yet, so they aren't listed. Check their site or try the next day.`
+    );
   if (q.noRoute.length)
     lines.push(`Doesn't run this route: ${list(q.noRoute)}.`);
   if (q.notAtTerminal.length)

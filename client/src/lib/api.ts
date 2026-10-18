@@ -66,6 +66,8 @@ export interface Coverage {
   message?: string;
   /** For not_on_sale: the last date the operator currently sells online. */
   onSaleUntil?: string;
+  /** Departures the operator listed for the date without a fare, so none are shown. */
+  unpriced?: number;
 }
 
 export interface UnavailableOperator {

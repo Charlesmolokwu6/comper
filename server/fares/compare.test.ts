@@ -104,3 +104,15 @@ describe("stopLocation", () => {
     expect(at("ABUJA")).toBeNull();
   });
 });
+
+import { spreadPick } from "./compare";
+
+describe("spreadPick", () => {
+  it("gives every origin its first drop-off before anyone's second", () => {
+    const lists = [["a1", "a2", "a3"], ["b1"], ["c1", "c2"]];
+    expect(spreadPick(lists, 4)).toEqual(["a1", "b1", "c1", "a2"]);
+    expect(spreadPick(lists, 10)).toEqual(["a1", "b1", "c1", "a2", "c2", "a3"]);
+    // One origin with many drop-offs (Onitsha → Lagos): all of them, up to the budget.
+    expect(spreadPick([["x1", "x2", "x3"]], 2)).toEqual(["x1", "x2"]);
+  });
+});

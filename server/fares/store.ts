@@ -37,6 +37,8 @@ export interface FareEntry {
   destinationId: string;
   date: string;
   trips: Trip[];
+  /** Departures the operator listed without a fare (GUO does this for some next-day trips). */
+  unpriced?: number;
   fetchedAt: string;
 }
 
@@ -213,12 +215,15 @@ function refresh(
     return Promise.reject(failed.error);
   return singleFlight(k, async () => {
     try {
+      const all = await op(operator).search(o, d, date);
+      const trips = validTrips(all);
       const entry: FareEntry = {
         operator,
         originId: o,
         destinationId: d,
         date,
-        trips: validTrips(await op(operator).search(o, d, date)),
+        trips,
+        unpriced: all.length - trips.length,
         fetchedAt: new Date().toISOString(),
       };
       fares.set(k, entry);
