@@ -6,7 +6,13 @@ import type { StyleSpecification } from "maplibre-gl";
 
 export type MapLook = "dark" | "light";
 /** Candidate looks shown to the owner; not offered in the app until picked. */
-export type MapDraft = "olive" | "navy" | "sand" | "graphite";
+export type MapDraft =
+  | "olive"
+  | "navy"
+  | "sand"
+  | "graphite"
+  | "olive2"
+  | "olive3";
 
 interface Palette {
   land: string;
@@ -24,6 +30,10 @@ interface Palette {
   label: string;
   labelMuted: string;
   halo: string;
+  /** Thin line along shores so water reads clearly against dark land. */
+  shore?: string;
+  /** Area names in spaced capitals. */
+  areaCaps?: boolean;
 }
 
 const PALETTES: Record<MapLook | MapDraft, Palette> = {
@@ -43,6 +53,46 @@ const PALETTES: Record<MapLook | MapDraft, Palette> = {
     label: "#e9f5c2",
     labelMuted: "#8b9a6a",
     halo: "#0a0c06",
+  },
+  // Olive night, refined: roads step back so the route leads; water has a shoreline.
+  olive2: {
+    land: "#0c0e09",
+    water: "#060d10",
+    waterLabel: "#3f6470",
+    park: "#0f1609",
+    built: "#11140d",
+    building: "#171b11",
+    minor: "#171b10",
+    street: "#1f2614",
+    main: "#2b3517",
+    highway: "#3d4c19",
+    casing: "#080906",
+    rail: "#252b18",
+    label: "#eef6d2",
+    labelMuted: "#7f8c63",
+    halo: "#0c0e09",
+    shore: "#2a3a2e",
+    areaCaps: true,
+  },
+  // Same, a shade lighter and with main roads warmer, for readability in sunlight.
+  olive3: {
+    land: "#121509",
+    water: "#09151a",
+    waterLabel: "#4f7682",
+    park: "#152010",
+    built: "#171b0e",
+    building: "#1e2414",
+    minor: "#1d2313",
+    street: "#283018",
+    main: "#38441b",
+    highway: "#56681f",
+    casing: "#0a0c06",
+    rail: "#2d3420",
+    label: "#f2f8dc",
+    labelMuted: "#94a174",
+    halo: "#121509",
+    shore: "#334a3c",
+    areaCaps: true,
   },
   navy: {
     land: "#0a1020",
@@ -134,6 +184,9 @@ const PALETTES: Record<MapLook | MapDraft, Palette> = {
 const FONT = ["Noto Sans Regular"];
 const FONT_BOLD = ["Noto Sans Bold"];
 
+/** First label layer: our route goes underneath it so place names stay readable. */
+export const FIRST_LABEL_LAYER = "water-names";
+
 /** Road width by zoom: thin when zoomed out, wider close in. */
 const width = (base: number) =>
   [
@@ -205,6 +258,28 @@ export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
         "source-layer": "water",
         paint: { "fill-color": c.water },
       },
+      ...(c.shore
+        ? [
+            {
+              id: "shore",
+              type: "line" as const,
+              source: "osm",
+              "source-layer": "water",
+              paint: {
+                "line-color": c.shore,
+                "line-width": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  8,
+                  0.5,
+                  14,
+                  1.5,
+                ] as any,
+              },
+            },
+          ]
+        : []),
       {
         id: "rivers",
         type: "line",
@@ -301,6 +376,8 @@ export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
         layout: {
           "text-field": ["get", "name"],
           "text-font": FONT,
+          "text-transform": c.areaCaps ? "uppercase" : "none",
+          "text-letter-spacing": c.areaCaps ? 0.12 : 0,
           "text-size": ["interpolate", ["linear"], ["zoom"], 11, 11, 15, 13],
         },
         paint: {
@@ -314,18 +391,53 @@ export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
         type: "symbol",
         source: "osm",
         "source-layer": "place",
-        filter: isClass("city", "town", "village"),
+        filter: c.areaCaps
+          ? isClass("town", "village")
+          : isClass("city", "town", "village"),
         layout: {
           "text-field": ["get", "name"],
-          "text-font": FONT_BOLD,
-          "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 12, 13],
+          "text-font": c.areaCaps ? FONT : FONT_BOLD,
+          "text-transform": c.areaCaps ? "uppercase" : "none",
+          "text-letter-spacing": c.areaCaps ? 0.14 : 0,
+          "text-size": c.areaCaps
+            ? (["interpolate", ["linear"], ["zoom"], 6, 9, 12, 11.5] as any)
+            : (["interpolate", ["linear"], ["zoom"], 6, 10, 12, 13] as any),
         },
         paint: {
           "text-color": c.label,
           "text-halo-color": c.halo,
-          "text-halo-width": 1.5,
+          "text-halo-width": 2,
         },
       },
+      ...(c.areaCaps
+        ? [
+            {
+              id: "cities",
+              type: "symbol" as const,
+              source: "osm",
+              "source-layer": "place",
+              filter: isClass("city"),
+              layout: {
+                "text-field": ["get", "name"] as any,
+                "text-font": FONT_BOLD,
+                "text-size": [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  6,
+                  12,
+                  12,
+                  16,
+                ] as any,
+              },
+              paint: {
+                "text-color": c.label,
+                "text-halo-color": c.halo,
+                "text-halo-width": 2,
+              },
+            },
+          ]
+        : []),
     ],
   };
 }
