@@ -7,8 +7,9 @@
 export interface CabPoint {
   name: string;
   address?: string;
-  lat: number;
-  lon: number;
+  /** Unknown when the traveller typed an address the map search couldn't find. */
+  lat?: number;
+  lon?: number;
   /** The device's own location. */
   gps?: boolean;
 }

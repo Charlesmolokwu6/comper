@@ -18,21 +18,47 @@ export function CabPanel() {
   );
   const [copied, setCopied] = useState<string | null>(null);
 
+  const [gpsError, setGpsError] = useState<string | null>(null);
+  const gotPosition = (pos: GeolocationPosition) => {
+    setGpsState("idle");
+    setGpsError(null);
+    setPickup({
+      name: "My current location",
+      lat: pos.coords.latitude,
+      lon: pos.coords.longitude,
+      gps: true,
+    });
+  };
+  const gpsFailed = (err: GeolocationPositionError) => {
+    setGpsState("denied");
+    setGpsError(
+      err.code === err.PERMISSION_DENIED
+        ? "Location is blocked for this site. Allow it in your browser settings, or type your pickup address."
+        : "Couldn't find your location right now. Try again outside or near a window, or type your pickup address."
+    );
+  };
+  // A precise GPS fix often times out indoors; fall back to the network-based position.
   const locate = () => {
-    if (!("geolocation" in navigator)) return setGpsState("denied");
+    if (!("geolocation" in navigator)) {
+      setGpsState("denied");
+      setGpsError(
+        "This browser can't share your location. Type your pickup address."
+      );
+      return;
+    }
     setGpsState("locating");
+    setGpsError(null);
     navigator.geolocation.getCurrentPosition(
-      pos => {
-        setGpsState("idle");
-        setPickup({
-          name: "My current location",
-          lat: pos.coords.latitude,
-          lon: pos.coords.longitude,
-          gps: true,
+      gotPosition,
+      err => {
+        if (err.code === err.PERMISSION_DENIED) return gpsFailed(err);
+        navigator.geolocation.getCurrentPosition(gotPosition, gpsFailed, {
+          enableHighAccuracy: false,
+          timeout: 15_000,
+          maximumAge: 5 * 60_000,
         });
       },
-      () => setGpsState("denied"),
-      { enableHighAccuracy: true, timeout: 10_000, maximumAge: 60_000 }
+      { enableHighAccuracy: true, timeout: 8_000, maximumAge: 60_000 }
     );
   };
 
@@ -46,8 +72,17 @@ export function CabPanel() {
     }
   };
 
-  const ready = !!dropoff && (!!pickup || gpsState !== "denied");
-  const km = pickup && dropoff ? distanceKm(pickup, dropoff) : null;
+  const ready = !!dropoff;
+  const km =
+    pickup?.lat != null &&
+    pickup.lon != null &&
+    dropoff?.lat != null &&
+    dropoff.lon != null
+      ? distanceKm(
+          { lat: pickup.lat, lon: pickup.lon },
+          { lat: dropoff.lat, lon: dropoff.lon }
+        )
+      : null;
   const dropText = dropoff
     ? [dropoff.name, dropoff.address].filter(Boolean).join(", ")
     : "";
@@ -81,9 +116,9 @@ export function CabPanel() {
             placeholder="Where to?"
           />
         </div>
-        {gpsState === "denied" && (
+        {gpsError && !pickup && (
           <p role="alert" className="mt-3 text-sm text-amber-200">
-            Couldn't get your location. Type your pickup address instead.
+            {gpsError}
           </p>
         )}
       </div>

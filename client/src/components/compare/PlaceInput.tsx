@@ -27,6 +27,14 @@ export function PlaceInput({
 
   useEffect(() => setText(value?.name ?? ""), [value]);
 
+  // An address the map search can't find (a house number, a small street) is still usable
+  // as typed: the ride apps get it to paste in.
+  const useTyped = () => {
+    const t = text.trim();
+    if (t.length >= 3 && !value) onChange({ name: t });
+    setOpen(false);
+  };
+
   useEffect(() => {
     clearTimeout(timer.current);
     if (!open || text.trim().length < 3 || text === value?.name) {
@@ -58,13 +66,19 @@ export function PlaceInput({
         <MapPin aria-hidden className="size-5 shrink-0 text-muted-foreground" />
         <input
           role="combobox"
-          aria-expanded={open && results.length > 0}
+          aria-expanded={open && text.trim().length >= 3 && !value}
           aria-controls={listId}
           aria-autocomplete="list"
           value={text}
           placeholder={placeholder}
           onFocus={() => setOpen(true)}
-          onBlur={() => setTimeout(() => setOpen(false), 150)}
+          onBlur={() => setTimeout(useTyped, 150)}
+          onKeyDown={e => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              useTyped();
+            }
+          }}
           onChange={e => {
             setText(e.target.value);
             if (value) onChange(null);
@@ -75,6 +89,7 @@ export function PlaceInput({
           <button
             type="button"
             aria-label={`Clear ${label}`}
+            onMouseDown={e => e.preventDefault()}
             onClick={() => {
               setText("");
               onChange(null);
@@ -86,7 +101,13 @@ export function PlaceInput({
         )}
       </div>
       {extra}
-      {open && (results.length > 0 || state !== "idle") && (
+      {value && (value.address || value.name.length > 24) && (
+        <p className="mt-1.5 px-1 text-sm text-muted-foreground">
+          {[value.name, value.address].filter(Boolean).join(", ")}
+          {value.lat == null && " · as typed"}
+        </p>
+      )}
+      {open && text.trim().length >= 3 && !value && (
         <ul
           id={listId}
           role="listbox"
@@ -102,6 +123,26 @@ export function PlaceInput({
               Address search isn't available right now.
             </li>
           )}
+          {state === "idle" && !results.length && (
+            <li className="px-3 py-2.5 text-sm text-muted-foreground">
+              No match on the map.
+            </li>
+          )}
+          <li role="option" aria-selected={false}>
+            <button
+              type="button"
+              onMouseDown={e => e.preventDefault()}
+              onClick={useTyped}
+              className="w-full rounded-lg px-3 py-2.5 text-left hover:bg-accent focus-visible:bg-accent focus-visible:outline-none"
+            >
+              <span className="block text-sm font-semibold text-foreground">
+                Use “{text.trim()}”
+              </span>
+              <span className="block text-xs text-muted-foreground">
+                Exactly as you typed it
+              </span>
+            </button>
+          </li>
           {results.map(p => (
             <li key={`${p.lat},${p.lon}`} role="option" aria-selected={false}>
               <button
