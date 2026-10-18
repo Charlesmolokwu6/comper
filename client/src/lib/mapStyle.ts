@@ -5,6 +5,8 @@
 import type { StyleSpecification } from "maplibre-gl";
 
 export type MapLook = "dark" | "light";
+/** Candidate looks shown to the owner; not offered in the app until picked. */
+export type MapDraft = "olive" | "navy" | "sand" | "graphite";
 
 interface Palette {
   land: string;
@@ -24,7 +26,75 @@ interface Palette {
   halo: string;
 }
 
-const PALETTES: Record<MapLook, Palette> = {
+const PALETTES: Record<MapLook | MapDraft, Palette> = {
+  olive: {
+    land: "#0a0c06",
+    water: "#0b1416",
+    waterLabel: "#5f7a5a",
+    park: "#121a0a",
+    built: "#10130a",
+    building: "#181d10",
+    minor: "#1b2012",
+    street: "#283014",
+    main: "#3b4a12",
+    highway: "#5c7414",
+    casing: "#050603",
+    rail: "#2a3018",
+    label: "#e9f5c2",
+    labelMuted: "#8b9a6a",
+    halo: "#0a0c06",
+  },
+  navy: {
+    land: "#0a1020",
+    water: "#060a14",
+    waterLabel: "#4c6a9a",
+    park: "#0d1a24",
+    built: "#0e1528",
+    building: "#141d36",
+    minor: "#18223a",
+    street: "#22304f",
+    main: "#2f4470",
+    highway: "#4a67a3",
+    casing: "#060a14",
+    rail: "#1d2944",
+    label: "#e6edff",
+    labelMuted: "#8796b8",
+    halo: "#0a1020",
+  },
+  sand: {
+    land: "#f3ede2",
+    water: "#bcd3d6",
+    waterLabel: "#4f7579",
+    park: "#dfe6cc",
+    built: "#ece4d5",
+    building: "#e2d8c6",
+    minor: "#fffaf1",
+    street: "#fffaf1",
+    main: "#fde9b8",
+    highway: "#f6c96b",
+    casing: "#d8ccb6",
+    rail: "#c9bda7",
+    label: "#2b2418",
+    labelMuted: "#7a6d58",
+    halo: "#f3ede2",
+  },
+  graphite: {
+    land: "#1c1d1f",
+    water: "#2a2d31",
+    waterLabel: "#8a9096",
+    park: "#202421",
+    built: "#212224",
+    building: "#28292c",
+    minor: "#2c2d30",
+    street: "#38393d",
+    main: "#4a4c51",
+    highway: "#6b6e74",
+    casing: "#151618",
+    rail: "#3a3b3f",
+    label: "#f2f2f2",
+    labelMuted: "#9a9ca1",
+    halo: "#1c1d1f",
+  },
   dark: {
     land: "#0b0b0b",
     water: "#0d1b22",
@@ -83,7 +153,7 @@ const width = (base: number) =>
 const isClass = (...classes: string[]) =>
   ["match", ["get", "class"], classes, true, false] as any;
 
-export function compareMapStyle(look: MapLook): StyleSpecification {
+export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
   const c = PALETTES[look];
   const roads: [string, string[], number, number][] = [
     // id, OpenMapTiles classes, width, min zoom
