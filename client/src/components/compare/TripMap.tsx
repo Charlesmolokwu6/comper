@@ -1,19 +1,43 @@
 import { useEffect, useRef, useState } from "react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { Moon, Sun } from "lucide-react";
 import { fetchRoute, type RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
+import { cn } from "@/lib/utils";
 
 type Located = CabPoint & { lat: number; lon: number };
 const located = (p: CabPoint | null): p is Located =>
   p?.lat != null && p.lon != null;
 
 const LIME = "#c0f11c";
-const LAGOS: L.LatLngTuple = [6.5244, 3.3792];
+const LAGOS: [number, number] = [3.3792, 6.5244];
+
+/** OpenFreeMap vector styles: free, no key, no usage limits. */
+const STYLES = {
+  dark: "https://tiles.openfreemap.org/styles/dark",
+  light: "https://tiles.openfreemap.org/styles/positron",
+} as const;
+type Look = keyof typeof STYLES;
+
+const LOOK_KEY = "compare.mapLook";
+function savedLook(): Look {
+  try {
+    return localStorage.getItem(LOOK_KEY) === "light" ? "light" : "dark";
+  } catch {
+    return "dark";
+  }
+}
+
+function dot(fill: string, ring: string) {
+  const el = document.createElement("div");
+  el.style.cssText = `width:16px;height:16px;border-radius:50%;background:${fill};border:3px solid ${ring};box-shadow:0 1px 4px rgb(0 0 0 / .5)`;
+  return el;
+}
 
 /**
- * Map of the trip: pickup (lime dot), drop-off (white dot) and the road between them.
- * Tiles from OpenStreetMap; the road line from /api/places/route.
+ * Map of the trip: pickup (lime dot), drop-off (white dot) and the road between them, from
+ * /api/places/route. Dark or light map, remembered on this device.
  */
 export default function TripMap({
   pickup,
@@ -23,31 +47,53 @@ export default function TripMap({
   dropoff: CabPoint | null;
 }) {
   const box = useRef<HTMLDivElement>(null);
-  const map = useRef<L.Map | null>(null);
-  const layer = useRef<L.LayerGroup | null>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const markers = useRef<maplibregl.Marker[]>([]);
+  const [look, setLook] = useState<Look>(savedLook);
+  const [ready, setReady] = useState(0);
   const [route, setRoute] = useState<RoadRoute | null>(null);
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
 
   useEffect(() => {
     if (!box.current) return;
-    const m = L.map(box.current, {
-      zoomControl: false,
-      attributionControl: true,
-    }).setView(LAGOS, 11);
-    // OpenStreetMap's standard tiles (free with credit, light use); darkened as one layer in index.css.
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(m);
-    L.control.zoom({ position: "bottomright" }).addTo(m);
+    const m = new maplibregl.Map({
+      container: box.current,
+      style: STYLES[savedLook()],
+      center: LAGOS,
+      zoom: 10,
+      attributionControl: { compact: true },
+      dragRotate: false,
+      pitchWithRotate: false,
+    });
+    m.touchZoomRotate.disableRotation();
+    m.addControl(
+      new maplibregl.NavigationControl({ showCompass: false }),
+      "bottom-right"
+    );
+    // Our route layers live in the style, so they're re-added after every style load.
+    m.on("style.load", () => setReady(n => n + 1));
+    // Start the credits folded into the small (i) button; they open on tap.
+    m.once("load", () =>
+      box.current
+        ?.querySelector(".maplibregl-ctrl-attrib")
+        ?.classList.remove("maplibregl-compact-show")
+    );
     map.current = m;
-    layer.current = L.layerGroup().addTo(m);
     return () => {
       m.remove();
       map.current = null;
     };
   }, []);
+
+  const switchLook = (next: Look) => {
+    setLook(next);
+    try {
+      localStorage.setItem(LOOK_KEY, next);
+    } catch {
+      // Storage can be blocked; the choice still applies for this visit.
+    }
+    map.current?.setStyle(STYLES[next], { diff: false });
+  };
 
   // Fetch the road whenever both ends are known points.
   const a = located(pickup) ? pickup : null;
@@ -68,74 +114,137 @@ export default function TripMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  // Draw markers and the road, then fit them in view.
+  // Draw the road and the two dots, then fit them in view.
   useEffect(() => {
     const m = map.current;
-    const g = layer.current;
-    if (!m || !g) return;
-    g.clearLayers();
-    const pts: L.LatLngTuple[] = [];
-    if (route) {
-      L.polyline(route.line, {
-        color: "#000",
-        weight: 9,
-        opacity: 0.6,
-      }).addTo(g);
-      L.polyline(route.line, { color: LIME, weight: 5 }).addTo(g);
-      pts.push(...route.line);
-    } else if (a && b) {
-      L.polyline(
-        [
-          [a.lat, a.lon],
-          [b.lat, b.lon],
-        ],
-        { color: LIME, weight: 3, dashArray: "6 8", opacity: 0.7 }
-      ).addTo(g);
+    if (!m || !ready) return;
+    // Right after a style switch the new style can still be loading; draw once it settles.
+    if (!m.isStyleLoaded()) {
+      m.once("idle", () => setReady(n => n + 1));
+      return;
     }
+    const line: [number, number][] = route
+      ? route.line.map(([lat, lon]) => [lon, lat])
+      : a && b
+        ? [
+            [a.lon, a.lat],
+            [b.lon, b.lat],
+          ]
+        : [];
+    const data = {
+      type: "Feature" as const,
+      properties: {},
+      geometry: { type: "LineString" as const, coordinates: line },
+    };
+    const src = m.getSource("trip") as maplibregl.GeoJSONSource | undefined;
+    if (src) src.setData(data);
+    else m.addSource("trip", { type: "geojson", data });
+    // A style switch drops our layers; put them back on top of the new style.
+    if (!m.getLayer("trip-line")) {
+      m.addLayer({
+        id: "trip-casing",
+        type: "line",
+        source: "trip",
+        layout: { "line-cap": "round", "line-join": "round" },
+        paint: { "line-color": "#000", "line-width": 10, "line-opacity": 0.5 },
+      });
+      m.addLayer({
+        id: "trip-line",
+        type: "line",
+        source: "trip",
+        layout: { "line-cap": "round", "line-join": "round" },
+        paint: { "line-color": LIME, "line-width": 5 },
+      });
+    }
+    // A darker edge keeps the lime readable on the light map.
+    m.setPaintProperty(
+      "trip-casing",
+      "line-opacity",
+      look === "light" ? 0.8 : 0.5
+    );
+    // Straight dashed line while the road loads or if it can't be found.
+    m.setPaintProperty("trip-line", "line-dasharray", route ? [1, 0] : [2, 2]);
+
+    markers.current.forEach(mk => mk.remove());
+    markers.current = [];
+    const pts: [number, number][] = [];
     if (a) {
-      L.circleMarker([a.lat, a.lon], {
-        radius: 8,
-        color: "#000",
-        weight: 3,
-        fillColor: LIME,
-        fillOpacity: 1,
-      })
-        .bindTooltip(`Pickup: ${a.name}`)
-        .addTo(g);
-      pts.push([a.lat, a.lon]);
+      markers.current.push(
+        new maplibregl.Marker({ element: dot(LIME, "#000") })
+          .setLngLat([a.lon, a.lat])
+          .addTo(m)
+      );
+      pts.push([a.lon, a.lat]);
     }
     if (b) {
-      L.circleMarker([b.lat, b.lon], {
-        radius: 8,
-        color: LIME,
-        weight: 4,
-        fillColor: "#fff",
-        fillOpacity: 1,
-      })
-        .bindTooltip(`Drop-off: ${b.name}`)
-        .addTo(g);
-      pts.push([b.lat, b.lon]);
+      markers.current.push(
+        new maplibregl.Marker({ element: dot("#fff", LIME) })
+          .setLngLat([b.lon, b.lat])
+          .addTo(m)
+      );
+      pts.push([b.lon, b.lat]);
     }
-    if (pts.length > 1)
-      m.fitBounds(L.latLngBounds(pts), { padding: [28, 28], maxZoom: 16 });
-    else if (pts.length === 1) m.setView(pts[0], 14);
-  }, [route, a?.lat, a?.lon, b?.lat, b?.lon]);
+    const all = [...line, ...pts];
+    if (all.length > 1) {
+      const bounds = all.reduce(
+        (bb, c) => bb.extend(c),
+        new maplibregl.LngLatBounds(all[0], all[0])
+      );
+      // Extra room at the top for the Dark/Light switch, at the right for the zoom buttons.
+      m.fitBounds(bounds, {
+        padding: { top: 64, bottom: 28, left: 28, right: 56 },
+        maxZoom: 16,
+        duration: 600,
+      });
+    } else if (all.length === 1) m.easeTo({ center: all[0], zoom: 14 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon]);
 
   const typedOnly =
     (pickup && !located(pickup)) || (dropoff && !located(dropoff));
 
   return (
     <figure className="overflow-hidden rounded-2xl border border-border bg-card">
-      <div
-        ref={box}
-        role="img"
-        aria-label={
-          route
-            ? `Map of the road route, ${route.km} km`
-            : "Map of your pickup and drop-off"
-        }
-        className="trip-map h-64 w-full bg-surface sm:h-80"
-      />
+      <div className="relative">
+        <div
+          ref={box}
+          role="img"
+          aria-label={
+            route
+              ? `Map of the road route, ${route.km} km`
+              : "Map of your pickup and drop-off"
+          }
+          className="h-64 w-full bg-surface sm:h-80"
+        />
+        <div
+          role="group"
+          aria-label="Map style"
+          className="absolute left-3 top-3 flex rounded-full border border-border bg-black/70 p-0.5 backdrop-blur"
+        >
+          {(
+            [
+              ["dark", "Dark", Moon],
+              ["light", "Light", Sun],
+            ] as const
+          ).map(([id, label, Icon]) => (
+            <button
+              key={id}
+              type="button"
+              aria-pressed={look === id}
+              onClick={() => switchLook(id)}
+              className={cn(
+                "flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold focus-visible:outline-2 focus-visible:outline-primary",
+                look === id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-neutral-200 hover:text-white"
+              )}
+            >
+              <Icon aria-hidden className="size-3.5" />
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
       <figcaption className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-sm">
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <span

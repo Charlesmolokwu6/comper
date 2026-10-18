@@ -4,7 +4,7 @@ import { CAB_PROVIDERS, type CabPoint } from "@/lib/cab";
 import { cn } from "@/lib/utils";
 import { PlaceInput } from "./PlaceInput";
 
-// Leaflet only loads once someone opens the cab tab and enters a place.
+// The map library only loads once someone opens the cab tab and enters a place.
 const TripMap = lazy(() => import("./TripMap"));
 
 /**
