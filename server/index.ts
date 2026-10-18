@@ -6,6 +6,7 @@ import { guoRouter } from "./guo/router";
 import { faresRouter } from "./fares/router";
 import { flightsRouter } from "./flights/router";
 import { placesRouter } from "./places/router";
+import { routeRouter } from "./places/route";
 import { startScheduler } from "./fares/scheduler";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,6 +24,7 @@ async function startServer() {
 
   app.use("/api/guo", guoRouter);
   app.use("/api/flights", flightsRouter);
+  app.use("/api/places/route", routeRouter);
   app.use("/api/places", placesRouter);
   app.use("/api", faresRouter);
   app.use("/api", (_req, res) => {

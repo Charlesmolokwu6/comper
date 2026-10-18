@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { ArrowUpRight, Check, Copy, Info, LocateFixed } from "lucide-react";
 import { CAB_PROVIDERS, type CabPoint } from "@/lib/cab";
-import { distanceKm, formatDistance } from "@/lib/geo";
 import { cn } from "@/lib/utils";
 import { PlaceInput } from "./PlaceInput";
+
+// Leaflet only loads once someone opens the cab tab and enters a place.
+const TripMap = lazy(() => import("./TripMap"));
 
 /**
  * Cab tab. Bolt, LagRide and inDrive only show live prices inside their apps, after login, and they
@@ -73,16 +75,6 @@ export function CabPanel() {
   };
 
   const ready = !!dropoff;
-  const km =
-    pickup?.lat != null &&
-    pickup.lon != null &&
-    dropoff?.lat != null &&
-    dropoff.lon != null
-      ? distanceKm(
-          { lat: pickup.lat, lon: pickup.lon },
-          { lat: dropoff.lat, lon: dropoff.lon }
-        )
-      : null;
   const dropText = dropoff
     ? [dropoff.name, dropoff.address].filter(Boolean).join(", ")
     : "";
@@ -123,6 +115,16 @@ export function CabPanel() {
         )}
       </div>
 
+      {(pickup || dropoff) && (
+        <Suspense
+          fallback={
+            <div className="h-64 rounded-2xl border border-border bg-card sm:h-80" />
+          }
+        >
+          <TripMap pickup={pickup} dropoff={dropoff} />
+        </Suspense>
+      )}
+
       {ready && dropoff && (
         <section aria-label="Ride apps" className="space-y-3">
           <div className="flex gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
@@ -131,8 +133,6 @@ export function CabPanel() {
               Ride apps only show live prices inside their apps, and they change
               minute to minute, so we don't show a price here. Open each app to
               compare.
-              {km != null &&
-                ` These points are ${formatDistance(km)} apart in a straight line.`}
             </p>
           </div>
 

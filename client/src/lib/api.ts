@@ -242,3 +242,24 @@ export const fetchPlaces = (q: string, signal?: AbortSignal) =>
     `/api/places?${new URLSearchParams({ q })}`,
     signal
   );
+
+// ---- Road route for the cab map (server/places/route.ts) ----
+
+export interface RoadRoute {
+  km: number;
+  /** [lat, lon] pairs along the road. */
+  line: [number, number][];
+}
+
+export const fetchRoute = (
+  from: { lat: number; lon: number },
+  to: { lat: number; lon: number },
+  signal?: AbortSignal
+) =>
+  getJson<RoadRoute>(
+    `/api/places/route?${new URLSearchParams({
+      from: `${from.lat},${from.lon}`,
+      to: `${to.lat},${to.lon}`,
+    })}`,
+    signal
+  );

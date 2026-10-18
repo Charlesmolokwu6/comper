@@ -273,6 +273,12 @@ OpenStreetMap Nominatim, Nigeria only, 1 request/s, cached a day). Uber left Nig
 app; the site lists only daily and weekly hire) and inDrive publish no trip link, so their buttons open the app and a "copy drop-off"
 button makes it one paste.
 
+**Cab map** (`TripMap.tsx`, loaded only on the cab tab): OpenStreetMap tiles (free with credit,
+darkened in CSS) and the road line from `/api/places/route` (`server/places/route.ts`), which
+proxies the public OSRM server: Nigeria only, one request a second, cached a day. It shows the
+road distance only, no times or prices. Addresses used "as typed" have no map point, so the
+caption asks for a suggestion to place them.
+
 **Flight** is live: see `docs/flights.md`.
 
 **Dev:** run `pnpm dev:api` (Express on :3001) and `pnpm dev` (Vite, proxies `/api`).

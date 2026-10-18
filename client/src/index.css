@@ -171,3 +171,37 @@
     transform: translate(var(--off), 0);
   }
 }
+
+/* Leaflet controls in the dark theme (TripMap). */
+/* Darken the whole tile layer at once; per-tile filters leave seams between tiles. */
+.trip-map .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9)
+    saturate(0.6);
+}
+.leaflet-container {
+  /* Same tone as the darkened tiles, so hairline gaps between tiles don't show. */
+  background: #2b2d2f;
+  font: inherit;
+}
+.leaflet-control-attribution {
+  background: rgb(0 0 0 / 0.6) !important;
+  color: #a3a3a3 !important;
+  font-size: 10px;
+}
+.leaflet-control-attribution a {
+  color: #d4d4d4 !important;
+}
+.leaflet-bar a {
+  background: #161616 !important;
+  color: #fff !important;
+  border-color: #2a2a2a !important;
+}
+.leaflet-tooltip {
+  background: #161616;
+  color: #fff;
+  border-color: #2a2a2a;
+}
+/* Chrome leaves hairline gaps between tiles at some zoom levels; this closes them. */
+.trip-map .leaflet-tile {
+  outline: 1px solid transparent;
+}
