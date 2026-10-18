@@ -285,7 +285,13 @@ export function OperatorCard({
   const times = atPoint.map(t => t.departure).sort();
   const first = formatTime(times[0]);
   const last = formatTime(times[times.length - 1]);
-  const span = first === last ? first : `${first}–${last}`;
+  const span = first === last ? first : `${first} – ${last}`;
+  // Departures from this operator's other terminals, hidden while one is "nearest".
+  const elsewhere = others.reduce((n, p) => n + p.trips.length, 0);
+  const showElsewhere = () => {
+    setOpen(true);
+    setShowOthers(true);
+  };
 
   return (
     <article
@@ -309,9 +315,20 @@ export function OperatorCard({
               )}
             </div>
             <p className="mt-1 text-sm text-muted-foreground">
-              {count} {count === 1 ? "departure" : "departures"} · {span}
+              {count} {count === 1 ? "departure" : "departures"}
+              {nearest && others.length > 0 && ` from ${nearest.name}`} · {span}
               {loading && " · more loading"}
             </p>
+            {elsewhere > 0 && (
+              <button
+                type="button"
+                onClick={showElsewhere}
+                className="mt-0.5 rounded text-left text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+              >
+                + {elsewhere} more at {others.length} other{" "}
+                {others.length === 1 ? "terminal" : "terminals"}
+              </button>
+            )}
             {nearest ? (
               <p className="mt-1.5 flex items-start gap-1.5 text-sm text-neutral-200">
                 <Navigation
@@ -479,7 +496,7 @@ export function OperatorCard({
             >
               {showOthers
                 ? "Hide other terminals"
-                : `Other ${g.operatorName} terminals (${others.length})`}
+                : `${elsewhere} more ${elsewhere === 1 ? "departure" : "departures"} at ${others.length} other ${others.length === 1 ? "terminal" : "terminals"}`}
               <ChevronDown
                 aria-hidden
                 className={cn(

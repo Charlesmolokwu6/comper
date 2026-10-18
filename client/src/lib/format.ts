@@ -4,8 +4,13 @@ const naira = new Intl.NumberFormat("en-NG", { maximumFractionDigits: 0 });
 
 export const formatNaira = (n: number) => `₦${naira.format(n)}`;
 
-/** "YYYY-MM-DD HH:mm" → "06:00" */
-export const formatTime = (departure: string) => departure.slice(11, 16);
+/** "YYYY-MM-DD HH:mm" → "6:00am" / "7:30pm": 12-hour, as travellers read times. */
+export function formatTime(departure: string) {
+  const [h, m] = departure.slice(11, 16).split(":").map(Number);
+  if (Number.isNaN(h) || Number.isNaN(m)) return departure.slice(11, 16);
+  const hour = h % 12 === 0 ? 12 : h % 12;
+  return `${hour}:${String(m).padStart(2, "0")}${h < 12 ? "am" : "pm"}`;
+}
 
 /** "YYYY-MM-DD" → "Sat 17 Oct" (timezone-independent). */
 export function formatDay(date: string) {

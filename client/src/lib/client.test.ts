@@ -38,7 +38,10 @@ describe("format", () => {
     expect(formatNaira(54880)).toBe("₦54,880");
   });
   it("formats departure time and day", () => {
-    expect(formatTime("2026-10-17 06:30")).toBe("06:30");
+    expect(formatTime("2026-10-17 06:30")).toBe("6:30am");
+    expect(formatTime("2026-10-17 19:05")).toBe("7:05pm");
+    expect(formatTime("2026-10-17 00:15")).toBe("12:15am");
+    expect(formatTime("2026-10-17 12:00")).toBe("12:00pm");
     expect(formatDay("2026-10-17")).toBe("Sat 17 Oct");
   });
   it("uses Lagos time for today", () => {
