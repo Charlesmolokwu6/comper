@@ -1,6 +1,7 @@
 import { AlertTriangle, RotateCw } from "lucide-react";
 import type { UnavailableOperator } from "@/lib/api";
 import { quietStatuses, type CoverageLike } from "@/lib/group";
+import { CardLoader } from "./Loader";
 
 const list = (names: string[]) =>
   names.length <= 1
@@ -16,8 +17,11 @@ export function SearchProgress({ coverage }: { coverage: CoverageLike[] }) {
   if (!waiting.length) return null;
   return (
     <div role="status" className="space-y-2">
-      <div className="flex items-baseline justify-between gap-3 text-sm">
-        <span className="text-foreground">Checking operators…</span>
+      <div className="flex items-center justify-between gap-3 text-sm">
+        <span className="flex items-center gap-2.5 text-foreground">
+          <CardLoader />
+          Checking operators…
+        </span>
         <span className="tabular-nums text-muted-foreground">
           {done} of {coverage.length}
         </span>

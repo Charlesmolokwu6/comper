@@ -93,3 +93,81 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Loader: the logo's two squares shuffled like cards. Each takes the front spot (bottom
+ * left), is pulled out to the left and slipped behind into the back spot (top right),
+ * then pulled out to the right and back in front. The two run half a cycle apart.
+ */
+@keyframes card-shuffle {
+  0% {
+    transform: translate(0, var(--off));
+    z-index: 2;
+  }
+  25% {
+    transform: translate(calc(var(--off) * -0.9), calc(var(--off) * 0.45))
+      rotate(-10deg);
+    z-index: 2;
+  }
+  26% {
+    z-index: 1;
+  }
+  50% {
+    transform: translate(var(--off), 0);
+    z-index: 1;
+  }
+  75% {
+    transform: translate(calc(var(--off) * 1.9), calc(var(--off) * 0.55))
+      rotate(10deg);
+    z-index: 1;
+  }
+  76% {
+    z-index: 2;
+  }
+  100% {
+    transform: translate(0, var(--off));
+    z-index: 2;
+  }
+}
+
+.card-loader {
+  --sq: 1.25rem;
+  --off: calc(var(--sq) * 0.45);
+  position: relative;
+  display: inline-block;
+  width: calc(var(--sq) + var(--off));
+  height: calc(var(--sq) + var(--off));
+  flex: none;
+}
+.card-loader > span {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: var(--sq);
+  height: var(--sq);
+  border-radius: calc(var(--sq) * 0.24);
+  animation: card-shuffle 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.card-loader > span:first-child {
+  background: var(--primary);
+}
+.card-loader > span:last-child {
+  /* Filled with the page colour so it hides the solid card when it's in front. */
+  background: var(--background);
+  border: calc(var(--sq) * 0.12) solid var(--primary);
+  animation-delay: -0.8s;
+}
+.card-loader[data-size="lg"] {
+  --sq: 2.75rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-loader > span {
+    animation: none;
+  }
+  .card-loader > span:first-child {
+    transform: translate(0, var(--off));
+    z-index: 2;
+  }
+  .card-loader > span:last-child {
+    transform: translate(var(--off), 0);
+  }
+}

@@ -239,13 +239,6 @@ export async function compare(
       routesChecked: 0,
     };
     coverage.set(op.id, cov);
-    const notOnSale = await notOnSaleReason(op, date);
-    if (notOnSale) {
-      cov.status = "not_on_sale";
-      cov.message = notOnSale;
-      cov.onSaleUntil = await lastOnSale(op);
-      return;
-    }
     try {
       const { pairs, total } = await findRoutes(
         op.id,
@@ -263,6 +256,14 @@ export async function compare(
           (await findRoutes(op.id, fromCity, toCity)).pairs.length
         )
           cov.message = "terminal";
+        return;
+      }
+      // Only operators that run the route can be "not on sale yet" for it.
+      const notOnSale = await notOnSaleReason(op, date);
+      if (notOnSale) {
+        cov.status = "not_on_sale";
+        cov.message = notOnSale;
+        cov.onSaleUntil = await lastOnSale(op);
         return;
       }
       const errors: string[] = [];

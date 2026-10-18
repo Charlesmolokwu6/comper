@@ -12,6 +12,7 @@ import {
   SearchProgress,
   SearchSummary,
 } from "@/components/compare/SearchStatus";
+import { LoadingResults } from "@/components/compare/Loader";
 import { SiteShell } from "@/components/compare/SiteShell";
 import { useCompare } from "@/hooks/useCompare";
 import { fetchFlights, type Cabin, type FlightsResponse } from "@/lib/api";
@@ -30,24 +31,6 @@ function shiftDate(date: string, days: number) {
 
 const titleFromId = (id: string) =>
   id.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-
-function SkeletonCard() {
-  return (
-    <div aria-hidden className="rounded-2xl border border-border bg-card p-5">
-      <div className="flex justify-between">
-        <div className="space-y-2">
-          <div className="h-4 w-32 rounded bg-white/[0.06] motion-safe:animate-pulse" />
-          <div className="h-3 w-24 rounded bg-white/[0.04] motion-safe:animate-pulse" />
-        </div>
-        <div className="h-7 w-24 rounded bg-white/[0.06] motion-safe:animate-pulse" />
-      </div>
-      <div className="mt-5 space-y-2">
-        <div className="h-3 w-48 rounded bg-white/[0.04] motion-safe:animate-pulse" />
-        <div className="h-7 w-64 rounded bg-white/[0.04] motion-safe:animate-pulse" />
-      </div>
-    </div>
-  );
-}
 
 function CabinTabs({
   active,
@@ -312,10 +295,10 @@ export default function FlightResultsPage({
               ))}
 
               {groups.length === 0 && stillLoading && (
-                <>
-                  <SkeletonCard />
-                  <SkeletonCard />
-                </>
+                <LoadingResults
+                  title="Getting live fares"
+                  detail="Asking each airline for its prices. They appear here as each one answers."
+                />
               )}
 
               {groups.length === 0 && !stillLoading && (

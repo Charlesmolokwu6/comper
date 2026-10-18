@@ -7,6 +7,7 @@ import {
   SearchProgress,
   SearchSummary,
 } from "@/components/compare/SearchStatus";
+import { LoadingResults } from "@/components/compare/Loader";
 import { SiteShell } from "@/components/compare/SiteShell";
 import { VEHICLE_ART } from "@/components/compare/VehicleIcon";
 import { useCompare } from "@/hooks/useCompare";
@@ -41,24 +42,6 @@ function shiftDate(date: string, days: number) {
 /** "port-harcourt" → "Port Harcourt", for the moment before city names load. */
 const titleFromId = (id: string) =>
   id.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-
-function SkeletonCard() {
-  return (
-    <div aria-hidden className="rounded-2xl border border-border bg-card p-5">
-      <div className="flex justify-between">
-        <div className="space-y-2">
-          <div className="h-4 w-32 rounded bg-white/[0.06] motion-safe:animate-pulse" />
-          <div className="h-3 w-24 rounded bg-white/[0.04] motion-safe:animate-pulse" />
-        </div>
-        <div className="h-7 w-24 rounded bg-white/[0.06] motion-safe:animate-pulse" />
-      </div>
-      <div className="mt-5 flex gap-2">
-        <div className="h-24 w-36 rounded-xl bg-white/[0.04] motion-safe:animate-pulse" />
-        <div className="h-24 w-36 rounded-xl bg-white/[0.04] motion-safe:animate-pulse" />
-      </div>
-    </div>
-  );
-}
 
 function ClassTabs({
   active,
@@ -412,10 +395,10 @@ export default function ResultsPage({
               ))}
 
               {groups.length === 0 && stillLoading && (
-                <>
-                  <SkeletonCard />
-                  <SkeletonCard />
-                </>
+                <LoadingResults
+                  title="Getting live fares"
+                  detail="Asking each bus company for its prices. They appear here as each one answers."
+                />
               )}
 
               {groups.length === 0 && !stillLoading && (
