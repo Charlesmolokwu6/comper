@@ -4,6 +4,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Moon, Sun } from "lucide-react";
 import { fetchRoute, type RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
+import { compareMapStyle, type MapLook } from "@/lib/mapStyle";
 import { cn } from "@/lib/utils";
 
 type Located = CabPoint & { lat: number; lon: number };
@@ -13,12 +14,7 @@ const located = (p: CabPoint | null): p is Located =>
 const LIME = "#c0f11c";
 const LAGOS: [number, number] = [3.3792, 6.5244];
 
-/** OpenFreeMap vector styles: free, no key, no usage limits. */
-const STYLES = {
-  dark: "https://tiles.openfreemap.org/styles/dark",
-  light: "https://tiles.openfreemap.org/styles/positron",
-} as const;
-type Look = keyof typeof STYLES;
+type Look = MapLook;
 
 const LOOK_KEY = "compare.mapLook";
 function savedLook(): Look {
@@ -58,7 +54,7 @@ export default function TripMap({
     if (!box.current) return;
     const m = new maplibregl.Map({
       container: box.current,
-      style: STYLES[savedLook()],
+      style: compareMapStyle(savedLook()),
       center: LAGOS,
       zoom: 10,
       attributionControl: { compact: true },
@@ -92,7 +88,7 @@ export default function TripMap({
     } catch {
       // Storage can be blocked; the choice still applies for this visit.
     }
-    map.current?.setStyle(STYLES[next], { diff: false });
+    map.current?.setStyle(compareMapStyle(next), { diff: false });
   };
 
   // Fetch the road whenever both ends are known points.
