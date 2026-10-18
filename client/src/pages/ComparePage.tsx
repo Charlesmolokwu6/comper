@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
-import { Bus, CarTaxiFront, Plane } from "lucide-react";
+import { Bus, CarTaxiFront, Package, Plane } from "lucide-react";
 import { BusPanel } from "@/components/compare/BusPanel";
 import { CabPanel } from "@/components/compare/CabPanel";
+import { DeliveryPanel } from "@/components/compare/DeliveryPanel";
 import { FlightPanel } from "@/components/compare/FlightPanel";
 import { SiteShell } from "@/components/compare/SiteShell";
 import { cn } from "@/lib/utils";
 
-type Mode = "bus" | "cab" | "flight";
+type Mode = "bus" | "cab" | "flight" | "delivery";
 
 const MODES: {
   id: Mode;
@@ -30,6 +31,13 @@ const MODES: {
     icon: Plane,
     live: true,
   },
+  {
+    id: "delivery",
+    label: "Parcel Delivery",
+    short: "Delivery",
+    icon: Package,
+    live: true,
+  },
 ];
 
 function ModeTabs({
@@ -44,14 +52,14 @@ function ModeTabs({
     <div
       role="tablist"
       aria-label="Transport mode"
-      className="grid grid-cols-3 gap-1 rounded-2xl border border-border bg-card p-1"
+      className="grid grid-cols-4 gap-1 rounded-2xl border border-border bg-card p-1"
       onKeyDown={e => {
         const i = MODES.findIndex(m => m.id === mode);
         const next =
           e.key === "ArrowRight"
-            ? (i + 1) % 3
+            ? (i + 1) % MODES.length
             : e.key === "ArrowLeft"
-              ? (i + 2) % 3
+              ? (i + MODES.length - 1) % MODES.length
               : -1;
         if (next < 0) return;
         e.preventDefault();
@@ -75,7 +83,7 @@ function ModeTabs({
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(m.id)}
             className={cn(
-              "flex min-h-12 items-center justify-center gap-2 rounded-xl px-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              "flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 text-xs font-semibold transition-colors sm:min-h-12 sm:flex-row sm:gap-2 sm:px-2 sm:text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
               active
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-accent hover:text-foreground"
@@ -105,14 +113,14 @@ export default function ComparePage() {
   // "Change search" on the flight results links back with ?mode=flight.
   const [mode, setMode] = useState<Mode>(() => {
     const m = new URLSearchParams(window.location.search).get("mode");
-    return m === "flight" || m === "cab" ? m : "bus";
+    return m === "flight" || m === "cab" || m === "delivery" ? m : "bus";
   });
 
   return (
     <SiteShell>
       <div className="pb-6 pt-6 sm:pt-10">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
-          Live bus and flight fares across Nigeria,{" "}
+          Live bus, flight and delivery prices across Nigeria,{" "}
           <span className="text-primary">side by side.</span>
         </h1>
         <p className="mt-3 max-w-prose text-base text-muted-foreground">
@@ -135,6 +143,7 @@ export default function ComparePage() {
             {m.id === "bus" && <BusPanel />}
             {m.id === "cab" && <CabPanel />}
             {m.id === "flight" && <FlightPanel />}
+            {m.id === "delivery" && <DeliveryPanel />}
           </div>
         ))}
       </div>

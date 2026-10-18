@@ -279,6 +279,13 @@ proxies the public OSRM server: Nigeria only, one request a second, cached a day
 road distance only, no times or prices. Addresses used "as typed" have no map point, so the
 caption asks for a suggestion to place them.
 
+**Delivery** (`server/delivery/`, `DeliveryPanel.tsx`): GIG Logistics' public price calculator
+(`agility.giglogistics.com/api/portal/getStations` and `getpricequote`, no login), per state pair,
+weight and declared value; 2 s between requests, quotes cached 6 h. Not included: Kwik and Red
+Star (robot check), Fez (its estimate page logs in with an account built into the page).
+Shipbubble quotes 8–9 couriers without login but needs Google Places IDs for both addresses, so it
+waits for a Google Maps key of our own.
+
 **Flight** is live: see `docs/flights.md`.
 
 **Dev:** run `pnpm dev:api` (Express on :3001) and `pnpm dev` (Vite, proxies `/api`).

@@ -263,3 +263,50 @@ export const fetchRoute = (
     })}`,
     signal
   );
+
+// ---- Delivery (server/delivery/) ----
+
+export interface DeliveryStation {
+  id: number;
+  name: string;
+}
+
+export type CourierQuote =
+  | {
+      id: string;
+      name: string;
+      status: "price";
+      price: number;
+      fetchedAt: string;
+      bookingUrl: string;
+      note: string;
+    }
+  | {
+      id: string;
+      name: string;
+      status: "error";
+      message: string;
+      bookingUrl: string;
+    };
+
+export interface DeliveryQuoteResponse {
+  couriers: CourierQuote[];
+  unavailable: { name: string; reason: string }[];
+}
+
+export const fetchDeliveryStations = (signal?: AbortSignal) =>
+  getJson<{ stations: DeliveryStation[] }>("/api/delivery/stations", signal);
+
+export const fetchDeliveryQuote = (
+  q: { from: number; to: number; weight: number; value: number },
+  signal?: AbortSignal
+) =>
+  getJson<DeliveryQuoteResponse>(
+    `/api/delivery/quote?${new URLSearchParams({
+      from: String(q.from),
+      to: String(q.to),
+      weight: String(q.weight),
+      value: String(q.value),
+    })}`,
+    signal
+  );
