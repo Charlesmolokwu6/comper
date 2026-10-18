@@ -12,7 +12,10 @@ export type MapDraft =
   | "sand"
   | "graphite"
   | "olive2"
-  | "olive3";
+  | "olive3"
+  | "dayClean"
+  | "dayOlive"
+  | "dayPaper";
 
 interface Palette {
   land: string;
@@ -75,6 +78,67 @@ const PALETTES: Record<MapLook | MapDraft, Palette> = {
     areaCaps: true,
   },
   // Same, a shade lighter and with main roads warmer, for readability in sunlight.
+  // Light looks in the spirit of Bolt's map: pale land, white roads with thin grey edges,
+  // soft water and parks, few small labels, so a dark route reads instantly.
+  dayClean: {
+    land: "#f2f3f1",
+    water: "#cfe3ef",
+    waterLabel: "#5a83a0",
+    park: "#dbeed6",
+    built: "#eeefec",
+    building: "#e4e5e2",
+    minor: "#ffffff",
+    street: "#ffffff",
+    main: "#ffffff",
+    highway: "#ffffff",
+    casing: "#d9dbd6",
+    rail: "#cfd1cc",
+    label: "#2c2f2a",
+    labelMuted: "#7d827a",
+    halo: "#f7f8f6",
+    shore: "#b9d3e2",
+    areaCaps: true,
+  },
+  // Same, with a faint olive tint so it pairs with the olive dark map.
+  dayOlive: {
+    land: "#f1f3ea",
+    water: "#cfe1df",
+    waterLabel: "#557a77",
+    park: "#dbe9c9",
+    built: "#ecefe3",
+    building: "#e1e5d6",
+    minor: "#ffffff",
+    street: "#ffffff",
+    main: "#fbfdf3",
+    highway: "#eef6cf",
+    casing: "#d5dbc4",
+    rail: "#cdd2bf",
+    label: "#262b1c",
+    labelMuted: "#7b8468",
+    halo: "#f5f7ef",
+    shore: "#b6cfcb",
+    areaCaps: true,
+  },
+  // Warm paper white, the calmest of the three.
+  dayPaper: {
+    land: "#f4f2ee",
+    water: "#d3e2e8",
+    waterLabel: "#5f7f8a",
+    park: "#e1ead7",
+    built: "#efede8",
+    building: "#e6e3dc",
+    minor: "#ffffff",
+    street: "#ffffff",
+    main: "#ffffff",
+    highway: "#fff4d9",
+    casing: "#dcd8cf",
+    rail: "#d2cec5",
+    label: "#2e2a24",
+    labelMuted: "#857d70",
+    halo: "#f8f6f2",
+    shore: "#bfd2d9",
+    areaCaps: true,
+  },
   olive3: {
     land: "#121509",
     water: "#09151a",
@@ -206,8 +270,15 @@ const width = (base: number) =>
 const isClass = (...classes: string[]) =>
   ["match", ["get", "class"], classes, true, false] as any;
 
+/** The palette behind each look the app offers. Dark is "5B", picked by the owner. */
+const LOOK_PALETTE: Record<MapLook, MapLook | MapDraft> = {
+  dark: "olive3",
+  light: "light",
+};
+
 export function compareMapStyle(look: MapLook | MapDraft): StyleSpecification {
-  const c = PALETTES[look];
+  const c =
+    PALETTES[look === "dark" || look === "light" ? LOOK_PALETTE[look] : look];
   const roads: [string, string[], number, number][] = [
     // id, OpenMapTiles classes, width, min zoom
     ["minor", ["minor", "service", "track"], 0.8, 13],

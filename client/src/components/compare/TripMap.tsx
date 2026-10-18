@@ -4,7 +4,11 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Moon, Sun } from "lucide-react";
 import { fetchRoute, type RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
-import { compareMapStyle, type MapLook } from "@/lib/mapStyle";
+import {
+  compareMapStyle,
+  FIRST_LABEL_LAYER,
+  type MapLook,
+} from "@/lib/mapStyle";
 import { cn } from "@/lib/utils";
 
 type Located = CabPoint & { lat: number; lon: number };
@@ -135,29 +139,53 @@ export default function TripMap({
     const src = m.getSource("trip") as maplibregl.GeoJSONSource | undefined;
     if (src) src.setData(data);
     else m.addSource("trip", { type: "geojson", data });
-    // A style switch drops our layers; put them back on top of the new style.
+    // A style switch drops our layers; put them back, under the place names.
     if (!m.getLayer("trip-line")) {
-      m.addLayer({
-        id: "trip-casing",
-        type: "line",
-        source: "trip",
-        layout: { "line-cap": "round", "line-join": "round" },
-        paint: { "line-color": "#000", "line-width": 10, "line-opacity": 0.5 },
-      });
-      m.addLayer({
-        id: "trip-line",
-        type: "line",
-        source: "trip",
-        layout: { "line-cap": "round", "line-join": "round" },
-        paint: { "line-color": LIME, "line-width": 5 },
-      });
+      const before = m.getLayer(FIRST_LABEL_LAYER)
+        ? FIRST_LABEL_LAYER
+        : undefined;
+      const round = { "line-cap": "round", "line-join": "round" } as const;
+      if (look === "dark")
+        m.addLayer(
+          {
+            id: "trip-glow",
+            type: "line",
+            source: "trip",
+            layout: round,
+            paint: {
+              "line-color": LIME,
+              "line-width": 16,
+              "line-blur": 10,
+              "line-opacity": 0.45,
+            },
+          },
+          before
+        );
+      m.addLayer(
+        {
+          id: "trip-casing",
+          type: "line",
+          source: "trip",
+          layout: round,
+          paint: {
+            "line-color": "#000",
+            "line-width": 10,
+            "line-opacity": look === "light" ? 0.8 : 0.5,
+          },
+        },
+        before
+      );
+      m.addLayer(
+        {
+          id: "trip-line",
+          type: "line",
+          source: "trip",
+          layout: round,
+          paint: { "line-color": LIME, "line-width": 5 },
+        },
+        before
+      );
     }
-    // A darker edge keeps the lime readable on the light map.
-    m.setPaintProperty(
-      "trip-casing",
-      "line-opacity",
-      look === "light" ? 0.8 : 0.5
-    );
     // Straight dashed line while the road loads or if it can't be found.
     m.setPaintProperty("trip-line", "line-dasharray", route ? [1, 0] : [2, 2]);
 
