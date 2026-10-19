@@ -184,10 +184,15 @@ export default function ResultsPage({
   const stillLoading = state.phase === "loading" || (pending && !timedOut);
 
   const split = splitByCategory(results?.trips ?? []);
+  // "From" prices are for the terminal picked; other terminals count only when it has none.
+  const atPicked = (l: typeof split.luxury) => {
+    const exact = l.filter(t => !t.instead);
+    return exact.length ? exact : l;
+  };
   const fares = {
-    luxury: cheapestFare(split.luxury),
-    sienna: cheapestFare(split.sienna),
-    regular: cheapestFare(split.regular),
+    luxury: cheapestFare(atPicked(split.luxury)),
+    sienna: cheapestFare(atPicked(split.sienna)),
+    regular: cheapestFare(atPicked(split.regular)),
   };
   const counts = {
     luxury: split.luxury.length,
@@ -202,7 +207,10 @@ export default function ResultsPage({
     "luxury";
   const groups = groupByOperator(split[active], near);
   const cheapestOp =
-    groups.length > 1 && groups[0].best && !groups[0].bestIsApproximate
+    groups.length > 1 &&
+    groups[0].best &&
+    !groups[0].bestIsApproximate &&
+    !groups[0].instead.length
       ? groups[0].operator
       : null;
   const pendingOps = new Set(
@@ -299,7 +307,7 @@ export default function ResultsPage({
 
               {(fromTerminalName || toTerminalName) && (
                 <p className="mt-3 text-sm text-muted-foreground">
-                  Only buses{" "}
+                  Buses{" "}
                   {fromTerminalName && (
                     <>
                       from{" "}
@@ -315,7 +323,7 @@ export default function ResultsPage({
                       <span className="text-foreground">{toTerminalName}</span>
                     </>
                   )}
-                  .{" "}
+                  . Companies that don't stop there show their nearest terminal.{" "}
                   <Link
                     href={resultsPath({
                       from: fromPlace.city,
@@ -466,6 +474,14 @@ export default function ResultsPage({
                   toCityName={toName}
                   loading={pendingOps.has(g.operator)}
                   near={near}
+                  picked={{
+                    ...(fromPlace.terminal && fromTerminalName
+                      ? { [fromPlace.terminal]: fromTerminalName }
+                      : {}),
+                    ...(toPlace.terminal && toTerminalName
+                      ? { [toPlace.terminal]: toTerminalName }
+                      : {}),
+                  }}
                 />
               ))}
 

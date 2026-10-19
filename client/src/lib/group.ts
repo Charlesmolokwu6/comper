@@ -1,4 +1,4 @@
-import type { ComparedTrip, Coverage } from "./api";
+import type { ComparedTrip, Coverage, TerminalInstead } from "./api";
 import { prettyStop } from "./format";
 import { distanceKm, type LatLon } from "./geo";
 
@@ -40,6 +40,8 @@ export interface OperatorGroup {
   lastDeparture: string;
   /** Notes every departure shares (shown once on the card instead of on each row). */
   sharedNotes: string[];
+  /** Set when the operator doesn't use the terminal picked and shows its nearest one. */
+  instead: TerminalInstead[];
 }
 
 const byFare = (a: ComparedTrip, b: ComparedTrip) =>
@@ -119,13 +121,16 @@ export function groupByOperator(
       firstDeparture: times[0],
       lastDeparture: times[times.length - 1],
       sharedNotes: shared,
+      instead: list[0].instead ?? [],
     };
   });
 
-  // Cheapest operator first; approximate-only after exact; fully sold out last.
+  // Cheapest operator first; another terminal after the one picked; approximate-only
+  // after exact; fully sold out last.
   return groups.sort(
     (a, b) =>
       Number(!a.best) - Number(!b.best) ||
+      Number(a.instead.length > 0) - Number(b.instead.length > 0) ||
       Number(a.bestIsApproximate) - Number(b.bestIsApproximate) ||
       (a.best?.fare ?? 0) - (b.best?.fare ?? 0)
   );

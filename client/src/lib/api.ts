@@ -46,6 +46,18 @@ export interface ComparedTrip {
   matchNotes: string[];
   fetchedAt: string;
   stale: boolean;
+  /** The operator doesn't use the terminal picked: these trips use its nearest one. */
+  instead?: TerminalInstead[];
+}
+
+export interface TerminalInstead {
+  side: "from" | "to";
+  /** Terminal key the traveller picked. */
+  wanted: string;
+  terminal: string;
+  terminalName: string;
+  /** Straight-line km between the picked terminal and this one. */
+  km: number;
 }
 
 export type CoverageStatus =
