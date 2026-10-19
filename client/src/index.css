@@ -33,6 +33,9 @@
   --color-warn: var(--warn);
   --color-soft: var(--soft);
   --color-strong: var(--strong);
+  --color-sky-ink: var(--sky-ink);
+  --color-amber-ink: var(--amber-ink);
+  --color-rose-ink: var(--rose-ink);
 }
 
 /* Electric Dark */
@@ -68,6 +71,10 @@
   --soft: #d4d4d4;
   /* A border that must stand out, e.g. outlined chips. */
   --strong: #525252;
+  /* Stat colours on results screens (MapHero StatGrid). */
+  --sky-ink: #38bdf8;
+  --amber-ink: #fbbf24;
+  --rose-ink: #fb7185;
 }
 
 /* Daylight: follows the phone or computer's own light setting. */
@@ -96,6 +103,9 @@
     --warn: #7c4a03;
     --soft: #33352e;
     --strong: #9a9d90;
+    --sky-ink: #0369a1;
+    --amber-ink: #a16207;
+    --rose-ink: #be123c;
   }
 }
 

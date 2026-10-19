@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowDownUp,
   ArrowUpRight,
@@ -17,10 +17,8 @@ import { formatAge, formatNaira } from "@/lib/format";
 import { STATE_CAPITALS } from "@/lib/stateCapitals";
 import { cn } from "@/lib/utils";
 import { LoadingResults } from "./Loader";
+import { closeHero, HeroScreen, MapHero, StatGrid } from "./MapHero";
 import { PlaceInput } from "./PlaceInput";
-
-// The map library only loads once the delivery tab shows a map.
-const TripMap = lazy(() => import("./TripMap"));
 
 const LAGOS = 4;
 
@@ -123,8 +121,10 @@ export function DeliveryPanel() {
   const name = (id: number | null) =>
     stations.find(s => s.id === id)?.name ?? "";
 
+  const [open, setOpen] = useState(false);
   const submit = () => {
     if (!valid) return;
+    setOpen(true);
     setState("loading");
     setError(null);
     setResult(null);
@@ -351,141 +351,176 @@ export function DeliveryPanel() {
         )}
       </form>
 
-      {(result || state === "loading") &&
-        from != null &&
-        to != null &&
-        (() => {
-          const capA = STATE_CAPITALS[name(from)];
-          const capB = STATE_CAPITALS[name(to)];
-          const exact = (p: CabPoint | null) =>
-            p?.lat != null && p.lon != null
-              ? { name: p.name, lat: p.lat, lon: p.lon }
-              : null;
-          const pin = (c: typeof capA) =>
-            c && { name: c.city, lat: c.lat, lon: c.lon, capital: true };
-          const a = exact(pickup) ?? pin(capA);
-          const b = exact(dropoff) ?? (mode === "within" ? null : pin(capB));
-          if (!a) return null;
-          const capitals = [a, b].some(p => p && "capital" in p);
-          return (
-            <Suspense
-              fallback={
-                <div className="h-64 rounded-2xl border border-border bg-card sm:h-80" />
-              }
-            >
-              <TripMap
+      {open && from != null && to != null && (
+        <HeroScreen onClose={() => setOpen(false)}>
+          {(() => {
+            const capA = STATE_CAPITALS[name(from)];
+            const capB = STATE_CAPITALS[name(to)];
+            const exact = (p: CabPoint | null) =>
+              p?.lat != null && p.lon != null ? p : null;
+            const capital = (c: typeof capA) =>
+              c && { name: c.city, lat: c.lat, lon: c.lon };
+            const a = exact(pickup) ?? capital(capA) ?? null;
+            const b =
+              exact(dropoff) ?? (mode === "within" ? null : capital(capB));
+            const usesCapital =
+              (!exact(pickup) && !!a) || (!exact(dropoff) && !!b);
+            const startName =
+              pickup?.name ?? (mode === "within" ? null : name(from));
+            const endName =
+              dropoff?.name ?? (mode === "within" ? null : name(to));
+            return (
+              <MapHero
                 pickup={a}
                 dropoff={b}
-                labels={{ from: `From ${a.name}`, to: b ? `To ${b.name}` : "" }}
-                describe={km =>
-                  `${km} km by road, ${a.name} to ${b?.name}` +
-                  (capitals ? " (state capital where no address is given)" : "")
-                }
-                note={
-                  b
-                    ? undefined
-                    : `Delivery within ${name(from)}. Add a drop-off address to see the route.`
-                }
                 pointZoom={exact(pickup) ? 13 : 9}
-              />
-            </Suspense>
-          );
-        })()}
-
-      {state === "loading" && (
-        <LoadingResults
-          title="Getting live delivery prices"
-          detail="Asking each courier for its price. This takes a few seconds."
-        />
-      )}
-
-      {state === "error" && (
-        <p
-          role="alert"
-          className="rounded-xl bg-amber-400/10 px-4 py-3 text-sm text-warn"
-        >
-          Couldn't get prices: {error}
-        </p>
-      )}
-
-      {result && (
-        <section aria-label="Delivery prices" className="space-y-3">
-          <p className="text-sm text-muted-foreground">
-            {mode === "within"
-              ? `Within ${name(from)}`
-              : `${name(from)} → ${name(to)}`}{" "}
-            · {kg} kg · item worth {formatNaira(naira)}
-          </p>
-          {(pickup || dropoff) && (
-            <p className="text-sm text-muted-foreground">
-              GIG Logistics prices by state, weight and value, so the street
-              address doesn't change this price. Give your addresses to the
-              courier when you book.
-            </p>
-          )}
-          {result.couriers.map(c => (
-            <article
-              key={c.id}
-              className="rounded-2xl border border-border bg-card p-4 sm:p-5"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex min-w-0 gap-3">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface">
-                    <Package aria-hidden className="size-5 text-primary-ink" />
-                  </span>
-                  <div className="min-w-0">
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {c.name}
-                    </h3>
-                    <p className="mt-0.5 text-sm text-muted-foreground">
-                      {c.status === "price"
-                        ? c.note
-                        : `Couldn't get a price just now: ${c.message}`}
-                    </p>
-                  </div>
-                </div>
-                {c.status === "price" && (
-                  <div className="shrink-0 text-right">
-                    <p className="text-[1.75rem] font-extrabold leading-none tracking-tight tabular-nums text-foreground">
-                      {formatNaira(c.price)}
-                    </p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      price from {formatAge(c.fetchedAt)}
-                    </p>
-                  </div>
-                )}
-              </div>
-              <a
-                href={c.bookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-flex h-11 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                onBack={closeHero}
+                eyebrow={
+                  <>
+                    <Package aria-hidden />
+                    {mode === "within"
+                      ? `Within ${name(from)}`
+                      : `${name(from)} → ${name(to)}`}
+                  </>
+                }
+                title={
+                  startName && endName
+                    ? `${startName} → ${endName}`
+                    : startName
+                      ? `From ${startName}`
+                      : endName
+                        ? `To ${endName}`
+                        : `Delivery within ${name(from)}`
+                }
+                routeNote={usesCapital ? "via the state capital" : undefined}
+                meta={`${kg} kg parcel · item worth ${formatNaira(naira)}`}
               >
-                Book on {c.name}
-                <ArrowUpRight aria-hidden className="size-4" />
-              </a>
-            </article>
-          ))}
-          {result.unavailable.length > 0 && (
-            <details className="text-sm text-muted-foreground">
-              <summary className="cursor-pointer select-none">
-                Why other couriers aren't listed
-              </summary>
-              <ul className="mt-2 space-y-1">
-                {result.unavailable.map(u => (
-                  <li key={u.name}>
-                    <span className="text-foreground">{u.name}:</span>{" "}
-                    {u.reason}
-                  </li>
-                ))}
-                <li>
-                  More couriers will appear here as we connect them. Prices are
-                  only ever shown when a courier's own system gives them.
-                </li>
-              </ul>
-            </details>
-          )}
-        </section>
+                {route => (
+                  <section aria-label="Delivery prices" aria-live="polite">
+                    <h2 className="mb-3 text-xl font-extrabold tracking-tight">
+                      Delivery prices
+                    </h2>
+                    {state === "loading" && (
+                      <LoadingResults
+                        title="Getting live delivery prices"
+                        detail="Asking each courier for its price. This takes a few seconds."
+                      />
+                    )}
+                    {state === "error" && (
+                      <div
+                        role="alert"
+                        className="rounded-2xl border border-border bg-card p-5"
+                      >
+                        <p className="font-semibold">Couldn't get prices</p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {error}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={submit}
+                          className="mt-3 h-11 rounded-xl border border-border px-4 text-sm font-medium hover:bg-accent"
+                        >
+                          Try again
+                        </button>
+                      </div>
+                    )}
+                    <div className="space-y-3">
+                      {result?.couriers.map(c => (
+                        <article
+                          key={c.id}
+                          className="rounded-[1.4rem] border border-border bg-card p-4 sm:p-5"
+                        >
+                          {c.status === "price" ? (
+                            <StatGrid
+                              stats={[
+                                {
+                                  label: c.name,
+                                  value: formatNaira(c.price),
+                                  tone: "lime",
+                                },
+                                route
+                                  ? {
+                                      label: "Distance",
+                                      value: route.km.toLocaleString("en-NG"),
+                                      unit: "km",
+                                      tone: "sky",
+                                    }
+                                  : {
+                                      label: "Route",
+                                      value:
+                                        mode === "within"
+                                          ? "In-state"
+                                          : "Interstate",
+                                      tone: "sky",
+                                    },
+                                {
+                                  label: "Weight",
+                                  value: kg.toLocaleString("en-NG"),
+                                  unit: "kg",
+                                  tone: "amber",
+                                },
+                                {
+                                  label: "Item value",
+                                  value: formatNaira(naira),
+                                  tone: "rose",
+                                },
+                              ]}
+                            />
+                          ) : (
+                            <>
+                              <h3 className="text-lg font-semibold">
+                                {c.name}
+                              </h3>
+                              <p className="mt-0.5 text-sm text-muted-foreground">
+                                Couldn't get a price just now: {c.message}
+                              </p>
+                            </>
+                          )}
+                          <a
+                            href={c.bookingUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary text-[15px] font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                          >
+                            Book on {c.name}
+                            <ArrowUpRight aria-hidden className="size-4" />
+                          </a>
+                          <p className="mt-2.5 text-xs text-muted-foreground">
+                            {c.status === "price"
+                              ? `${c.note} Price from ${formatAge(c.fetchedAt)}.`
+                              : null}
+                            {(pickup || dropoff) &&
+                              " GIGL prices by state, weight and value, so the street address doesn't change it: give your addresses when you book."}
+                          </p>
+                        </article>
+                      ))}
+                    </div>
+                    {result && result.unavailable.length > 0 && (
+                      <details className="mt-4 text-sm text-muted-foreground">
+                        <summary className="cursor-pointer select-none">
+                          Why other couriers aren't listed
+                        </summary>
+                        <ul className="mt-2 space-y-1">
+                          {result.unavailable.map(u => (
+                            <li key={u.name}>
+                              <span className="text-foreground">{u.name}:</span>{" "}
+                              {u.reason}
+                            </li>
+                          ))}
+                          <li>
+                            More couriers will appear here as we connect them.
+                            Prices are only ever shown when a courier's own
+                            system gives them.
+                          </li>
+                        </ul>
+                      </details>
+                    )}
+                  </section>
+                )}
+              </MapHero>
+            );
+          })()}
+        </HeroScreen>
       )}
     </div>
   );

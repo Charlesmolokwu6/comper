@@ -247,6 +247,8 @@ export const fetchPlaces = (q: string, signal?: AbortSignal) =>
 
 export interface RoadRoute {
   km: number;
+  /** Driving time with empty roads; real trips in traffic take longer. */
+  minutes: number;
   /** [lat, lon] pairs along the road. */
   line: [number, number][];
 }

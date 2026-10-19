@@ -2,10 +2,21 @@ import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { InstallButton } from "./InstallButton";
 
-export function SiteShell({ children }: { children: ReactNode }) {
+export function SiteShell({
+  children,
+  hero,
+}: {
+  children: ReactNode;
+  /** Full-width top of a results page (MapHero), in place of the header. */
+  hero?: ReactNode;
+}) {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-4 pt-6 sm:px-6 sm:pt-8">
+      {hero}
+      <header
+        hidden={!!hero}
+        className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-4 pt-6 sm:px-6 sm:pt-8"
+      >
         <Link
           href="/"
           className="flex items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"

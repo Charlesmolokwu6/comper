@@ -19,6 +19,7 @@ let queue: Promise<unknown> = Promise.resolve();
 
 export interface RouteBody {
   km: number;
+  minutes: number;
   /** [lat, lon] pairs along the road. */
   line: [number, number][];
 }
@@ -79,6 +80,8 @@ routeRouter.get("/", async (req, res) => {
       return res.status(404).json({ error: "No road route found" });
     const body: RouteBody = {
       km: Math.round(route.distance / 100) / 10,
+      // Free-flow driving time: OSRM knows nothing about traffic.
+      minutes: Math.round(route.duration / 60),
       line: thin(
         (route.geometry.coordinates as [number, number][]).map(
           ([lon, lat]) => [lat, lon] as [number, number]

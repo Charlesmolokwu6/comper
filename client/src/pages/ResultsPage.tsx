@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, SearchX } from "lucide-react";
+import { Bus, ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { MapCredits } from "@/components/compare/MapCredits";
+import { MapHero, StatGrid } from "@/components/compare/MapHero";
 import { NearPicker } from "@/components/compare/NearPicker";
 import { OperatorCard } from "@/components/compare/OperatorCard";
 import {
@@ -21,6 +23,7 @@ import {
 } from "@/lib/categories";
 import { formatDay, formatNaira, lagosDate } from "@/lib/format";
 import { groupByOperator } from "@/lib/group";
+import { centreOf } from "@/lib/cityCentres";
 import { parsePlace } from "@/lib/places";
 import { rememberSearch, resultsPath } from "@/lib/routes";
 import { cn } from "@/lib/utils";
@@ -207,6 +210,11 @@ export default function ResultsPage({
       .filter(c => c.status === "pending")
       .map(c => c.operator) ?? []
   );
+  const cheapestAll =
+    Object.values(fares)
+      .filter((f): f is number => f != null)
+      .sort((a, b) => a - b)[0] ?? null;
+  const operatorCount = new Set(results?.trips.map(t => t.operatorName)).size;
   const activeLabel = CATEGORIES.find(c => c.id === active)!;
   const otherWithFares = CATEGORIES.filter(
     c => c.id !== active && fares[c.id] != null
@@ -228,92 +236,159 @@ export default function ResultsPage({
   const tooFarAhead = latestOnSale != null && date > latestOnSale;
 
   return (
-    <SiteShell>
-      <div className="mx-auto max-w-3xl pt-6 sm:pt-8">
-        <Link
-          href="/"
-          className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
+    <SiteShell
+      hero={
+        <MapHero
+          pickup={centreOf(fromPlace.city)}
+          dropoff={centreOf(toPlace.city)}
+          onBack={() => navigate("/")}
+          eyebrow={
+            <>
+              <Bus aria-hidden />
+              Bus{validDate ? ` · ${formatDay(date)}` : ""}
+            </>
+          }
+          title={
+            <>
+              {fromName}
+              {fromTerminalName && (
+                <span className="text-muted-foreground">
+                  {" "}
+                  · {fromTerminalName}
+                </span>
+              )}{" "}
+              → {toName}
+              {toTerminalName && (
+                <span className="text-muted-foreground">
+                  {" "}
+                  · {toTerminalName}
+                </span>
+              )}
+            </>
+          }
+          routeNote="between city centres"
+          credits={false}
         >
-          <ArrowLeft aria-hidden className="size-4" />
-          Change search
-        </Link>
+          {route => (
+            <>
+              {validDate && (
+                <div className="mt-3 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => go(shiftDate(date, -1))}
+                    disabled={shiftDate(date, -1) < today}
+                    aria-label="Previous day"
+                    className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
+                  >
+                    <ChevronLeft aria-hidden className="size-4" />
+                  </button>
+                  <span className="min-w-0 flex-1 text-center text-base font-semibold sm:flex-none sm:px-2">
+                    {formatDay(date)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => go(shiftDate(date, 1))}
+                    disabled={shiftDate(date, 1) > lagosDate(MAX_DAYS_AHEAD)}
+                    aria-label="Next day"
+                    className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
+                  >
+                    <ChevronRight aria-hidden className="size-4" />
+                  </button>
+                </div>
+              )}
 
-        <h1 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
-          {fromName}
-          {fromTerminalName && (
-            <span className="text-muted-foreground"> · {fromTerminalName}</span>
-          )}{" "}
-          → {toName}
-          {toTerminalName && (
-            <span className="text-muted-foreground"> · {toTerminalName}</span>
+              {(fromTerminalName || toTerminalName) && (
+                <p className="mt-3 text-sm text-muted-foreground">
+                  Only buses{" "}
+                  {fromTerminalName && (
+                    <>
+                      from{" "}
+                      <span className="text-foreground">
+                        {fromTerminalName}
+                      </span>
+                    </>
+                  )}
+                  {fromTerminalName && toTerminalName && " "}
+                  {toTerminalName && (
+                    <>
+                      to{" "}
+                      <span className="text-foreground">{toTerminalName}</span>
+                    </>
+                  )}
+                  .{" "}
+                  <Link
+                    href={resultsPath({
+                      from: fromPlace.city,
+                      to: toPlace.city,
+                      date,
+                    })}
+                    className="rounded font-medium text-primary-ink underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+                  >
+                    Show all terminals
+                  </Link>
+                </p>
+              )}
+
+              {fromCity &&
+                !fromPlace.terminal &&
+                fromCity.places.length > 0 && (
+                  <NearPicker
+                    cityName={fromCity.name}
+                    places={fromCity.places}
+                    value={near}
+                    onChange={n => setNear(fromPlace.city, n)}
+                  />
+                )}
+
+              {results && results.trips.length > 0 && (
+                <div className="mt-5 rounded-[1.4rem] border border-border bg-card p-4 sm:p-5">
+                  <StatGrid
+                    stats={[
+                      {
+                        label: "Cheapest",
+                        value:
+                          cheapestAll != null ? formatNaira(cheapestAll) : "—",
+                        tone: "lime",
+                      },
+                      {
+                        label: "Operators",
+                        value: operatorCount,
+                        tone: "sky",
+                      },
+                      {
+                        label: "Departures",
+                        value: results.trips.length,
+                        tone: "amber",
+                      },
+                      route
+                        ? {
+                            label: "Distance",
+                            value: route.km.toLocaleString("en-NG"),
+                            unit: "km",
+                            tone: "rose",
+                          }
+                        : {
+                            label: "Bus classes",
+                            value: CATEGORIES.filter(c => counts[c.id] > 0)
+                              .length,
+                            tone: "rose",
+                          },
+                    ]}
+                  />
+                  {stillLoading && (
+                    <p className="mt-2.5 text-xs text-muted-foreground">
+                      Still asking some operators; these numbers update as they
+                      answer.
+                    </p>
+                  )}
+                </div>
+              )}
+            </>
           )}
-        </h1>
-
-        {validDate && (
-          <div className="mt-3 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => go(shiftDate(date, -1))}
-              disabled={shiftDate(date, -1) < today}
-              aria-label="Previous day"
-              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
-            >
-              <ChevronLeft aria-hidden className="size-4" />
-            </button>
-            <span className="min-w-0 flex-1 text-center text-base font-semibold sm:flex-none sm:px-2">
-              {formatDay(date)}
-            </span>
-            <button
-              type="button"
-              onClick={() => go(shiftDate(date, 1))}
-              disabled={shiftDate(date, 1) > lagosDate(MAX_DAYS_AHEAD)}
-              aria-label="Next day"
-              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
-            >
-              <ChevronRight aria-hidden className="size-4" />
-            </button>
-          </div>
-        )}
-
-        {(fromTerminalName || toTerminalName) && (
-          <p className="mt-3 text-sm text-muted-foreground">
-            Only buses{" "}
-            {fromTerminalName && (
-              <>
-                from <span className="text-foreground">{fromTerminalName}</span>
-              </>
-            )}
-            {fromTerminalName && toTerminalName && " "}
-            {toTerminalName && (
-              <>
-                to <span className="text-foreground">{toTerminalName}</span>
-              </>
-            )}
-            .{" "}
-            <Link
-              href={resultsPath({
-                from: fromPlace.city,
-                to: toPlace.city,
-                date,
-              })}
-              className="rounded font-medium text-primary-ink underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
-            >
-              Show all terminals
-            </Link>
-          </p>
-        )}
-
-        {fromCity && !fromPlace.terminal && fromCity.places.length > 0 && (
-          <NearPicker
-            cityName={fromCity.name}
-            places={fromCity.places}
-            value={near}
-            onChange={n => setNear(fromPlace.city, n)}
-          />
-        )}
-      </div>
-
-      <div className="mx-auto mt-6 max-w-3xl space-y-4" aria-live="polite">
+        </MapHero>
+      }
+    >
+      <div className="mx-auto max-w-3xl space-y-4" aria-live="polite">
         {!validDate && (
           <div
             role="alert"
@@ -472,6 +547,9 @@ export default function ResultsPage({
               />
             )}
           </>
+        )}
+        {centreOf(fromPlace.city) && centreOf(toPlace.city) && (
+          <MapCredits className="block pt-4" />
         )}
       </div>
     </SiteShell>

@@ -3,6 +3,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { fetchRoute, type RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
+import { MapCredits } from "./MapCredits";
 import {
   compareMapStyle,
   FIRST_LABEL_LAYER,
@@ -116,6 +117,8 @@ export default function TripMap({
   describe = km => `${km} km by road`,
   note,
   pointZoom = 14,
+  hero = false,
+  onRoute,
 }: {
   pickup: CabPoint | null;
   dropoff: CabPoint | null;
@@ -127,6 +130,13 @@ export default function TripMap({
   note?: string;
   /** Zoom for a single point: close for a street, wider for a whole state. */
   pointZoom?: number;
+  /** Full-bleed, still backdrop behind a results screen (MapHero): no caption, no gestures. */
+  hero?: boolean;
+  /** Told when the road route arrives (or fails), for text shown outside the map. */
+  onRoute?: (
+    route: RoadRoute | null,
+    state: "idle" | "loading" | "error"
+  ) => void;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -146,6 +156,8 @@ export default function TripMap({
       zoom: 10,
       // Credits sit in the caption under the map instead of a button on it.
       attributionControl: false,
+      // Behind a results screen the map is scenery: swiping should scroll the page.
+      interactive: !hero,
       dragRotate: false,
       pitchWithRotate: false,
       maxPitch: 60,
@@ -350,8 +362,12 @@ export default function TripMap({
         (bb, c) => bb.extend(c),
         new maplibregl.LngLatBounds(all[0], all[0])
       );
+      // As a backdrop, keep the trip in the top part: the text covers the bottom.
+      const h = m.getContainer().clientHeight;
       const cam = m.cameraForBounds(bounds, {
-        padding: { top: 48, bottom: 36, left: 40, right: 40 },
+        padding: hero
+          ? { top: 76, bottom: Math.round(h * 0.42), left: 44, right: 44 }
+          : { top: 48, bottom: 36, left: 40, right: 40 },
         maxZoom: 16,
       });
       if (cam?.center != null && cam.zoom != null) {
@@ -424,8 +440,25 @@ export default function TripMap({
     []
   );
 
+  useEffect(() => {
+    onRoute?.(route, state);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route, state]);
+
   const typedOnly =
     (pickup && !located(pickup)) || (dropoff && !located(dropoff));
+
+  if (hero)
+    return (
+      <div
+        ref={box}
+        role="img"
+        aria-label={
+          route ? `Map of the road route, ${route.km} km` : "Map of the trip"
+        }
+        className="size-full bg-surface"
+      />
+    );
 
   return (
     <figure className="overflow-hidden rounded-2xl border border-border bg-card">
@@ -472,35 +505,7 @@ export default function TripMap({
                     ? "Pick a suggestion to see that point on the map"
                     : ""}
         </span>
-        <span className="w-full text-[11px] text-muted-foreground/70">
-          Map ©{" "}
-          <a
-            href="https://www.openstreetmap.org/copyright"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline-offset-2 hover:underline"
-          >
-            OpenStreetMap
-          </a>{" "}
-          contributors ·{" "}
-          <a
-            href="https://www.openmaptiles.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline-offset-2 hover:underline"
-          >
-            © OpenMapTiles
-          </a>{" "}
-          ·{" "}
-          <a
-            href="https://openfreemap.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline-offset-2 hover:underline"
-          >
-            OpenFreeMap
-          </a>
-        </span>
+        <MapCredits className="w-full" />
       </figcaption>
     </figure>
   );
