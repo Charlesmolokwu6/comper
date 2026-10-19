@@ -12,10 +12,12 @@ import {
   type DeliveryQuoteResponse,
   type DeliveryStation,
 } from "@/lib/api";
+import type { CabPoint } from "@/lib/cab";
 import { formatAge, formatNaira } from "@/lib/format";
 import { STATE_CAPITALS } from "@/lib/stateCapitals";
 import { cn } from "@/lib/utils";
 import { LoadingResults } from "./Loader";
+import { PlaceInput } from "./PlaceInput";
 
 // The map library only loads once the delivery tab shows a map.
 const TripMap = lazy(() => import("./TripMap"));
@@ -68,6 +70,24 @@ function StateSelect({
   );
 }
 
+type Mode = "within" | "between";
+
+/** The state an address search result sits in, from the state names in its address. */
+export function stateOf(
+  p: CabPoint,
+  stations: DeliveryStation[]
+): number | undefined {
+  const text = `${p.name}, ${p.address ?? ""}`
+    .toLowerCase()
+    .replace("federal capital territory", "abuja");
+  let best: { id: number; at: number } | undefined;
+  for (const s of stations) {
+    const at = text.lastIndexOf(s.name.replace(/\s*\(.*\)/, "").toLowerCase());
+    if (at >= 0 && (!best || at > best.at)) best = { id: s.id, at };
+  }
+  return best?.id;
+}
+
 /**
  * Delivery tab: live parcel prices by state, weight and declared value. GIG Logistics is the
  * only courier whose public calculator we can use today; the rest are listed with why not.
@@ -76,7 +96,13 @@ export function DeliveryPanel() {
   const [stations, setStations] = useState<DeliveryStation[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [from, setFrom] = useState<number | null>(LAGOS);
-  const [to, setTo] = useState<number | null>(LAGOS);
+  const [toState, setTo] = useState<number | null>(LAGOS);
+  const [mode, setMode] = useState<Mode>("within");
+  const [pickup, setPickup] = useState<CabPoint | null>(null);
+  const [dropoff, setDropoff] = useState<CabPoint | null>(null);
+  const to = mode === "within" ? from : toState;
+  // A price shown is always for the states on screen.
+  useEffect(() => setResult(null), [from, to]);
   const [weight, setWeight] = useState("2");
   const [value, setValue] = useState("10000");
   const [result, setResult] = useState<DeliveryQuoteResponse | null>(null);
@@ -124,35 +150,151 @@ export function DeliveryPanel() {
         }}
         className="rounded-2xl border border-border bg-card p-4 sm:p-5"
       >
-        <div className="grid gap-3 md:grid-cols-[1fr_auto_1fr] md:items-end">
-          <StateSelect
-            id="delivery-from"
-            label="Send from"
-            value={from}
-            stations={stations}
-            onChange={setFrom}
-          />
-          <div className="flex justify-end md:mb-2 md:justify-center">
+        <div
+          role="group"
+          aria-label="Delivery type"
+          className="mb-4 grid grid-cols-2 gap-1 rounded-xl border border-border bg-surface p-1"
+        >
+          {(
+            [
+              ["within", "Within a state"],
+              ["between", "State to state"],
+            ] as const
+          ).map(([id, text]) => (
             <button
+              key={id}
               type="button"
+              aria-pressed={mode === id}
               onClick={() => {
-                setFrom(to);
-                setTo(from);
+                setMode(id);
+                setResult(null);
               }}
-              aria-label="Swap states"
-              className="-my-2 flex size-11 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary md:my-0"
+              className={cn(
+                "h-11 rounded-lg text-sm font-semibold focus-visible:outline-2 focus-visible:outline-primary",
+                mode === id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
             >
-              <ArrowDownUp aria-hidden className="size-4 md:rotate-90" />
+              {text}
             </button>
-          </div>
-          <StateSelect
-            id="delivery-to"
-            label="Deliver to"
-            value={to}
-            stations={stations}
-            onChange={setTo}
-          />
+          ))}
         </div>
+
+        {mode === "within" ? (
+          <div className="space-y-3">
+            <StateSelect
+              id="delivery-from"
+              label="State"
+              value={from}
+              stations={stations}
+              onChange={id => {
+                setFrom(id);
+                setResult(null);
+              }}
+            />
+            <div className="grid gap-3 md:grid-cols-2">
+              <PlaceInput
+                label="Pickup address"
+                value={pickup}
+                onChange={p => {
+                  setPickup(p);
+                  const s = p && stateOf(p, stations);
+                  if (s) setFrom(s);
+                }}
+                placeholder="e.g. Ajah, Lekki"
+              />
+              <PlaceInput
+                label="Drop-off address"
+                value={dropoff}
+                onChange={setDropoff}
+                placeholder="e.g. Ikeja GRA"
+              />
+            </div>
+            {(() => {
+              const s = dropoff && stateOf(dropoff, stations);
+              return s && s !== from ? (
+                <p className="rounded-xl bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
+                  This drop-off looks like it's in {name(s)}.{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("between");
+                      setTo(s);
+                      setResult(null);
+                    }}
+                    className="font-semibold underline underline-offset-2"
+                  >
+                    Switch to state to state
+                  </button>
+                </p>
+              ) : null;
+            })()}
+          </div>
+        ) : (
+          <div className="grid gap-3 md:grid-cols-[1fr_auto_1fr]">
+            <div className="space-y-3">
+              <StateSelect
+                id="delivery-from"
+                label="Send from"
+                value={from}
+                stations={stations}
+                onChange={id => {
+                  setFrom(id);
+                  setResult(null);
+                }}
+              />
+              <PlaceInput
+                label="Pickup address"
+                value={pickup}
+                onChange={p => {
+                  setPickup(p);
+                  const s = p && stateOf(p, stations);
+                  if (s) setFrom(s);
+                }}
+                placeholder="Optional, e.g. Ajah"
+              />
+            </div>
+            <div className="flex justify-end md:mt-7 md:items-start md:justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setFrom(toState);
+                  setTo(from);
+                  setPickup(dropoff);
+                  setDropoff(pickup);
+                  setResult(null);
+                }}
+                aria-label="Swap pickup and drop-off"
+                className="-my-2 flex size-11 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary md:my-0"
+              >
+                <ArrowDownUp aria-hidden className="size-4 md:rotate-90" />
+              </button>
+            </div>
+            <div className="space-y-3">
+              <StateSelect
+                id="delivery-to"
+                label="Deliver to"
+                value={toState}
+                stations={stations}
+                onChange={id => {
+                  setTo(id);
+                  setResult(null);
+                }}
+              />
+              <PlaceInput
+                label="Drop-off address"
+                value={dropoff}
+                onChange={p => {
+                  setDropoff(p);
+                  const s = p && stateOf(p, stations);
+                  if (s) setTo(s);
+                }}
+                placeholder="Optional, e.g. Wuse 2"
+              />
+            </div>
+          </div>
+        )}
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <div>
@@ -226,10 +368,18 @@ export function DeliveryPanel() {
       {from != null &&
         to != null &&
         (() => {
-          const a = STATE_CAPITALS[name(from)];
-          const b = STATE_CAPITALS[name(to)];
-          if (!a || !b) return null;
-          const same = from === to;
+          const capA = STATE_CAPITALS[name(from)];
+          const capB = STATE_CAPITALS[name(to)];
+          const exact = (p: CabPoint | null) =>
+            p?.lat != null && p.lon != null
+              ? { name: p.name, lat: p.lat, lon: p.lon }
+              : null;
+          const pin = (c: typeof capA) =>
+            c && { name: c.city, lat: c.lat, lon: c.lon, capital: true };
+          const a = exact(pickup) ?? pin(capA);
+          const b = exact(dropoff) ?? (mode === "within" ? null : pin(capB));
+          if (!a) return null;
+          const capitals = [a, b].some(p => p && "capital" in p);
           return (
             <Suspense
               fallback={
@@ -237,14 +387,19 @@ export function DeliveryPanel() {
               }
             >
               <TripMap
-                pickup={{ name: a.city, lat: a.lat, lon: a.lon }}
-                dropoff={same ? null : { name: b.city, lat: b.lat, lon: b.lon }}
-                labels={{ from: `From ${a.city}`, to: `To ${b.city}` }}
+                pickup={a}
+                dropoff={b}
+                labels={{ from: `From ${a.name}`, to: b ? `To ${b.name}` : "" }}
                 describe={km =>
-                  `${km} km by road, ${a.city} to ${b.city} (state capitals)`
+                  `${km} km by road, ${a.name} to ${b?.name}` +
+                  (capitals ? " (state capital where no address is given)" : "")
                 }
-                note={same ? `Delivery within ${name(from)}` : undefined}
-                pointZoom={9}
+                note={
+                  b
+                    ? undefined
+                    : `Delivery within ${name(from)}. Add a drop-off address to see the route.`
+                }
+                pointZoom={exact(pickup) ? 13 : 9}
               />
             </Suspense>
           );
@@ -269,9 +424,18 @@ export function DeliveryPanel() {
       {result && (
         <section aria-label="Delivery prices" className="space-y-3">
           <p className="text-sm text-muted-foreground">
-            {name(from)} → {name(to)} · {kg} kg · item worth{" "}
-            {formatNaira(naira)}
+            {mode === "within"
+              ? `Within ${name(from)}`
+              : `${name(from)} → ${name(to)}`}{" "}
+            · {kg} kg · item worth {formatNaira(naira)}
           </p>
+          {(pickup || dropoff) && (
+            <p className="text-sm text-muted-foreground">
+              GIG Logistics prices by state, weight and value, so the street
+              address doesn't change this price. Give your addresses to the
+              courier when you book.
+            </p>
+          )}
           {result.couriers.map(c => (
             <article
               key={c.id}

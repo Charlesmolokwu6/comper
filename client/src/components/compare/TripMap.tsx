@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { Moon, Sun } from "lucide-react";
 import { fetchRoute, type RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
 import {
@@ -9,7 +8,6 @@ import {
   FIRST_LABEL_LAYER,
   type MapLook,
 } from "@/lib/mapStyle";
-import { cn } from "@/lib/utils";
 
 type Located = CabPoint & { lat: number; lon: number };
 const located = (p: CabPoint | null): p is Located =>
@@ -20,14 +18,12 @@ const LAGOS: [number, number] = [3.3792, 6.5244];
 
 type Look = MapLook;
 
-const LOOK_KEY = "compare.mapLook";
-function savedLook(): Look {
-  try {
-    return localStorage.getItem(LOOK_KEY) === "light" ? "light" : "dark";
-  } catch {
-    return "dark";
-  }
-}
+/** The map follows the phone's own light or dark setting. */
+const LIGHT_QUERY = "(prefers-color-scheme: light)";
+const systemLook = (): Look =>
+  typeof window !== "undefined" && window.matchMedia?.(LIGHT_QUERY).matches
+    ? "light"
+    : "dark";
 
 /** Pickup: lime dot with a radar-style pulse. Drop-off: a square pin, as ride apps do. */
 function pin(kind: "pickup" | "dropoff") {
@@ -111,7 +107,7 @@ function reveal(m: maplibregl.Map, p: number, look: Look) {
 
 /**
  * Map of the trip: pickup (lime dot), drop-off (white dot) and the road between them, from
- * /api/places/route. Dark or light map, remembered on this device.
+ * /api/places/route. Dark or light map to match the phone setting.
  */
 export default function TripMap({
   pickup,
@@ -136,7 +132,7 @@ export default function TripMap({
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<maplibregl.Marker[]>([]);
   const frame = useRef<number | null>(null);
-  const [look, setLook] = useState<Look>(savedLook);
+  const [look, setLook] = useState<Look>(systemLook);
   const [ready, setReady] = useState(0);
   const [route, setRoute] = useState<RoadRoute | null>(null);
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
@@ -145,27 +141,18 @@ export default function TripMap({
     if (!box.current) return;
     const m = new maplibregl.Map({
       container: box.current,
-      style: compareMapStyle(savedLook()),
+      style: compareMapStyle(systemLook()),
       center: LAGOS,
       zoom: 10,
-      attributionControl: { compact: true },
+      // Credits sit in the caption under the map instead of a button on it.
+      attributionControl: false,
       dragRotate: false,
       pitchWithRotate: false,
       maxPitch: 60,
     });
     m.touchZoomRotate.disableRotation();
-    m.addControl(
-      new maplibregl.NavigationControl({ showCompass: false }),
-      "bottom-right"
-    );
     // Our route layers live in the style, so they're re-added after every style load.
     m.on("style.load", () => setReady(n => n + 1));
-    // Start the credits folded into the small (i) button; they open on tap.
-    m.once("load", () =>
-      box.current
-        ?.querySelector(".maplibregl-ctrl-attrib")
-        ?.classList.remove("maplibregl-compact-show")
-    );
     map.current = m;
     return () => {
       if (frame.current) cancelAnimationFrame(frame.current);
@@ -174,15 +161,17 @@ export default function TripMap({
     };
   }, []);
 
-  const switchLook = (next: Look) => {
-    setLook(next);
-    try {
-      localStorage.setItem(LOOK_KEY, next);
-    } catch {
-      // Storage can be blocked; the choice still applies for this visit.
-    }
-    map.current?.setStyle(compareMapStyle(next), { diff: false });
-  };
+  useEffect(() => {
+    const mq = window.matchMedia?.(LIGHT_QUERY);
+    if (!mq) return;
+    const follow = () => {
+      const next = systemLook();
+      setLook(next);
+      map.current?.setStyle(compareMapStyle(next), { diff: false });
+    };
+    mq.addEventListener("change", follow);
+    return () => mq.removeEventListener("change", follow);
+  }, []);
 
   // Fetch the road whenever both ends are known points.
   const a = located(pickup) ? pickup : null;
@@ -207,6 +196,9 @@ export default function TripMap({
   useEffect(() => {
     const m = map.current;
     if (!m || !ready) return;
+    // The running animation keeps the map from ever going idle, so stop it first.
+    if (frame.current) cancelAnimationFrame(frame.current);
+    frame.current = null;
     // Right after a style switch the new style can still be loading; draw once it settles.
     if (!m.isStyleLoaded()) {
       m.once("idle", () => setReady(n => n + 1));
@@ -358,9 +350,8 @@ export default function TripMap({
         (bb, c) => bb.extend(c),
         new maplibregl.LngLatBounds(all[0], all[0])
       );
-      // Room at the top for the Dark/Light switch, at the right for the zoom buttons.
       const cam = m.cameraForBounds(bounds, {
-        padding: { top: 70, bottom: 36, left: 36, right: 60 },
+        padding: { top: 48, bottom: 36, left: 40, right: 40 },
         maxZoom: 16,
       });
       if (cam?.center != null && cam.zoom != null) {
@@ -449,34 +440,6 @@ export default function TripMap({
           }
           className="h-64 w-full bg-surface sm:h-80"
         />
-        <div
-          role="group"
-          aria-label="Map style"
-          className="absolute left-3 top-3 flex rounded-full border border-border bg-black/70 p-0.5 backdrop-blur"
-        >
-          {(
-            [
-              ["dark", "Dark", Moon],
-              ["light", "Light", Sun],
-            ] as const
-          ).map(([id, label, Icon]) => (
-            <button
-              key={id}
-              type="button"
-              aria-pressed={look === id}
-              onClick={() => switchLook(id)}
-              className={cn(
-                "flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold focus-visible:outline-2 focus-visible:outline-primary",
-                look === id
-                  ? "bg-primary text-primary-foreground"
-                  : "text-neutral-200 hover:text-white"
-              )}
-            >
-              <Icon aria-hidden className="size-3.5" />
-              {label}
-            </button>
-          ))}
-        </div>
       </div>
       <figcaption className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-sm">
         <span className="flex items-center gap-1.5 text-muted-foreground">
@@ -487,13 +450,15 @@ export default function TripMap({
           />
           {labels.from}
         </span>
-        <span className="flex items-center gap-1.5 text-muted-foreground">
-          <span
-            aria-hidden
-            className="size-2.5 rounded-[3px] border-2 border-black bg-white"
-          />
-          {labels.to}
-        </span>
+        {dropoff && (
+          <span className="flex items-center gap-1.5 text-muted-foreground">
+            <span
+              aria-hidden
+              className="size-2.5 rounded-[3px] border-2 border-black bg-white"
+            />
+            {labels.to}
+          </span>
+        )}
         <span className="ml-auto text-foreground">
           {route
             ? describe(route.km)
@@ -506,6 +471,35 @@ export default function TripMap({
                   : typedOnly
                     ? "Pick a suggestion to see that point on the map"
                     : ""}
+        </span>
+        <span className="w-full text-[11px] text-muted-foreground/70">
+          Map ©{" "}
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline-offset-2 hover:underline"
+          >
+            OpenStreetMap
+          </a>{" "}
+          contributors ·{" "}
+          <a
+            href="https://www.openmaptiles.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline-offset-2 hover:underline"
+          >
+            © OpenMapTiles
+          </a>{" "}
+          ·{" "}
+          <a
+            href="https://openfreemap.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline-offset-2 hover:underline"
+          >
+            OpenFreeMap
+          </a>
         </span>
       </figcaption>
     </figure>
