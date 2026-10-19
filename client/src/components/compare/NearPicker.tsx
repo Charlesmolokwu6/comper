@@ -13,7 +13,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import type { Place } from "@/lib/api";
+import { fetchReverse, type Place } from "@/lib/api";
 
 export interface Near {
   name: string;
@@ -47,14 +47,16 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
     setLocating(true);
     navigator.geolocation.getCurrentPosition(
       pos => {
-        setLocating(false);
-        onChange({
-          name: "your location",
-          lat: pos.coords.latitude,
-          lon: pos.coords.longitude,
-          gps: true,
-        });
-        setOpen(false);
+        const { latitude: lat, longitude: lon } = pos.coords;
+        // Name the area they're in ("Ajah"), so they can see we found the right place.
+        fetchReverse(lat, lon)
+          .then(p => p.area ?? p.name)
+          .catch(() => "your location")
+          .then(name => {
+            setLocating(false);
+            onChange({ name, lat, lon, gps: true });
+            setOpen(false);
+          });
       },
       () => {
         setLocating(false);
@@ -65,7 +67,7 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
   };
 
   return (
-    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+    <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
       <span className="text-muted-foreground">Boarding near</span>
       <Popover
         open={open}
@@ -78,7 +80,7 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
           <button
             type="button"
             aria-label={`Boarding near: ${value ? value.name : "not set"}. Change`}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-surface px-3 font-semibold text-foreground hover:border-strong focus-visible:outline-2 focus-visible:outline-ring"
+            className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-border bg-surface px-3 font-semibold text-foreground hover:border-strong focus-visible:outline-2 focus-visible:outline-ring"
           >
             <Navigation aria-hidden className="size-3.5 text-primary-ink" />
             {value ? value.name : `Choose your area in ${cityName}`}
@@ -101,7 +103,10 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
                   onSelect={useLocation}
                   disabled={locating}
                 >
-                  <LocateFixed aria-hidden className="size-4 text-primary-ink" />
+                  <LocateFixed
+                    aria-hidden
+                    className="size-4 text-primary-ink"
+                  />
                   {locating ? "Finding you…" : "Use my current location"}
                 </CommandItem>
                 {value && (

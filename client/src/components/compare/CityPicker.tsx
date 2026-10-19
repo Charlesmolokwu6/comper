@@ -63,7 +63,7 @@ export function CityPicker({
     <div className="min-w-0">
       <span
         id={`${id}-label`}
-        className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground"
+        className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted-foreground"
       >
         {label}
       </span>
@@ -75,7 +75,7 @@ export function CityPicker({
             aria-expanded={open}
             aria-labelledby={`${id}-label`}
             className={cn(
-              "flex h-14 w-full items-center gap-3 rounded-xl border border-border bg-surface px-4 text-left text-base transition-colors",
+              "flex h-12 w-full items-center gap-2.5 rounded-xl border border-border bg-surface px-3.5 text-left text-[15px] transition-colors",
               "hover:border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
               "disabled:cursor-not-allowed disabled:opacity-50"
             )}

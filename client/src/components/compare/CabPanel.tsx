@@ -8,6 +8,7 @@ import {
   LocateFixed,
   Search,
 } from "lucide-react";
+import { fetchReverse } from "@/lib/api";
 import { CAB_PROVIDERS, type CabPoint } from "@/lib/cab";
 import { cn } from "@/lib/utils";
 import { closeHero, HeroScreen, MapHero, StatGrid } from "./MapHero";
@@ -27,15 +28,18 @@ export function CabPanel() {
   const [copied, setCopied] = useState<string | null>(null);
 
   const [gpsError, setGpsError] = useState<string | null>(null);
+  // Turn the phone's position into the street it's on, so people can check it's right.
   const gotPosition = (pos: GeolocationPosition) => {
-    setGpsState("idle");
+    const { latitude: lat, longitude: lon } = pos.coords;
     setGpsError(null);
-    setPickup({
-      name: "My current location",
-      lat: pos.coords.latitude,
-      lon: pos.coords.longitude,
-      gps: true,
-    });
+    fetchReverse(lat, lon)
+      .then(p =>
+        setPickup({ name: p.name, address: p.address, lat, lon, gps: true })
+      )
+      .catch(() =>
+        setPickup({ name: "My current location", lat, lon, gps: true })
+      )
+      .finally(() => setGpsState("idle"));
   };
   const gpsFailed = (err: GeolocationPositionError) => {
     setGpsState("denied");
@@ -88,9 +92,10 @@ export function CabPanel() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl border border-border bg-card p-4 sm:p-5">
-        <div className="grid gap-3 md:grid-cols-2">
+      <div className="rounded-2xl border border-border bg-card p-3.5 sm:p-5">
+        <div className="grid gap-2.5 md:grid-cols-2">
           <PlaceInput
+            compact
             label="Pickup"
             value={pickup}
             onChange={setPickup}
@@ -99,7 +104,7 @@ export function CabPanel() {
               <button
                 type="button"
                 onClick={locate}
-                className="mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border px-3 text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
+                className="mt-1.5 inline-flex min-h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[13px] font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
               >
                 <LocateFixed aria-hidden className="size-4 text-primary-ink" />
                 {gpsState === "locating"
@@ -109,6 +114,7 @@ export function CabPanel() {
             }
           />
           <PlaceInput
+            compact
             label="Drop-off"
             value={dropoff}
             onChange={setDropoff}

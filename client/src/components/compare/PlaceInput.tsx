@@ -113,13 +113,19 @@ export function PlaceInput({
           </button>
         )}
       </div>
-      {extra}
-      {value && (value.address || value.name.length > 24) && (
-        <p className="mt-1.5 px-1 text-sm text-muted-foreground">
+      {value && (value.address || value.gps || value.name.length > 24) && (
+        <p
+          className={cn(
+            "px-1 text-muted-foreground",
+            compact ? "mt-1 text-[13px]" : "mt-1.5 text-sm"
+          )}
+        >
           {[value.name, value.address].filter(Boolean).join(", ")}
           {value.lat == null && " · as typed"}
+          {value.gps && value.address && " · your current location"}
         </p>
       )}
+      {extra}
       {open && text.trim().length >= 3 && !value && (
         <ul
           id={listId}

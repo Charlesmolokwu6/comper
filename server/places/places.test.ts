@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { knownMatches, toPlaces } from "./router";
+import { knownMatches, toPlaces, toReverse } from "./router";
 
 describe("places", () => {
   it("matches airports by any word typed, ignoring filler words", () => {
@@ -33,5 +33,30 @@ describe("places", () => {
         lon: 3.35,
       },
     ]);
+  });
+});
+
+describe("toReverse", () => {
+  it("names a GPS point by street, then area, town and state", () => {
+    const json = {
+      name: "Abiodun Ikomi Street",
+      address: {
+        road: "Abiodun Ikomi Street",
+        suburb: "Chisco",
+        town: "Lekki Phase I",
+        county: "Eti Osa",
+        state: "Lagos State",
+      },
+    };
+    expect(toReverse(json, 6.4475, 3.474)).toEqual({
+      name: "Abiodun Ikomi Street",
+      area: "Chisco",
+      address: "Chisco, Lekki Phase I, Lagos",
+      lat: 6.4475,
+      lon: 3.474,
+    });
+  });
+  it("gives up when the point has no address", () => {
+    expect(toReverse({ address: {} }, 6, 3)).toBeNull();
   });
 });

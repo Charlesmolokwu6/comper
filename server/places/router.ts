@@ -97,3 +97,69 @@ placesRouter.get("/", async (req, res) => {
     res.status(502).json({ error: err.message });
   }
 });
+
+/** A phone's GPS point as people say it: street first, then area, town and state. */
+export function toReverse(json: any, lat: number, lon: number) {
+  const a = json?.address ?? {};
+  const street = [a.house_number, a.road].filter(Boolean).join(" ");
+  const name =
+    street || json?.name || a.neighbourhood || a.suburb || a.quarter || "";
+  const town = a.city || a.town || a.village || a.county || "";
+  const area = a.suburb || a.neighbourhood || a.quarter || town || null;
+  const address = [
+    a.suburb !== name ? a.suburb : null,
+    town !== name ? town : null,
+    String(a.state ?? "").replace(/ State$/, "") || null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  if (!name) return null;
+  return { name, area, address, lat, lon };
+}
+
+const reverseCache = new Map<
+  string,
+  { at: number; body: NonNullable<ReturnType<typeof toReverse>> }
+>();
+
+const inNigeria = (lat: number, lon: number) =>
+  lat > 4 && lat < 14 && lon > 2.6 && lon < 14.7;
+
+/** GET /api/places/reverse?lat=6.45&lon=3.47: the address at a point (Nominatim reverse). */
+placesRouter.get("/reverse", async (req, res) => {
+  const lat = Number(req.query.lat);
+  const lon = Number(req.query.lon);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon) || !inNigeria(lat, lon))
+    return res
+      .status(400)
+      .json({ error: "lat and lon must be a point in Nigeria" });
+  // ~11 m: close enough to name the street, and repeat lookups hit the cache.
+  const key = `rev:${lat.toFixed(4)},${lon.toFixed(4)}`;
+  const hit = reverseCache.get(key);
+  if (hit && Date.now() - hit.at < TTL_MS) return res.json(hit.body);
+  try {
+    const url =
+      "https://nominatim.openstreetmap.org/reverse?" +
+      new URLSearchParams({
+        lat: lat.toFixed(5),
+        lon: lon.toFixed(5),
+        format: "jsonv2",
+        zoom: "18",
+        "accept-language": "en",
+      });
+    const json = await throttled(async () => {
+      const r = await fetch(url, {
+        headers: { "User-Agent": UA, Accept: "application/json" },
+        signal: AbortSignal.timeout(15_000),
+      });
+      if (!r.ok) throw new Error(`address lookup returned HTTP ${r.status}`);
+      return r.json();
+    });
+    const place = toReverse(json, lat, lon);
+    if (!place) return res.status(404).json({ error: "No address found here" });
+    reverseCache.set(key, { at: Date.now(), body: place });
+    res.json(place);
+  } catch (err: any) {
+    res.status(502).json({ error: err.message });
+  }
+});

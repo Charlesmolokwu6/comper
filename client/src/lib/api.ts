@@ -243,6 +243,25 @@ export const fetchPlaces = (q: string, signal?: AbortSignal) =>
     signal
   );
 
+/** The street and area at a GPS point. */
+export interface ReversePlace {
+  name: string;
+  /** Neighbourhood, e.g. "Lekki Phase I". */
+  area: string | null;
+  address: string;
+  lat: number;
+  lon: number;
+}
+
+export const fetchReverse = (lat: number, lon: number, signal?: AbortSignal) =>
+  getJson<ReversePlace>(
+    `/api/places/reverse?${new URLSearchParams({
+      lat: String(lat),
+      lon: String(lon),
+    })}`,
+    signal
+  );
+
 // ---- Road route for the cab map (server/places/route.ts) ----
 
 export interface RoadRoute {
