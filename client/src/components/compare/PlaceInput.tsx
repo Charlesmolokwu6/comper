@@ -11,12 +11,15 @@ export function PlaceInput({
   onChange,
   placeholder,
   extra,
+  compact = false,
 }: {
   label: string;
   value: CabPoint | null;
   onChange: (p: CabPoint | null) => void;
   placeholder: string;
   extra?: React.ReactNode;
+  /** Shorter field for long forms (delivery). */
+  compact?: boolean;
 }) {
   const [text, setText] = useState(value?.name ?? "");
   const [results, setResults] = useState<Place[]>([]);
@@ -59,10 +62,20 @@ export function PlaceInput({
 
   return (
     <div className="relative min-w-0">
-      <label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      <label
+        className={cn(
+          "block font-medium uppercase tracking-wide text-muted-foreground",
+          compact ? "mb-1 text-[11px]" : "mb-1.5 text-xs"
+        )}
+      >
         {label}
       </label>
-      <div className="flex h-14 items-center gap-3 rounded-xl border border-border bg-surface px-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring">
+      <div
+        className={cn(
+          "flex items-center rounded-xl border border-border bg-surface focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring",
+          compact ? "h-12 gap-2.5 px-3.5" : "h-14 gap-3 px-4"
+        )}
+      >
         <MapPin aria-hidden className="size-5 shrink-0 text-muted-foreground" />
         <input
           role="combobox"
@@ -111,7 +124,10 @@ export function PlaceInput({
         <ul
           id={listId}
           role="listbox"
-          className="absolute inset-x-0 top-[5.25rem] z-20 max-h-72 overflow-auto rounded-xl border border-border bg-popover p-1 shadow-xl"
+          className={cn(
+            "absolute inset-x-0 z-20 max-h-72 overflow-auto rounded-xl border border-border bg-popover p-1 shadow-xl",
+            compact ? "top-[4.5rem]" : "top-[5.25rem]"
+          )}
         >
           {state === "loading" && !results.length && (
             <li className="px-3 py-2.5 text-sm text-muted-foreground">

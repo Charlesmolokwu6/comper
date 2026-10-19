@@ -22,13 +22,12 @@ import { PlaceInput } from "./PlaceInput";
 // The map library only loads once the delivery tab shows a map.
 const TripMap = lazy(() => import("./TripMap"));
 
-const WEIGHTS = [1, 2, 5, 10];
 const LAGOS = 4;
 
 const fieldLabel =
-  "mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground";
+  "mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted-foreground";
 const field =
-  "flex h-14 w-full items-center rounded-xl border border-border bg-surface px-4 text-base font-semibold text-foreground focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring";
+  "flex h-12 w-full items-center rounded-xl border border-border bg-surface px-3.5 text-[15px] font-semibold text-foreground focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring";
 
 function StateSelect({
   id,
@@ -103,7 +102,7 @@ export function DeliveryPanel() {
   const to = mode === "within" ? from : toState;
   // A price shown is always for the states on screen.
   useEffect(() => setResult(null), [from, to]);
-  const [weight, setWeight] = useState("2");
+  const [weight, setWeight] = useState("");
   const [value, setValue] = useState("10000");
   const [result, setResult] = useState<DeliveryQuoteResponse | null>(null);
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
@@ -148,12 +147,12 @@ export function DeliveryPanel() {
           e.preventDefault();
           submit();
         }}
-        className="rounded-2xl border border-border bg-card p-4 sm:p-5"
+        className="rounded-2xl border border-border bg-card p-3.5 sm:p-5"
       >
         <div
           role="group"
           aria-label="Delivery type"
-          className="mb-4 grid grid-cols-2 gap-1 rounded-xl border border-border bg-surface p-1"
+          className="mb-3 grid grid-cols-2 gap-1 rounded-xl border border-border bg-surface p-1"
         >
           {(
             [
@@ -170,7 +169,7 @@ export function DeliveryPanel() {
                 setResult(null);
               }}
               className={cn(
-                "h-11 rounded-lg text-sm font-semibold focus-visible:outline-2 focus-visible:outline-ring",
+                "h-9 rounded-lg text-sm font-semibold focus-visible:outline-2 focus-visible:outline-ring",
                 mode === id
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -182,7 +181,7 @@ export function DeliveryPanel() {
         </div>
 
         {mode === "within" ? (
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             <StateSelect
               id="delivery-from"
               label="State"
@@ -193,8 +192,9 @@ export function DeliveryPanel() {
                 setResult(null);
               }}
             />
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid gap-2.5 md:grid-cols-2">
               <PlaceInput
+                compact
                 label="Pickup address"
                 value={pickup}
                 onChange={p => {
@@ -205,6 +205,7 @@ export function DeliveryPanel() {
                 placeholder="e.g. Ajah, Lekki"
               />
               <PlaceInput
+                compact
                 label="Drop-off address"
                 value={dropoff}
                 onChange={setDropoff}
@@ -232,8 +233,8 @@ export function DeliveryPanel() {
             })()}
           </div>
         ) : (
-          <div className="grid gap-3 md:grid-cols-[1fr_auto_1fr]">
-            <div className="space-y-3">
+          <div className="grid gap-2.5 md:grid-cols-[1fr_auto_1fr]">
+            <div className="space-y-2.5">
               <StateSelect
                 id="delivery-from"
                 label="Send from"
@@ -245,6 +246,7 @@ export function DeliveryPanel() {
                 }}
               />
               <PlaceInput
+                compact
                 label="Pickup address"
                 value={pickup}
                 onChange={p => {
@@ -271,7 +273,7 @@ export function DeliveryPanel() {
                 <ArrowDownUp aria-hidden className="size-4 md:rotate-90" />
               </button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <StateSelect
                 id="delivery-to"
                 label="Deliver to"
@@ -283,6 +285,7 @@ export function DeliveryPanel() {
                 }}
               />
               <PlaceInput
+                compact
                 label="Drop-off address"
                 value={dropoff}
                 onChange={p => {
@@ -296,7 +299,7 @@ export function DeliveryPanel() {
           </div>
         )}
 
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="mt-2.5 grid grid-cols-2 gap-2.5">
           <div>
             <label htmlFor="delivery-weight" className={fieldLabel}>
               Weight
@@ -307,32 +310,18 @@ export function DeliveryPanel() {
                 inputMode="decimal"
                 value={weight}
                 onChange={e => setWeight(e.target.value.replace(/[^\d.]/g, ""))}
-                className="w-full bg-transparent outline-none"
+                placeholder="e.g. 2"
+                className="w-full min-w-0 bg-transparent outline-none placeholder:font-normal placeholder:text-muted-foreground"
               />
               <span className="font-normal text-muted-foreground">kg</span>
             </span>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {WEIGHTS.map(w => (
-                <button
-                  key={w}
-                  type="button"
-                  aria-pressed={kg === w}
-                  onClick={() => setWeight(String(w))}
-                  className={cn(
-                    "h-9 rounded-full border px-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring",
-                    kg === w
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border text-foreground hover:bg-accent"
-                  )}
-                >
-                  {w} kg
-                </button>
-              ))}
-            </div>
           </div>
           <div>
             <label htmlFor="delivery-value" className={fieldLabel}>
-              Item value
+              Item value{" "}
+              <span className="normal-case tracking-normal">
+                (for insurance)
+              </span>
             </label>
             <span className={field}>
               <span className="mr-1 font-normal text-muted-foreground">₦</span>
@@ -344,16 +333,13 @@ export function DeliveryPanel() {
                 className="w-full bg-transparent outline-none"
               />
             </span>
-            <p className="mt-2 text-xs text-muted-foreground">
-              What the parcel is worth. Couriers use it for insurance.
-            </p>
           </div>
         </div>
 
         <button
           type="submit"
           disabled={!valid || state === "loading"}
-          className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
+          className="mt-3.5 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
         >
           <Search aria-hidden className="size-5" />
           {state === "loading" ? "Getting prices…" : "Get delivery prices"}
@@ -365,7 +351,8 @@ export function DeliveryPanel() {
         )}
       </form>
 
-      {from != null &&
+      {(result || state === "loading") &&
+        from != null &&
         to != null &&
         (() => {
           const capA = STATE_CAPITALS[name(from)];
