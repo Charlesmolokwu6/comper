@@ -29,6 +29,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-primary-ink: var(--primary-ink);
+  --color-warn: var(--warn);
+  --color-soft: var(--soft);
+  --color-strong: var(--strong);
 }
 
 /* Electric Dark */
@@ -56,6 +60,43 @@
   --border: #242424;
   --input: #161616;
   --ring: #c0f11c;
+  /* Lime as text or icon colour; on a light page it darkens to stay readable. */
+  --primary-ink: #c0f11c;
+  /* Notices (partial results, errors from an operator). */
+  --warn: #fde68a;
+  /* Text a step quieter than foreground but louder than muted. */
+  --soft: #d4d4d4;
+  /* A border that must stand out, e.g. outlined chips. */
+  --strong: #525252;
+}
+
+/* Daylight: follows the phone or computer's own light setting. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #f4f5f0;
+    --foreground: #0b0c08;
+    --card: #ffffff;
+    --card-foreground: #0b0c08;
+    --surface: #eff0ea;
+    --popover: #ffffff;
+    --popover-foreground: #0b0c08;
+    --secondary: #e9eae3;
+    --secondary-foreground: #0b0c08;
+    --muted: #e9eae3;
+    /* ≥ 7:1 on #fff and #f4f5f0. */
+    --muted-foreground: #4b4d45;
+    --accent: #e6e8df;
+    --accent-foreground: #0b0c08;
+    --destructive: #c62828;
+    --destructive-foreground: #ffffff;
+    --border: #dcded5;
+    --input: #eff0ea;
+    --ring: #4a6600;
+    --primary-ink: #4a6600;
+    --warn: #7c4a03;
+    --soft: #33352e;
+    --strong: #9a9d90;
+  }
 }
 
 @layer base {
@@ -63,7 +104,7 @@
     @apply border-border outline-ring/60;
   }
   html {
-    color-scheme: dark;
+    color-scheme: dark light;
     -webkit-text-size-adjust: 100%;
   }
   body {
@@ -78,8 +119,12 @@
   }
   /* Native date picker icon readable on dark fields. */
   input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
     opacity: 0.7;
+  }
+  @media (prefers-color-scheme: dark) {
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
   }
 }
 
@@ -170,31 +215,6 @@
   .card-loader > span:last-child {
     transform: translate(var(--off), 0);
   }
-}
-
-/* MapLibre controls to suit the dark app (TripMap). */
-.maplibregl-ctrl-group {
-  background: #161616 !important;
-  border: 1px solid #2a2a2a;
-}
-.maplibregl-ctrl-group button + button {
-  border-top-color: #2a2a2a !important;
-}
-.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
-  filter: invert(1);
-}
-.maplibregl-ctrl-attrib {
-  font-size: 10px;
-}
-.maplibregl-ctrl-attrib.maplibregl-compact {
-  background: rgb(22 22 22 / 0.85) !important;
-  color: #d4d4d4;
-}
-.maplibregl-ctrl-attrib.maplibregl-compact a {
-  color: #fff;
-}
-.maplibregl-ctrl-attrib-button {
-  filter: invert(1);
 }
 
 /* Map pins (TripMap): pickup pulses like a radar ping; drop-off is a square pin. */

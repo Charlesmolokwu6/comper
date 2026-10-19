@@ -91,9 +91,9 @@ export function BookingGuide({
             type="button"
             onClick={copy}
             className={cn(
-              "inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 rounded-xl border text-sm font-medium focus-visible:outline-2 focus-visible:outline-primary",
+              "inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 rounded-xl border text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring",
               copied
-                ? "border-primary/50 text-primary"
+                ? "border-primary/50 text-primary-ink"
                 : "border-border hover:bg-accent"
             )}
           >
@@ -108,7 +108,7 @@ export function BookingGuide({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 rounded-xl bg-primary text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 rounded-xl bg-primary text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             Continue to {operatorName}
             <ArrowUpRight aria-hidden className="size-4" />

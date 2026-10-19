@@ -92,7 +92,7 @@ function ClassTabs({
             tabIndex={on ? 0 : -1}
             onClick={() => onChange(c.id)}
             className={cn(
-              "flex min-h-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-2 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              "flex min-h-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-2 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
               on
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-accent hover:text-foreground"
@@ -232,7 +232,7 @@ export default function ResultsPage({
       <div className="mx-auto max-w-3xl pt-6 sm:pt-8">
         <Link
           href="/"
-          className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary"
+          className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
         >
           <ArrowLeft aria-hidden className="size-4" />
           Change search
@@ -256,7 +256,7 @@ export default function ResultsPage({
               onClick={() => go(shiftDate(date, -1))}
               disabled={shiftDate(date, -1) < today}
               aria-label="Previous day"
-              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-30"
+              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
             >
               <ChevronLeft aria-hidden className="size-4" />
             </button>
@@ -268,7 +268,7 @@ export default function ResultsPage({
               onClick={() => go(shiftDate(date, 1))}
               disabled={shiftDate(date, 1) > lagosDate(MAX_DAYS_AHEAD)}
               aria-label="Next day"
-              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-30"
+              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
             >
               <ChevronRight aria-hidden className="size-4" />
             </button>
@@ -296,7 +296,7 @@ export default function ResultsPage({
                 to: toPlace.city,
                 date,
               })}
-              className="rounded font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+              className="rounded font-medium text-primary-ink underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
             >
               Show all terminals
             </Link>
@@ -363,7 +363,7 @@ export default function ResultsPage({
               <SearchProgress coverage={results.coverage} />
             )}
             {pollError && (
-              <p className="text-xs text-amber-200">
+              <p className="text-xs text-warn">
                 Couldn't refresh just now ({pollError}); retrying.
               </p>
             )}
@@ -420,7 +420,7 @@ export default function ResultsPage({
                       <button
                         type="button"
                         onClick={() => go(latestOnSale!)}
-                        className="mt-4 h-10 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                        className="mt-4 h-10 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                       >
                         See fares for {formatDay(latestOnSale!)}
                       </button>
@@ -437,7 +437,7 @@ export default function ResultsPage({
                           key={c.id}
                           type="button"
                           onClick={() => setPicked(c.id)}
-                          className="h-10 rounded-xl border border-border px-4 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+                          className="h-10 rounded-xl border border-border px-4 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
                         >
                           See {c.label} from {formatNaira(fares[c.id]!)}
                         </button>

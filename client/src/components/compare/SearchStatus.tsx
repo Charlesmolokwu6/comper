@@ -27,7 +27,7 @@ export function SearchProgress({ coverage }: { coverage: CoverageLike[] }) {
         </span>
       </div>
       <div
-        className="h-1 overflow-hidden rounded-full bg-white/[0.08]"
+        className="h-1 overflow-hidden rounded-full bg-foreground/[0.08]"
         aria-hidden
       >
         <div
@@ -93,7 +93,7 @@ export function SearchSummary({
       {q.errors.length > 0 && (
         <div
           role="alert"
-          className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl bg-amber-400/10 px-4 py-3 text-amber-100"
+          className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl bg-amber-400/10 px-4 py-3 text-warn"
         >
           <AlertTriangle aria-hidden className="size-4 shrink-0" />
           <span className="min-w-0 flex-1">
@@ -103,7 +103,7 @@ export function SearchSummary({
           <button
             type="button"
             onClick={onRetry}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-amber-200/30 px-3 font-medium hover:bg-amber-400/10 focus-visible:outline-2 focus-visible:outline-primary"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-warn/30 px-3 font-medium hover:bg-amber-400/10 focus-visible:outline-2 focus-visible:outline-ring"
           >
             <RotateCw aria-hidden className="size-3.5" />
             Retry
@@ -119,7 +119,7 @@ export function SearchSummary({
           <button
             type="button"
             onClick={onRetry}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border px-3 font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-border px-3 font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
           >
             <RotateCw aria-hidden className="size-3.5" />
             Check again

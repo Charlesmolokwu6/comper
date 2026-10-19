@@ -73,7 +73,7 @@ function CabinTabs({
             tabIndex={on ? 0 : -1}
             onClick={() => onChange(c.id)}
             className={cn(
-              "flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-xl px-2 py-2 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              "flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-xl px-2 py-2 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
               on
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-accent hover:text-foreground"
@@ -156,7 +156,7 @@ export default function FlightResultsPage({
       <div className="mx-auto max-w-3xl pt-6 sm:pt-8">
         <Link
           href="/?mode=flight"
-          className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary"
+          className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
         >
           <ArrowLeft aria-hidden className="size-4" />
           Change search
@@ -164,7 +164,7 @@ export default function FlightResultsPage({
         <h1 className="mt-2 flex items-center gap-2.5 text-2xl font-extrabold tracking-tight sm:text-3xl">
           <PlaneTakeoff
             aria-hidden
-            className="size-6 shrink-0 text-primary sm:size-7"
+            className="size-6 shrink-0 text-primary-ink sm:size-7"
           />
           <span>
             {fromName} → {toName}
@@ -177,7 +177,7 @@ export default function FlightResultsPage({
               onClick={() => go(shiftDate(date, -1))}
               disabled={shiftDate(date, -1) < today}
               aria-label="Previous day"
-              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-30"
+              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
             >
               <ChevronLeft aria-hidden className="size-4" />
             </button>
@@ -189,7 +189,7 @@ export default function FlightResultsPage({
               onClick={() => go(shiftDate(date, 1))}
               disabled={shiftDate(date, 1) > lagosDate(MAX_DAYS_AHEAD)}
               aria-label="Next day"
-              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-30"
+              className="flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-30"
             >
               <ChevronRight aria-hidden className="size-4" />
             </button>
@@ -246,7 +246,7 @@ export default function FlightResultsPage({
               <SearchProgress coverage={results.coverage} />
             )}
             {pollError && (
-              <p className="text-xs text-amber-200">
+              <p className="text-xs text-warn">
                 Couldn't refresh just now ({pollError}); retrying.
               </p>
             )}
@@ -263,7 +263,7 @@ export default function FlightResultsPage({
                   <button
                     type="button"
                     onClick={() => setPicked(other.id)}
-                    className="flex w-full items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/[0.06] px-4 py-3 text-left text-sm focus-visible:outline-2 focus-visible:outline-primary"
+                    className="flex w-full items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/[0.06] px-4 py-3 text-left text-sm focus-visible:outline-2 focus-visible:outline-ring"
                   >
                     <span>
                       {other.label} is cheaper on this date, from{" "}
@@ -271,7 +271,7 @@ export default function FlightResultsPage({
                         {formatNaira(fares[other.id]!)}
                       </span>
                     </span>
-                    <span className="shrink-0 font-semibold text-primary">
+                    <span className="shrink-0 font-semibold text-primary-ink">
                       See it
                     </span>
                   </button>
@@ -314,7 +314,7 @@ export default function FlightResultsPage({
                     <button
                       type="button"
                       onClick={() => setPicked(other.id)}
-                      className="mt-3 h-10 rounded-xl border border-border px-4 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+                      className="mt-3 h-10 rounded-xl border border-border px-4 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
                     >
                       See {other.label} from {formatNaira(fares[other.id]!)}
                     </button>

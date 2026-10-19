@@ -105,7 +105,7 @@ export function FlightPanel() {
             onClick={swap}
             disabled={!values.from || !values.to}
             aria-label="Swap From and To"
-            className="-my-2 flex size-11 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-40 md:my-0"
+            className="-my-2 flex size-11 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-40 md:my-0"
           >
             <ArrowDownUp aria-hidden className="size-4 md:rotate-90" />
           </button>
@@ -122,7 +122,7 @@ export function FlightPanel() {
           <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Date
           </span>
-          <span className="relative flex h-14 items-center rounded-xl border border-border bg-surface px-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary">
+          <span className="relative flex h-14 items-center rounded-xl border border-border bg-surface px-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring">
             <CalendarDays
               aria-hidden
               className="pointer-events-none mr-3 size-5 shrink-0 text-muted-foreground"
@@ -148,7 +148,7 @@ export function FlightPanel() {
       <button
         type="submit"
         disabled={!values.from || !values.to || !values.date}
-        className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground transition-[filter,opacity] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground transition-[filter,opacity] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
       >
         <Search aria-hidden className="size-5" />
         Compare flights

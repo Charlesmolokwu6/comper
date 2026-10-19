@@ -76,7 +76,7 @@ export function CityPicker({
             aria-labelledby={`${id}-label`}
             className={cn(
               "flex h-14 w-full items-center gap-3 rounded-xl border border-border bg-surface px-4 text-left text-base transition-colors",
-              "hover:border-neutral-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              "hover:border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
               "disabled:cursor-not-allowed disabled:opacity-50"
             )}
           >
@@ -143,7 +143,7 @@ export function CityPicker({
                         <Check
                           aria-hidden
                           className={cn(
-                            "size-4 text-primary",
+                            "size-4 text-primary-ink",
                             cityOnly ? "opacity-100" : "opacity-0"
                           )}
                         />
@@ -172,7 +172,7 @@ export function CityPicker({
                             <Check
                               aria-hidden
                               className={cn(
-                                "size-3.5 text-primary",
+                                "size-3.5 text-primary-ink",
                                 value === v ? "opacity-100" : "opacity-0"
                               )}
                             />

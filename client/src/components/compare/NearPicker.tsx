@@ -78,9 +78,9 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
           <button
             type="button"
             aria-label={`Boarding near: ${value ? value.name : "not set"}. Change`}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-surface px-3 font-semibold text-foreground hover:border-neutral-600 focus-visible:outline-2 focus-visible:outline-primary"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-surface px-3 font-semibold text-foreground hover:border-strong focus-visible:outline-2 focus-visible:outline-ring"
           >
-            <Navigation aria-hidden className="size-3.5 text-primary" />
+            <Navigation aria-hidden className="size-3.5 text-primary-ink" />
             {value ? value.name : `Choose your area in ${cityName}`}
             <ChevronDown
               aria-hidden
@@ -101,7 +101,7 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
                   onSelect={useLocation}
                   disabled={locating}
                 >
-                  <LocateFixed aria-hidden className="size-4 text-primary" />
+                  <LocateFixed aria-hidden className="size-4 text-primary-ink" />
                   {locating ? "Finding you…" : "Use my current location"}
                 </CommandItem>
                 {value && (
@@ -118,7 +118,7 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
                 )}
               </CommandGroup>
               {gpsError && (
-                <p role="alert" className="px-3 pb-2 text-xs text-amber-200">
+                <p role="alert" className="px-3 pb-2 text-xs text-warn">
                   {gpsError}
                 </p>
               )}
@@ -137,7 +137,7 @@ export function NearPicker({ cityName, places, value, onChange }: Props) {
                     {value && !value.gps && value.name === p.name && (
                       <Check
                         aria-hidden
-                        className="ml-auto size-4 text-primary"
+                        className="ml-auto size-4 text-primary-ink"
                       />
                     )}
                   </CommandItem>

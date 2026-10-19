@@ -10,7 +10,7 @@ import {
 import { useInstall } from "@/hooks/useInstall";
 
 const buttonClass =
-  "inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3.5 text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary";
+  "inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3.5 text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring";
 
 /** Header button to add Compare to the home screen. Hidden where there's nothing to offer. */
 export function InstallButton() {
@@ -42,14 +42,14 @@ export function InstallButton() {
         </DialogHeader>
         <ol className="space-y-3 text-sm">
           <li className="flex items-center gap-3">
-            <Share aria-hidden className="size-5 shrink-0 text-primary" />
+            <Share aria-hidden className="size-5 shrink-0 text-primary-ink" />
             <span>
               In Safari, tap the <strong>Share</strong> button at the bottom of
               the screen.
             </span>
           </li>
           <li className="flex items-center gap-3">
-            <SquarePlus aria-hidden className="size-5 shrink-0 text-primary" />
+            <SquarePlus aria-hidden className="size-5 shrink-0 text-primary-ink" />
             <span>
               Scroll down and tap <strong>Add to Home Screen</strong>, then{" "}
               <strong>Add</strong>.

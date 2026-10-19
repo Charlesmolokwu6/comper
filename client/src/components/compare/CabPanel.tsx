@@ -92,9 +92,9 @@ export function CabPanel() {
               <button
                 type="button"
                 onClick={locate}
-                className="mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border px-3 text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+                className="mt-2 inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border px-3 text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
               >
-                <LocateFixed aria-hidden className="size-4 text-primary" />
+                <LocateFixed aria-hidden className="size-4 text-primary-ink" />
                 {gpsState === "locating"
                   ? "Finding you…"
                   : "Use my current location"}
@@ -109,7 +109,7 @@ export function CabPanel() {
           />
         </div>
         {gpsError && !pickup && (
-          <p role="alert" className="mt-3 text-sm text-amber-200">
+          <p role="alert" className="mt-3 text-sm text-warn">
             {gpsError}
           </p>
         )}
@@ -128,7 +128,7 @@ export function CabPanel() {
       {ready && dropoff && (
         <section aria-label="Ride apps" className="space-y-3">
           <div className="flex gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
-            <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-primary" />
+            <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-primary-ink" />
             <p>
               Ride apps only show live prices inside their apps, and they change
               minute to minute, so we don't show a price here. Open each app to
@@ -154,7 +154,7 @@ export function CabPanel() {
                   href={p.link(pickup, dropoff)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                 >
                   Open {p.name}
                   <ArrowUpRight aria-hidden className="size-4" />
@@ -165,9 +165,9 @@ export function CabPanel() {
                   type="button"
                   onClick={() => copy(p.id, dropText)}
                   className={cn(
-                    "mt-3 inline-flex min-h-9 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-primary",
+                    "mt-3 inline-flex min-h-9 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring",
                     copied === p.id
-                      ? "border-primary/50 text-primary"
+                      ? "border-primary/50 text-primary-ink"
                       : "border-border text-foreground hover:bg-accent"
                   )}
                 >

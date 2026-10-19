@@ -38,7 +38,7 @@ function FlightRowItem({ r }: { r: FlightRow }) {
               .join(" · ")}
           </p>
           {terminal && (
-            <p className="mt-0.5 text-xs text-neutral-300">
+            <p className="mt-0.5 text-xs text-soft">
               Departs {prettyVehicle(terminal)}
             </p>
           )}
@@ -52,7 +52,7 @@ function FlightRowItem({ r }: { r: FlightRow }) {
             href={f.bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-9 shrink-0 items-center gap-0.5 rounded-md px-1 text-sm font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+            className="inline-flex min-h-9 shrink-0 items-center gap-0.5 rounded-md px-1 text-sm font-semibold text-primary-ink hover:underline focus-visible:outline-2 focus-visible:outline-ring"
           >
             Book
             <ArrowUpRight aria-hidden className="size-4" />
@@ -72,7 +72,7 @@ function FlightRowItem({ r }: { r: FlightRow }) {
                 "rounded-lg border px-2.5 py-1.5 text-xs",
                 i === 0
                   ? "border-primary/50 bg-primary/[0.07] text-foreground"
-                  : "border-border text-neutral-300"
+                  : "border-border text-soft"
               )}
             >
               <span className="text-muted-foreground">
@@ -121,7 +121,7 @@ export function FlightCard({
             <div className="flex flex-wrap items-center gap-2">
               <span
                 aria-hidden
-                className="flex size-8 items-center justify-center rounded-full bg-white/[0.06] text-primary"
+                className="flex size-8 items-center justify-center rounded-full bg-foreground/[0.06] text-primary-ink"
               >
                 <Plane className="size-4" />
               </span>
@@ -173,7 +173,7 @@ export function FlightCard({
           <button
             type="button"
             onClick={() => setShowAll(true)}
-            className="mb-3 h-11 w-full rounded-xl border border-border text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+            className="mb-3 h-11 w-full rounded-xl border border-border text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
           >
             Show {g.rows.length - FIRST_ROWS} more
           </button>

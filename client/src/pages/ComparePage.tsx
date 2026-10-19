@@ -83,7 +83,7 @@ function ModeTabs({
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(m.id)}
             className={cn(
-              "flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 text-xs font-semibold transition-colors sm:min-h-12 sm:flex-row sm:gap-2 sm:px-2 sm:text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              "flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 text-xs font-semibold transition-colors sm:min-h-12 sm:flex-row sm:gap-2 sm:px-2 sm:text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
               active
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-accent hover:text-foreground"
@@ -96,7 +96,7 @@ function ModeTabs({
               <span
                 className={cn(
                   "hidden rounded px-1.5 py-0.5 text-[10px] uppercase md:inline",
-                  active ? "bg-black/15" : "bg-white/[0.06]"
+                  active ? "bg-black/15" : "bg-foreground/[0.06]"
                 )}
               >
                 Soon
@@ -121,7 +121,7 @@ export default function ComparePage() {
       <div className="pb-6 pt-6 sm:pt-10">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
           Live bus, flight and delivery prices across Nigeria,{" "}
-          <span className="text-primary">side by side.</span>
+          <span className="text-primary-ink">side by side.</span>
         </h1>
         <p className="mt-3 max-w-prose text-base text-muted-foreground">
           Every price comes straight from the operator's own booking system — no

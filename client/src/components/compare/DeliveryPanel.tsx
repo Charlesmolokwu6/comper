@@ -28,7 +28,7 @@ const LAGOS = 4;
 const fieldLabel =
   "mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground";
 const field =
-  "flex h-14 w-full items-center rounded-xl border border-border bg-surface px-4 text-base font-semibold text-foreground focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary";
+  "flex h-14 w-full items-center rounded-xl border border-border bg-surface px-4 text-base font-semibold text-foreground focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring";
 
 function StateSelect({
   id,
@@ -170,7 +170,7 @@ export function DeliveryPanel() {
                 setResult(null);
               }}
               className={cn(
-                "h-11 rounded-lg text-sm font-semibold focus-visible:outline-2 focus-visible:outline-primary",
+                "h-11 rounded-lg text-sm font-semibold focus-visible:outline-2 focus-visible:outline-ring",
                 mode === id
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -214,7 +214,7 @@ export function DeliveryPanel() {
             {(() => {
               const s = dropoff && stateOf(dropoff, stations);
               return s && s !== from ? (
-                <p className="rounded-xl bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
+                <p className="rounded-xl bg-amber-400/10 px-4 py-3 text-sm text-warn">
                   This drop-off looks like it's in {name(s)}.{" "}
                   <button
                     type="button"
@@ -266,7 +266,7 @@ export function DeliveryPanel() {
                   setResult(null);
                 }}
                 aria-label="Swap pickup and drop-off"
-                className="-my-2 flex size-11 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary md:my-0"
+                className="-my-2 flex size-11 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring md:my-0"
               >
                 <ArrowDownUp aria-hidden className="size-4 md:rotate-90" />
               </button>
@@ -319,7 +319,7 @@ export function DeliveryPanel() {
                   aria-pressed={kg === w}
                   onClick={() => setWeight(String(w))}
                   className={cn(
-                    "h-9 rounded-full border px-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-primary",
+                    "h-9 rounded-full border px-3.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring",
                     kg === w
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-border text-foreground hover:bg-accent"
@@ -353,13 +353,13 @@ export function DeliveryPanel() {
         <button
           type="submit"
           disabled={!valid || state === "loading"}
-          className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-40"
+          className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
         >
           <Search aria-hidden className="size-5" />
           {state === "loading" ? "Getting prices…" : "Get delivery prices"}
         </button>
         {loadError && (
-          <p role="alert" className="mt-3 text-sm text-amber-200">
+          <p role="alert" className="mt-3 text-sm text-warn">
             Couldn't load the list of states: {loadError}
           </p>
         )}
@@ -415,7 +415,7 @@ export function DeliveryPanel() {
       {state === "error" && (
         <p
           role="alert"
-          className="rounded-xl bg-amber-400/10 px-4 py-3 text-sm text-amber-100"
+          className="rounded-xl bg-amber-400/10 px-4 py-3 text-sm text-warn"
         >
           Couldn't get prices: {error}
         </p>
@@ -444,7 +444,7 @@ export function DeliveryPanel() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex min-w-0 gap-3">
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface">
-                    <Package aria-hidden className="size-5 text-primary" />
+                    <Package aria-hidden className="size-5 text-primary-ink" />
                   </span>
                   <div className="min-w-0">
                     <h3 className="text-lg font-semibold text-foreground">
@@ -472,7 +472,7 @@ export function DeliveryPanel() {
                 href={c.bookingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex h-11 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                className="mt-4 inline-flex h-11 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 Book on {c.name}
                 <ArrowUpRight aria-hidden className="size-4" />

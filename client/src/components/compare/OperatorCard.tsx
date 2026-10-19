@@ -33,7 +33,7 @@ import { cn } from "@/lib/utils";
 const FIRST_ROWS = 8;
 
 const BOOK_CLASS =
-  "inline-flex min-h-8 items-center gap-0.5 rounded-md px-1 text-xs font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-primary";
+  "inline-flex min-h-8 items-center gap-0.5 rounded-md px-1 text-xs font-semibold text-primary-ink hover:underline focus-visible:outline-2 focus-visible:outline-ring";
 
 function DepartureRow({
   t,
@@ -58,7 +58,7 @@ function DepartureRow({
       </span>
 
       <div className="min-w-0 text-sm">
-        <p className="flex flex-wrap items-center gap-x-1.5 text-neutral-200">
+        <p className="flex flex-wrap items-center gap-x-1.5 text-soft">
           <span title={t.from.name}>{prettyStop(t.from.name)}</span>
           <ArrowRight
             aria-label="to"
@@ -77,7 +77,7 @@ function DepartureRow({
           notes.length > 0) && (
           <ul className="mt-1.5 space-y-1 text-xs">
             {t.approximate && (
-              <li className="flex gap-1.5 text-amber-200">
+              <li className="flex gap-1.5 text-warn">
                 <Info aria-hidden className="mt-px size-3.5 shrink-0" />
                 <span>
                   {t.matchNotes.join("; ") || "Approximate city match"}
@@ -85,7 +85,7 @@ function DepartureRow({
               </li>
             )}
             {t.passesThrough && (
-              <li className="flex gap-1.5 text-neutral-300">
+              <li className="flex gap-1.5 text-soft">
                 <Route aria-hidden className="mt-px size-3.5 shrink-0" />
                 <span>
                   Continues to {t.busFinalDestination}; fare is to {toCityName}
@@ -170,10 +170,10 @@ function VehicleTile({
       aria-pressed={selected}
       onClick={onSelect}
       className={cn(
-        "flex w-[9.5rem] shrink-0 snap-start flex-col rounded-xl border p-2 text-left transition-colors focus-visible:outline-2 focus-visible:outline-primary",
+        "flex w-[9.5rem] shrink-0 snap-start flex-col rounded-xl border p-2 text-left transition-colors focus-visible:outline-2 focus-visible:outline-ring",
         selected
           ? "border-primary bg-primary/[0.07]"
-          : "border-border hover:border-neutral-600"
+          : "border-border hover:border-strong"
       )}
     >
       <VehicleThumb
@@ -189,7 +189,7 @@ function VehicleTile({
         {o.kind ? KIND_LABEL[o.kind] : "Bus"}
         {o.image ? " · operator photo" : ""}
       </span>
-      <span className="mt-1 text-sm tabular-nums text-neutral-200">
+      <span className="mt-1 text-sm tabular-nums text-soft">
         {o.best ? `from ${formatNaira(o.best.fare)}` : "Sold out"}
       </span>
     </button>
@@ -232,7 +232,7 @@ function TripList({
         <button
           type="button"
           onClick={() => setShowAll(true)}
-          className="mb-3 h-11 w-full rounded-xl border border-border text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+          className="mb-3 h-11 w-full rounded-xl border border-border text-sm font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
         >
           Show {trips.length - FIRST_ROWS} more
         </button>
@@ -323,17 +323,17 @@ export function OperatorCard({
               <button
                 type="button"
                 onClick={showElsewhere}
-                className="mt-0.5 rounded text-left text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+                className="mt-0.5 rounded text-left text-sm font-medium text-primary-ink underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
               >
                 + {elsewhere} more at {others.length} other{" "}
                 {others.length === 1 ? "terminal" : "terminals"}
               </button>
             )}
             {nearest ? (
-              <p className="mt-1.5 flex items-start gap-1.5 text-sm text-neutral-200">
+              <p className="mt-1.5 flex items-start gap-1.5 text-sm text-soft">
                 <Navigation
                   aria-hidden
-                  className="mt-0.5 size-3.5 shrink-0 text-primary"
+                  className="mt-0.5 size-3.5 shrink-0 text-primary-ink"
                 />
                 <span>
                   Board at <span className="font-semibold">{nearest.name}</span>
@@ -383,7 +383,7 @@ export function OperatorCard({
           </p>
         )}
         {g.bestIsApproximate && best && (
-          <p className="mt-2 flex gap-1.5 text-xs text-amber-200">
+          <p className="mt-2 flex gap-1.5 text-xs text-warn">
             <Info aria-hidden className="mt-px size-3.5 shrink-0" />
             <span>
               Only via an approximate match: {best.matchNotes.join("; ")}
@@ -443,7 +443,7 @@ export function OperatorCard({
         aria-expanded={open}
         aria-controls={listId}
         onClick={() => setOpen(o => !o)}
-        className="flex min-h-12 w-full items-center gap-1.5 px-4 py-3 text-left text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary sm:px-5"
+        className="flex min-h-12 w-full items-center gap-1.5 px-4 py-3 text-left text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring sm:px-5"
       >
         {open
           ? "Hide departures"
@@ -474,7 +474,7 @@ export function OperatorCard({
             <button
               type="button"
               onClick={() => setVehicle(null)}
-              className="min-h-8 rounded-md px-1 font-semibold text-primary hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+              className="min-h-8 rounded-md px-1 font-semibold text-primary-ink hover:underline focus-visible:outline-2 focus-visible:outline-ring"
             >
               Show all vehicles
             </button>
@@ -492,7 +492,7 @@ export function OperatorCard({
               type="button"
               aria-expanded={showOthers}
               onClick={() => setShowOthers(o => !o)}
-              className="flex min-h-11 w-full items-center justify-between gap-2 text-sm text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary"
+              className="flex min-h-11 w-full items-center justify-between gap-2 text-sm text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
             >
               {showOthers
                 ? "Hide other terminals"

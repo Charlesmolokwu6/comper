@@ -62,7 +62,7 @@ export function PlaceInput({
       <label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
         {label}
       </label>
-      <div className="flex h-14 items-center gap-3 rounded-xl border border-border bg-surface px-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary">
+      <div className="flex h-14 items-center gap-3 rounded-xl border border-border bg-surface px-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring">
         <MapPin aria-hidden className="size-5 shrink-0 text-muted-foreground" />
         <input
           role="combobox"

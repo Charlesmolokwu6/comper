@@ -31,7 +31,7 @@ export function VehicleThumb({
   return (
     <span
       className={cn(
-        "flex shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/[0.05] text-neutral-300",
+        "flex shrink-0 items-center justify-center overflow-hidden rounded-lg bg-foreground/[0.05] text-soft",
         className
       )}
     >
