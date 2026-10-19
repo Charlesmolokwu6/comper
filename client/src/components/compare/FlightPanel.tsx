@@ -67,14 +67,14 @@ export function FlightPanel() {
 
   return (
     <form
-      className="rounded-2xl border border-border bg-card p-4 sm:p-5"
+      className="rounded-2xl border border-border bg-card p-3.5 sm:p-5"
       onSubmit={e => {
         e.preventDefault();
         submit();
       }}
       aria-label="Search flight fares"
     >
-      <div className="grid gap-3 md:grid-cols-[1fr_auto_1fr_minmax(11rem,0.8fr)] md:items-end">
+      <div className="grid gap-2.5 md:grid-cols-[1fr_auto_1fr_minmax(11rem,0.8fr)] md:items-end">
         <CityPicker
           label="From"
           value={values.from}
@@ -105,7 +105,7 @@ export function FlightPanel() {
             onClick={swap}
             disabled={!values.from || !values.to}
             aria-label="Swap From and To"
-            className="-my-2 flex size-11 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-40 md:my-0"
+            className="-my-2.5 flex size-10 items-center justify-center rounded-full border border-border bg-surface text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-40 md:my-0"
           >
             <ArrowDownUp aria-hidden className="size-4 md:rotate-90" />
           </button>
@@ -119,13 +119,13 @@ export function FlightPanel() {
           disabled={!values.from}
         />
         <label className="block min-w-0">
-          <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          <span className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
             Date
           </span>
-          <span className="relative flex h-14 items-center rounded-xl border border-border bg-surface px-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring">
+          <span className="relative flex h-12 items-center rounded-xl border border-border bg-surface px-3.5 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring">
             <CalendarDays
               aria-hidden
-              className="pointer-events-none mr-3 size-5 shrink-0 text-muted-foreground"
+              className="pointer-events-none mr-2.5 size-5 shrink-0 text-muted-foreground"
             />
             <input
               type="date"
@@ -139,7 +139,7 @@ export function FlightPanel() {
                   date: e.target.value < today ? today : e.target.value,
                 }))
               }
-              className="w-full bg-transparent text-base font-semibold text-foreground outline-none"
+              className="w-full bg-transparent text-[15px] font-semibold text-foreground outline-none"
             />
           </span>
         </label>
@@ -148,7 +148,7 @@ export function FlightPanel() {
       <button
         type="submit"
         disabled={!values.from || !values.to || !values.date}
-        className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground transition-[filter,opacity] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-3.5 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground transition-[filter,opacity] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
       >
         <Search aria-hidden className="size-5" />
         Compare flights

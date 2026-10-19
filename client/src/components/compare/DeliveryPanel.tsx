@@ -17,6 +17,7 @@ import { formatAge, formatNaira } from "@/lib/format";
 import { STATE_CAPITALS } from "@/lib/stateCapitals";
 import { cn } from "@/lib/utils";
 import { LoadingResults } from "./Loader";
+import { LocateButton, useCurrentLocation } from "./CurrentLocation";
 import { closeHero, HeroScreen, MapHero, StatGrid } from "./MapHero";
 import { PlaceInput } from "./PlaceInput";
 
@@ -98,6 +99,13 @@ export function DeliveryPanel() {
   const [pickup, setPickup] = useState<CabPoint | null>(null);
   const [dropoff, setDropoff] = useState<CabPoint | null>(null);
   const to = mode === "within" ? from : toState;
+  // A pickup address also sets the state it's in.
+  const choosePickup = (p: CabPoint | null) => {
+    setPickup(p);
+    const s = p && stateOf(p, stations);
+    if (s) setFrom(s);
+  };
+  const gps = useCurrentLocation(choosePickup);
   // A price shown is always for the states on screen.
   useEffect(() => setResult(null), [from, to]);
   const [weight, setWeight] = useState("");
@@ -197,11 +205,10 @@ export function DeliveryPanel() {
                 compact
                 label="Pickup address"
                 value={pickup}
-                onChange={p => {
-                  setPickup(p);
-                  const s = p && stateOf(p, stations);
-                  if (s) setFrom(s);
-                }}
+                onChange={choosePickup}
+                extra={
+                  <LocateButton onClick={gps.locate} locating={gps.locating} />
+                }
                 placeholder="e.g. Ajah, Lekki"
               />
               <PlaceInput
@@ -249,11 +256,10 @@ export function DeliveryPanel() {
                 compact
                 label="Pickup address"
                 value={pickup}
-                onChange={p => {
-                  setPickup(p);
-                  const s = p && stateOf(p, stations);
-                  if (s) setFrom(s);
-                }}
+                onChange={choosePickup}
+                extra={
+                  <LocateButton onClick={gps.locate} locating={gps.locating} />
+                }
                 placeholder="Optional, e.g. Ajah"
               />
             </div>
@@ -335,6 +341,12 @@ export function DeliveryPanel() {
             </span>
           </div>
         </div>
+
+        {gps.error && !pickup && (
+          <p role="alert" className="mt-2.5 text-sm text-warn">
+            {gps.error}
+          </p>
+        )}
 
         <button
           type="submit"

@@ -5,13 +5,12 @@ import {
   Check,
   Copy,
   Info,
-  LocateFixed,
   Search,
 } from "lucide-react";
-import { fetchReverse } from "@/lib/api";
 import { CAB_PROVIDERS, type CabPoint } from "@/lib/cab";
 import { cn } from "@/lib/utils";
 import { closeHero, HeroScreen, MapHero, StatGrid } from "./MapHero";
+import { LocateButton, useCurrentLocation } from "./CurrentLocation";
 import { PlaceInput } from "./PlaceInput";
 
 /**
@@ -22,57 +21,8 @@ import { PlaceInput } from "./PlaceInput";
 export function CabPanel() {
   const [pickup, setPickup] = useState<CabPoint | null>(null);
   const [dropoff, setDropoff] = useState<CabPoint | null>(null);
-  const [gpsState, setGpsState] = useState<"idle" | "locating" | "denied">(
-    "idle"
-  );
+  const gps = useCurrentLocation(setPickup);
   const [copied, setCopied] = useState<string | null>(null);
-
-  const [gpsError, setGpsError] = useState<string | null>(null);
-  // Turn the phone's position into the street it's on, so people can check it's right.
-  const gotPosition = (pos: GeolocationPosition) => {
-    const { latitude: lat, longitude: lon } = pos.coords;
-    setGpsError(null);
-    fetchReverse(lat, lon)
-      .then(p =>
-        setPickup({ name: p.name, address: p.address, lat, lon, gps: true })
-      )
-      .catch(() =>
-        setPickup({ name: "My current location", lat, lon, gps: true })
-      )
-      .finally(() => setGpsState("idle"));
-  };
-  const gpsFailed = (err: GeolocationPositionError) => {
-    setGpsState("denied");
-    setGpsError(
-      err.code === err.PERMISSION_DENIED
-        ? "Location is blocked for this site. Allow it in your browser settings, or type your pickup address."
-        : "Couldn't find your location right now. Try again outside or near a window, or type your pickup address."
-    );
-  };
-  // A precise GPS fix often times out indoors; fall back to the network-based position.
-  const locate = () => {
-    if (!("geolocation" in navigator)) {
-      setGpsState("denied");
-      setGpsError(
-        "This browser can't share your location. Type your pickup address."
-      );
-      return;
-    }
-    setGpsState("locating");
-    setGpsError(null);
-    navigator.geolocation.getCurrentPosition(
-      gotPosition,
-      err => {
-        if (err.code === err.PERMISSION_DENIED) return gpsFailed(err);
-        navigator.geolocation.getCurrentPosition(gotPosition, gpsFailed, {
-          enableHighAccuracy: false,
-          timeout: 15_000,
-          maximumAge: 5 * 60_000,
-        });
-      },
-      { enableHighAccuracy: true, timeout: 8_000, maximumAge: 60_000 }
-    );
-  };
 
   const copy = async (id: string, text: string) => {
     try {
@@ -101,16 +51,7 @@ export function CabPanel() {
             onChange={setPickup}
             placeholder="Where are you?"
             extra={
-              <button
-                type="button"
-                onClick={locate}
-                className="mt-1.5 inline-flex min-h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[13px] font-medium text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
-              >
-                <LocateFixed aria-hidden className="size-4 text-primary-ink" />
-                {gpsState === "locating"
-                  ? "Finding you…"
-                  : "Use my current location"}
-              </button>
+              <LocateButton onClick={gps.locate} locating={gps.locating} />
             }
           />
           <PlaceInput
@@ -130,9 +71,9 @@ export function CabPanel() {
           <Search aria-hidden className="size-5" />
           See ride options
         </button>
-        {gpsError && !pickup && (
+        {gps.error && !pickup && (
           <p role="alert" className="mt-3 text-sm text-warn">
-            {gpsError}
+            {gps.error}
           </p>
         )}
       </div>
