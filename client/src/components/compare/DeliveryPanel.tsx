@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import {
   ArrowDownUp,
   ArrowUpRight,
@@ -13,8 +13,12 @@ import {
   type DeliveryStation,
 } from "@/lib/api";
 import { formatAge, formatNaira } from "@/lib/format";
+import { STATE_CAPITALS } from "@/lib/stateCapitals";
 import { cn } from "@/lib/utils";
 import { LoadingResults } from "./Loader";
+
+// The map library only loads once the delivery tab shows a map.
+const TripMap = lazy(() => import("./TripMap"));
 
 const WEIGHTS = [1, 2, 5, 10];
 const LAGOS = 4;
@@ -218,6 +222,33 @@ export function DeliveryPanel() {
           </p>
         )}
       </form>
+
+      {from != null &&
+        to != null &&
+        (() => {
+          const a = STATE_CAPITALS[name(from)];
+          const b = STATE_CAPITALS[name(to)];
+          if (!a || !b) return null;
+          const same = from === to;
+          return (
+            <Suspense
+              fallback={
+                <div className="h-64 rounded-2xl border border-border bg-card sm:h-80" />
+              }
+            >
+              <TripMap
+                pickup={{ name: a.city, lat: a.lat, lon: a.lon }}
+                dropoff={same ? null : { name: b.city, lat: b.lat, lon: b.lon }}
+                labels={{ from: `From ${a.city}`, to: `To ${b.city}` }}
+                describe={km =>
+                  `${km} km by road, ${a.city} to ${b.city} (state capitals)`
+                }
+                note={same ? `Delivery within ${name(from)}` : undefined}
+                pointZoom={9}
+              />
+            </Suspense>
+          );
+        })()}
 
       {state === "loading" && (
         <LoadingResults

@@ -61,6 +61,29 @@ function measure(line: [number, number][]) {
   };
 }
 
+/**
+ * A glowing streak that ends at `f` (0–1 along the route) and fades out behind it, painted
+ * through line-gradient. `alpha` fades the whole trail in and out.
+ */
+function trail(f: number, alpha: number, length = 0.22) {
+  const clear = "rgba(192,241,28,0)";
+  if (alpha <= 0 || f <= 0.002) return clear as any;
+  const head = Math.min(f, 0.999);
+  const tail = Math.max(0, head - length);
+  const stops: (number | string)[] = [];
+  const push = (at: number, colour: string) => {
+    if (stops.length && (stops[stops.length - 2] as number) >= at) return;
+    stops.push(at, colour);
+  };
+  push(0, clear);
+  push(tail, clear);
+  push(head - (head - tail) * 0.35, `rgba(192,241,28,${0.55 * alpha})`);
+  push(head, `rgba(240,255,190,${alpha})`);
+  push(Math.min(1, head + 0.001), clear);
+  push(1, clear);
+  return ["interpolate", ["linear"], ["line-progress"], ...stops] as any;
+}
+
 /** Reveals the route up to `p` (0–1) through each route layer's line-gradient. */
 function reveal(m: maplibregl.Map, p: number, look: Look) {
   const cut = (colour: string) =>
@@ -93,9 +116,21 @@ function reveal(m: maplibregl.Map, p: number, look: Look) {
 export default function TripMap({
   pickup,
   dropoff,
+  labels = { from: "Pickup", to: "Drop-off" },
+  describe = km => `${km} km by road`,
+  note,
+  pointZoom = 14,
 }: {
   pickup: CabPoint | null;
   dropoff: CabPoint | null;
+  /** Legend names for the two ends. */
+  labels?: { from: string; to: string };
+  /** Caption once the road is known. */
+  describe?: (km: number) => string;
+  /** Caption when there's no route to draw (e.g. one point only). */
+  note?: string;
+  /** Zoom for a single point: close for a street, wider for a whole state. */
+  pointZoom?: number;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -243,6 +278,29 @@ export default function TripMap({
         },
         before
       );
+      // The glowing streak the travelling light leaves behind it.
+      m.addLayer(
+        {
+          id: "trip-trail-glow",
+          type: "line",
+          source: "trip",
+          layout: round,
+          paint: { "line-width": 16, "line-blur": 9 },
+        },
+        before
+      );
+      m.addLayer(
+        {
+          id: "trip-trail",
+          type: "line",
+          source: "trip",
+          layout: round,
+          paint: { "line-width": look === "light" ? 4 : 5 },
+        },
+        before
+      );
+      m.setPaintProperty("trip-trail-glow", "line-gradient", trail(0, 0));
+      m.setPaintProperty("trip-trail", "line-gradient", trail(0, 0));
       // The light that travels along the route.
       m.addLayer({
         id: "trip-comet-glow",
@@ -318,7 +376,7 @@ export default function TripMap({
           m.flyTo({ ...target, duration: route ? 2200 : 700, essential: true });
       }
     } else if (all.length === 1)
-      m.easeTo({ center: all[0], zoom: 14, pitch: 0 });
+      m.easeTo({ center: all[0], zoom: pointZoom, pitch: 0 });
 
     // The route draws itself, then a light travels along it on a loop.
     if (!route || still || line.length < 2) {
@@ -349,6 +407,13 @@ export default function TripMap({
           geometry: { type: "Point", coordinates: pos },
         });
         const o = on ? Math.min(1, Math.min(loop, TRAVEL - loop) / 300) : 0;
+        const along = f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2;
+        mm.setPaintProperty("trip-trail", "line-gradient", trail(along, o));
+        mm.setPaintProperty(
+          "trip-trail-glow",
+          "line-gradient",
+          trail(along, o * 0.8, 0.28)
+        );
         mm.setPaintProperty("trip-comet", "circle-opacity", o);
         mm.setPaintProperty("trip-comet", "circle-stroke-opacity", o);
         mm.setPaintProperty("trip-comet-glow", "circle-opacity", o * 0.6);
@@ -420,25 +485,27 @@ export default function TripMap({
             className="size-2.5 rounded-full"
             style={{ background: LIME }}
           />
-          Pickup
+          {labels.from}
         </span>
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <span
             aria-hidden
             className="size-2.5 rounded-[3px] border-2 border-black bg-white"
           />
-          Drop-off
+          {labels.to}
         </span>
         <span className="ml-auto text-foreground">
           {route
-            ? `${route.km} km by road`
-            : state === "loading"
-              ? "Finding the road…"
-              : state === "error"
-                ? "Couldn't load the road route"
-                : typedOnly
-                  ? "Pick a suggestion to see that point on the map"
-                  : ""}
+            ? describe(route.km)
+            : note
+              ? note
+              : state === "loading"
+                ? "Finding the road…"
+                : state === "error"
+                  ? "Couldn't load the road route"
+                  : typedOnly
+                    ? "Pick a suggestion to see that point on the map"
+                    : ""}
         </span>
       </figcaption>
     </figure>
