@@ -7,6 +7,8 @@ COPY package.json pnpm-lock.yaml ./
 COPY patches ./patches
 RUN pnpm install --frozen-lockfile
 COPY . .
+# Optional: build the site against an API on another host (client/src/lib/api.ts).
+ARG VITE_API_BASE=
 RUN pnpm build && pnpm prune --prod
 
 FROM ${NODE_IMAGE}

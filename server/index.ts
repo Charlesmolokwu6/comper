@@ -23,6 +23,26 @@ async function startServer() {
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
+  // A site on another domain may call this API when it's listed in ALLOWED_ORIGINS
+  // (comma-separated, e.g. https://compare.ng). Read-only GETs, no cookies.
+  const allowed = new Set(
+    (process.env.ALLOWED_ORIGINS ?? "")
+      .split(",")
+      .map(o => o.trim().replace(/\/+$/, ""))
+      .filter(Boolean)
+  );
+  app.use("/api", (req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin && allowed.has(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Vary", "Origin");
+      res.setHeader("Access-Control-Allow-Methods", "GET");
+      res.setHeader("Access-Control-Allow-Headers", "Accept");
+    }
+    if (req.method === "OPTIONS") return res.sendStatus(204);
+    next();
+  });
+
   app.use("/api/guo", guoRouter);
   app.use("/api/flights", flightsRouter);
   app.use("/api/delivery", deliveryRouter);

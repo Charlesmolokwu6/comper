@@ -636,3 +636,16 @@ const { data } = trpc.items.getByIds.useQuery({ ids });
 **Rule:** Use sonner for toasts; do not add react-toastify or @radix-ui/react-toast
 
 **Rule:** If you put placeholder components for App.tsx routes, you MUST replace them with actual components after your implementation.
+
+## Moving hosts
+
+Everything needed to rebuild the site is in this repository: the code, `Dockerfile` and
+`render.yaml`. There is no user database. The fare cache (`FARE_CACHE_FILE`) refills from the
+operators within hours, so it needs no backup. The only thing kept outside the repo is the
+host's environment variables (API keys): keep a copy in a password manager.
+
+The website and the API can live on different hosts:
+
+- **Website:** build with `VITE_API_BASE=https://your-api-host` to call an API elsewhere.
+  Leave it unset to use the site's own server.
+- **API:** set `ALLOWED_ORIGINS=https://your-site` (comma-separated) so that site may call it.

@@ -139,8 +139,14 @@ export interface NetworkResponse {
   cities: NetworkCity[];
 }
 
+/**
+ * Where the API lives. Empty means this site's own server; set VITE_API_BASE at build time
+ * (e.g. https://api.example.com) to point the site at an API on another host or domain.
+ */
+const API_BASE = (import.meta.env.VITE_API_BASE ?? "").replace(/\/+$/, "");
+
 async function getJson<T>(url: string, signal?: AbortSignal): Promise<T> {
-  const res = await fetch(url, {
+  const res = await fetch(API_BASE + url, {
     signal,
     headers: { Accept: "application/json" },
   });
