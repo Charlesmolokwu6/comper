@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { InstallButton } from "./InstallButton";
+import { LogoMark } from "./Logo";
 
 export function SiteShell({
   children,
@@ -21,7 +22,7 @@ export function SiteShell({
           href="/"
           className="flex items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
         >
-          <span aria-hidden className="size-3 rounded-sm bg-primary" />
+          <LogoMark />
           <span className="text-lg font-extrabold tracking-tight">Compare</span>
         </Link>
         <InstallButton />

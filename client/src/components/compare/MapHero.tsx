@@ -6,6 +6,7 @@ import type { RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
 import { cn } from "@/lib/utils";
 import { MapCredits } from "./MapCredits";
+import { LogoMark } from "./Logo";
 
 // The map library only loads once a results screen shows.
 const TripMap = lazy(() => import("./TripMap"));
@@ -80,7 +81,7 @@ export function MapHero({
           href="/"
           className="flex items-center gap-2.5 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
         >
-          <span aria-hidden className="size-3 rounded-sm bg-primary" />
+          <LogoMark />
           <span className="text-lg font-extrabold tracking-tight">Compare</span>
         </Link>
         <button
