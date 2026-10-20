@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { knownMatches, toPlaces, toReverse } from "./router";
+import { fromPhoton, knownMatches, toPlaces, toReverse } from "./router";
 
 describe("places", () => {
   it("matches airports by any word typed, ignoring filler words", () => {
@@ -58,5 +58,47 @@ describe("toReverse", () => {
   });
   it("gives up when the point has no address", () => {
     expect(toReverse({ address: {} }, 6, 3)).toBeNull();
+  });
+});
+
+describe("fromPhoton", () => {
+  it("names a street result by its street", () => {
+    const json = {
+      features: [
+        {
+          properties: {
+            type: "street",
+            name: "Asa Street",
+            district: "Maitama District",
+            city: "Abuja",
+            state: "Federal Capital Territory",
+          },
+        },
+      ],
+    };
+    expect(fromPhoton(json, 9.07, 7.49)).toEqual({
+      name: "Asa Street",
+      area: "Maitama District",
+      address: "Maitama District, Abuja, Federal Capital Territory",
+      lat: 9.07,
+      lon: 7.49,
+    });
+  });
+  it("prefers the street over a shop's name", () => {
+    const json = {
+      features: [
+        {
+          properties: {
+            type: "house",
+            name: "Emirastouch Salon",
+            street: "Admiralty Way",
+            district: "Chisco",
+            city: "Lekki Phase I",
+            state: "Lagos",
+          },
+        },
+      ],
+    };
+    expect(fromPhoton(json, 6.4, 3.4)?.name).toBe("Admiralty Way");
   });
 });

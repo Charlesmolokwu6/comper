@@ -137,29 +137,74 @@ placesRouter.get("/reverse", async (req, res) => {
   const key = `rev:${lat.toFixed(4)},${lon.toFixed(4)}`;
   const hit = reverseCache.get(key);
   if (hit && Date.now() - hit.at < TTL_MS) return res.json(hit.body);
-  try {
-    const url =
-      "https://nominatim.openstreetmap.org/reverse?" +
-      new URLSearchParams({
-        lat: lat.toFixed(5),
-        lon: lon.toFixed(5),
-        format: "jsonv2",
-        zoom: "18",
-        "accept-language": "en",
-      });
-    const json = await throttled(async () => {
-      const r = await fetch(url, {
-        headers: { "User-Agent": UA, Accept: "application/json" },
-        signal: AbortSignal.timeout(15_000),
-      });
-      if (!r.ok) throw new Error(`address lookup returned HTTP ${r.status}`);
-      return r.json();
-    });
-    const place = toReverse(json, lat, lon);
-    if (!place) return res.status(404).json({ error: "No address found here" });
-    reverseCache.set(key, { at: Date.now(), body: place });
-    res.json(place);
-  } catch (err: any) {
-    res.status(502).json({ error: err.message });
+  // Nominatim first; Photon (also OpenStreetMap) when Nominatim is slow, busy or blank.
+  const errors: string[] = [];
+  for (const lookup of [nominatimReverse, photonReverse]) {
+    try {
+      const place = await lookup(lat, lon);
+      if (place) {
+        reverseCache.set(key, { at: Date.now(), body: place });
+        return res.json(place);
+      }
+      errors.push("no address");
+    } catch (err: any) {
+      errors.push(err.message);
+    }
   }
+  res
+    .status(502)
+    .json({ error: `Couldn't name this place (${errors.join("; ")})` });
 });
+
+async function nominatimReverse(lat: number, lon: number) {
+  const url =
+    "https://nominatim.openstreetmap.org/reverse?" +
+    new URLSearchParams({
+      lat: lat.toFixed(5),
+      lon: lon.toFixed(5),
+      format: "jsonv2",
+      zoom: "18",
+      "accept-language": "en",
+    });
+  const json = await throttled(async () => {
+    const r = await fetch(url, {
+      headers: { "User-Agent": UA, Accept: "application/json" },
+      signal: AbortSignal.timeout(8_000),
+    });
+    if (!r.ok) throw new Error(`Nominatim returned HTTP ${r.status}`);
+    return r.json();
+  });
+  return toReverse(json, lat, lon);
+}
+
+async function photonReverse(lat: number, lon: number) {
+  const r = await fetch(
+    "https://photon.komoot.io/reverse?" +
+      new URLSearchParams({ lat: String(lat), lon: String(lon), lang: "en" }),
+    {
+      headers: { "User-Agent": UA, Accept: "application/json" },
+      signal: AbortSignal.timeout(8_000),
+    }
+  );
+  if (!r.ok) throw new Error(`Photon returned HTTP ${r.status}`);
+  return fromPhoton(await r.json(), lat, lon);
+}
+
+/** Photon's answer in the same shape as toReverse. */
+export function fromPhoton(json: any, lat: number, lon: number) {
+  const p = json?.features?.[0]?.properties;
+  if (!p) return null;
+  const street = [p.housenumber, p.street].filter(Boolean).join(" ");
+  const name =
+    p.type === "street" ? p.name : street || p.name || p.district || p.city;
+  if (!name) return null;
+  const area = p.district || p.city || null;
+  const address = [
+    p.district !== name ? p.district : null,
+    p.city !== name ? p.city : null,
+    p.state || null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  return { name: String(name), area, address, lat, lon };
+}

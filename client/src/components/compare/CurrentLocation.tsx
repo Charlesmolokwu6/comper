@@ -13,7 +13,11 @@ export function useCurrentLocation(onFound: (p: CabPoint) => void) {
 
   const found = (pos: GeolocationPosition) => {
     const { latitude: lat, longitude: lon } = pos.coords;
+    // One retry: a busy address service usually answers the second time.
     fetchReverse(lat, lon)
+      .catch(() =>
+        new Promise(r => setTimeout(r, 1500)).then(() => fetchReverse(lat, lon))
+      )
       .then(p =>
         onFound({ name: p.name, address: p.address, lat, lon, gps: true })
       )
