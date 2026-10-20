@@ -50,6 +50,8 @@ function FlightRowItem({ r }: { r: FlightRow }) {
         ) : (
           <a
             href={f.bookingUrl}
+            data-umami-event="Book flight"
+            data-umami-event-company={f.airlineName}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-9 shrink-0 items-center gap-0.5 rounded-md px-1 text-sm font-semibold text-primary-ink hover:underline focus-visible:outline-2 focus-visible:outline-ring"

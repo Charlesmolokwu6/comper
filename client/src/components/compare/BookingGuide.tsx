@@ -28,6 +28,7 @@ export function BookingGuide({
   rows,
   triggerClassName,
   triggerLabel = "Book",
+  trackCompany,
   srLabel,
 }: {
   operatorName: string;
@@ -35,6 +36,8 @@ export function BookingGuide({
   rows: GuideRow[];
   triggerClassName?: string;
   triggerLabel?: string;
+  /** Counted as a "Book bus" tap for this company (analytics.ts). */
+  trackCompany?: string;
   srLabel: string;
 }) {
   const [copied, setCopied] = useState(false);
@@ -54,7 +57,12 @@ export function BookingGuide({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button type="button" className={triggerClassName}>
+        <button
+          type="button"
+          className={triggerClassName}
+          data-umami-event={trackCompany ? "Book bus" : undefined}
+          data-umami-event-company={trackCompany}
+        >
           {triggerLabel}
           <ArrowUpRight aria-hidden className="size-3.5" />
           <span className="sr-only">{srLabel}</span>

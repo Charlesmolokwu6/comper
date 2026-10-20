@@ -350,6 +350,7 @@ export function DeliveryPanel() {
 
         <button
           type="submit"
+          data-umami-event="Search delivery"
           disabled={!valid || state === "loading"}
           className="mt-3.5 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
         >
@@ -490,6 +491,8 @@ export function DeliveryPanel() {
                           )}
                           <a
                             href={c.bookingUrl}
+                            data-umami-event="Book delivery"
+                            data-umami-event-company={c.name}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="mt-4 flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary text-[15px] font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"

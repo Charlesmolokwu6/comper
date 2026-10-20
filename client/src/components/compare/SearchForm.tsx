@@ -187,6 +187,7 @@ export function SearchForm({
 
       <button
         type="submit"
+        data-umami-event="Search bus"
         disabled={!values.from || !values.to || !values.date || busy}
         className="mt-3.5 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground transition-[filter,opacity] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
       >

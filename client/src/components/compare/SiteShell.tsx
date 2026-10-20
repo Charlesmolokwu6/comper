@@ -33,11 +33,28 @@ export function SiteShell({
       </main>
 
       <footer className="border-t border-border">
-        <p className="mx-auto max-w-5xl px-4 py-6 text-xs text-muted-foreground sm:px-6">
+        <p className="mx-auto max-w-5xl px-4 pt-6 pb-3 text-xs text-muted-foreground sm:px-6">
           Fares are fetched from each operator's booking site and cached for up
           to 6 hours. Operators can change prices — always check the final price
           when you book. Compare isn't affiliated with any operator.
         </p>
+        <nav
+          aria-label="Legal"
+          className="mx-auto flex max-w-5xl gap-4 px-4 pb-6 text-xs sm:px-6"
+        >
+          <Link
+            href="/privacy"
+            className="text-muted-foreground underline underline-offset-4 hover:text-foreground"
+          >
+            Privacy
+          </Link>
+          <Link
+            href="/terms"
+            className="text-muted-foreground underline underline-offset-4 hover:text-foreground"
+          >
+            Terms
+          </Link>
+        </nav>
       </footer>
     </div>
   );

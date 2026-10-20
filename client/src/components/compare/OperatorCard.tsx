@@ -172,6 +172,8 @@ function BookTrip({
   return t.deepLink ? (
     <a
       href={t.bookingUrl}
+      data-umami-event="Book bus"
+      data-umami-event-company={t.operatorName}
       target="_blank"
       rel="noopener noreferrer"
       className={className}
@@ -189,6 +191,7 @@ function BookTrip({
       url={t.bookingUrl}
       triggerClassName={className}
       triggerLabel={label}
+      trackCompany={t.operatorName}
       srLabel={`${t.operatorName} ${formatTime(t.departure)} from ${prettyStop(t.from.name)}`}
       rows={[
         {

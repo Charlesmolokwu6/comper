@@ -66,6 +66,7 @@ export function CabPanel() {
           type="button"
           disabled={!ready}
           onClick={() => setOpen(true)}
+          data-umami-event="Cab options"
           className="mt-3.5 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-40"
         >
           <Search aria-hidden className="size-5" />
@@ -151,6 +152,8 @@ export function CabPanel() {
                       </div>
                       <a
                         href={p.link(pickup, dropoff)}
+                        data-umami-event="Open ride app"
+                        data-umami-event-company={p.name}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"

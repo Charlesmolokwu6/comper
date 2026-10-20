@@ -49,7 +49,10 @@ export function InstallButton() {
             </span>
           </li>
           <li className="flex items-center gap-3">
-            <SquarePlus aria-hidden className="size-5 shrink-0 text-primary-ink" />
+            <SquarePlus
+              aria-hidden
+              className="size-5 shrink-0 text-primary-ink"
+            />
             <span>
               Scroll down and tap <strong>Add to Home Screen</strong>, then{" "}
               <strong>Add</strong>.

@@ -9,6 +9,9 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 # Optional: build the site against an API on another host (client/src/lib/api.ts).
 ARG VITE_API_BASE=
+# Optional: Umami visit counts and the contact email on the Privacy/Terms pages.
+ARG VITE_UMAMI_WEBSITE_ID=
+ARG VITE_CONTACT_EMAIL=
 RUN pnpm build && pnpm prune --prod
 
 FROM ${NODE_IMAGE}
