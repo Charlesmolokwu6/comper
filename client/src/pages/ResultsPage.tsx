@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Bus, ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { MapCredits } from "@/components/compare/MapCredits";
@@ -29,6 +29,9 @@ import { distanceKm } from "@/lib/geo";
 import { parsePlace } from "@/lib/places";
 import { rememberSearch, resultsPath } from "@/lib/routes";
 import { cn } from "@/lib/utils";
+
+// The close-up map loads with the map library, only when there's something to show.
+const CloseUpMap = lazy(() => import("@/components/compare/TripMap"));
 
 const ICON: Record<Category, "coach" | "car" | "minibus"> = {
   luxury: "coach",
@@ -241,23 +244,25 @@ export default function ResultsPage({
   const mapFrom = fromTerminalAt ?? centreOf(fromPlace.city);
   const mapTo = toTerminalAt ?? centreOf(toPlace.city);
   // Where companies that skip the picked terminal stop instead, in orange on the map.
+  const seen = new Map<string, MapExtra & { side: "from" | "to" }>();
+  for (const t of results?.trips ?? [])
+    for (const i of t.instead ?? []) {
+      const stop = t[i.side];
+      const anchor = i.side === "to" ? mapTo : mapFrom;
+      if (stop.lat == null || stop.lon == null || !anchor) continue;
+      seen.set(`${i.side}:${i.terminal}`, {
+        side: i.side,
+        name: i.terminalName,
+        lat: stop.lat,
+        lon: stop.lon,
+        from: anchor,
+      });
+    }
+  const rawExtras = Array.from(seen.values());
   const mapExtras = (() => {
-    const seen = new Map<string, MapExtra>();
-    for (const t of results?.trips ?? [])
-      for (const i of t.instead ?? []) {
-        const stop = t[i.side];
-        const anchor = i.side === "to" ? mapTo : mapFrom;
-        if (stop.lat == null || stop.lon == null || !anchor) continue;
-        seen.set(`${i.side}:${i.terminal}`, {
-          name: i.terminalName,
-          lat: stop.lat,
-          lon: stop.lon,
-          from: anchor,
-        });
-      }
     // Terminals a few km apart would sit on top of each other: one pin, both names.
     const merged: MapExtra[] = [];
-    for (const x of Array.from(seen.values())) {
+    for (const x of rawExtras) {
       const close = merged.find(
         m => distanceKm(m, x) < 10 && m.from.lat === x.from.lat
       );
@@ -266,6 +271,15 @@ export default function ResultsPage({
     }
     return merged;
   })();
+  // Close-up of the picked terminal's end, with the road to each orange stop.
+  const closeSide = rawExtras[0]?.side;
+  const closeAnchor =
+    closeSide === "to"
+      ? toTerminalAt
+      : closeSide === "from"
+        ? fromTerminalAt
+        : null;
+  const closeExtras = rawExtras.filter(x => x.side === closeSide);
 
   const activeLabel = CATEGORIES.find(c => c.id === active)!;
   const otherWithFares = CATEGORIES.filter(
@@ -410,6 +424,29 @@ export default function ResultsPage({
                     onChange={n => setNear(fromPlace.city, n)}
                   />
                 )}
+
+              {closeAnchor && closeExtras.length > 0 && (
+                <div className="mt-5">
+                  <Suspense
+                    fallback={
+                      <div className="h-64 rounded-2xl border border-border bg-card sm:h-80" />
+                    }
+                  >
+                    <CloseUpMap
+                      pickup={closeSide === "from" ? closeAnchor : null}
+                      dropoff={closeSide === "to" ? closeAnchor : null}
+                      extras={closeExtras}
+                      roadExtras
+                      labels={{
+                        from: closeAnchor.name,
+                        to: closeAnchor.name,
+                      }}
+                      note={`Close-up of ${closeAnchor.name}`}
+                      pointZoom={12}
+                    />
+                  </Suspense>
+                </div>
+              )}
 
               {results && results.trips.length > 0 && (
                 <div className="mt-5 rounded-[1.4rem] border border-border bg-card p-4 sm:p-5">

@@ -139,6 +139,7 @@ export default function TripMap({
   hero = false,
   onRoute,
   extras = [],
+  roadExtras = false,
 }: {
   pickup: CabPoint | null;
   dropoff: CabPoint | null;
@@ -154,6 +155,8 @@ export default function TripMap({
   hero?: boolean;
   /** Other terminals to mark in orange, each joined to the picked one by a dashed line. */
   extras?: MapExtra[];
+  /** Draw the real road to each extra (orange, with its road km) instead of a straight line. */
+  roadExtras?: boolean;
   /** Told when the road route arrives (or fails), for text shown outside the map. */
   onRoute?: (
     route: RoadRoute | null,
@@ -227,6 +230,24 @@ export default function TripMap({
   }, [key]);
 
   const extrasKey = extras.map(x => `${x.name}@${x.lat},${x.lon}`).join("|");
+
+  // Road routes to the extras, one at a time (the route proxy is rate-limited anyway).
+  const [roads, setRoads] = useState<Record<string, RoadRoute>>({});
+  useEffect(() => {
+    setRoads({});
+    if (!roadExtras || !extras.length) return;
+    const ctrl = new AbortController();
+    (async () => {
+      for (const x of extras) {
+        const r = await fetchRoute(x.from, x, ctrl.signal).catch(() => null);
+        if (ctrl.signal.aborted) return;
+        if (r) setRoads(prev => ({ ...prev, [x.name]: r }));
+      }
+    })();
+    return () => ctrl.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roadExtras, extrasKey]);
+  const roadsKey = Object.keys(roads).join("|");
 
   // Draw the road and the two dots, then fit them in view.
   useEffect(() => {
@@ -377,18 +398,21 @@ export default function TripMap({
       pts.push([b.lon, b.lat]);
     }
 
-    // Other terminals: straight dashed lines, because the km we show are straight-line.
+    // Other terminals: by road when we have it, else a straight dashed line (the km on
+    // the cards are straight-line).
     const legs = {
       type: "FeatureCollection" as const,
       features: extras.map(x => ({
         type: "Feature" as const,
-        properties: {},
+        properties: { road: !!roads[x.name] },
         geometry: {
           type: "LineString" as const,
-          coordinates: [
-            [x.from.lon, x.from.lat],
-            [x.lon, x.lat],
-          ],
+          coordinates: roads[x.name]
+            ? roads[x.name].line.map(([lat, lon]) => [lon, lat])
+            : [
+                [x.from.lon, x.from.lat],
+                [x.lon, x.lat],
+              ],
         },
       })),
     };
@@ -404,6 +428,7 @@ export default function TripMap({
           type: "line",
           source: "trip-extras",
           layout: { "line-cap": "round" },
+          filter: ["!", ["get", "road"]],
           paint: {
             "line-color": PUMPKIN,
             "line-width": 3,
@@ -412,10 +437,26 @@ export default function TripMap({
         },
         m.getLayer(FIRST_LABEL_LAYER) ? FIRST_LABEL_LAYER : undefined
       );
+    if (!m.getLayer("trip-extras-road"))
+      m.addLayer(
+        {
+          id: "trip-extras-road",
+          type: "line",
+          source: "trip-extras",
+          layout: { "line-cap": "round", "line-join": "round" },
+          filter: ["get", "road"],
+          paint: { "line-color": PUMPKIN, "line-width": 4 },
+        },
+        m.getLayer(FIRST_LABEL_LAYER) ? FIRST_LABEL_LAYER : undefined
+      );
     for (const x of extras) {
       markers.current.push(
         new maplibregl.Marker({
-          element: altPin(x.name),
+          element: altPin(
+            roads[x.name]
+              ? `${x.name} · ${roads[x.name].km} km by road`
+              : x.name
+          ),
           anchor: "left",
           offset: [-7, 0],
         })
@@ -502,7 +543,7 @@ export default function TripMap({
     reveal(m, 0, look);
     frame.current = requestAnimationFrame(tick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon, extrasKey]);
+  }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon, extrasKey, roadsKey]);
 
   // Stop the animation when the map goes away.
   useEffect(
@@ -547,14 +588,26 @@ export default function TripMap({
         />
       </div>
       <figcaption className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-sm">
-        <span className="flex items-center gap-1.5 text-muted-foreground">
-          <span
-            aria-hidden
-            className="size-2.5 rounded-full"
-            style={{ background: LIME }}
-          />
-          {labels.from}
-        </span>
+        {pickup && (
+          <span className="flex items-center gap-1.5 text-muted-foreground">
+            <span
+              aria-hidden
+              className="size-2.5 rounded-full"
+              style={{ background: LIME }}
+            />
+            {labels.from}
+          </span>
+        )}
+        {extras.length > 0 && (
+          <span className="flex items-center gap-1.5 text-muted-foreground">
+            <span
+              aria-hidden
+              className="size-2.5 rounded-full"
+              style={{ background: PUMPKIN }}
+            />
+            Where other companies stop
+          </span>
+        )}
         {dropoff && (
           <span className="flex items-center gap-1.5 text-muted-foreground">
             <span
