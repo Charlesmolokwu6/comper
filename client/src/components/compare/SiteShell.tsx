@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { InstallButton } from "./InstallButton";
+import { FeedbackLink } from "./Feedback";
 import { LogoMark } from "./Logo";
 
 export function SiteShell({
@@ -54,6 +55,9 @@ export function SiteShell({
           >
             Terms
           </Link>
+          <FeedbackLink className="text-muted-foreground">
+            Feedback
+          </FeedbackLink>
         </nav>
       </footer>
     </div>
