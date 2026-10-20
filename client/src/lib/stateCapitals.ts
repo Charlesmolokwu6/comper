@@ -1,0 +1,46 @@
+/**
+ * Each state's capital, for drawing delivery routes on the map. Keyed by the state names
+ * the delivery tab shows (server/delivery/gigl.ts): "Lagos", "Abuja (FCT)", "Akwa Ibom".
+ */
+export const STATE_CAPITALS: Record<
+  string,
+  { city: string; lat: number; lon: number }
+> = {
+  Abia: { city: "Umuahia", lat: 5.525, lon: 7.4944 },
+  "Abuja (FCT)": { city: "Abuja", lat: 9.0579, lon: 7.4951 },
+  Adamawa: { city: "Yola", lat: 9.2035, lon: 12.4954 },
+  "Akwa Ibom": { city: "Uyo", lat: 5.0377, lon: 7.9128 },
+  Anambra: { city: "Awka", lat: 6.212, lon: 7.072 },
+  Bauchi: { city: "Bauchi", lat: 10.3158, lon: 9.8442 },
+  Bayelsa: { city: "Yenagoa", lat: 4.9267, lon: 6.2676 },
+  Benue: { city: "Makurdi", lat: 7.7337, lon: 8.5214 },
+  Borno: { city: "Maiduguri", lat: 11.8311, lon: 13.151 },
+  "Cross River": { city: "Calabar", lat: 4.9589, lon: 8.3269 },
+  Delta: { city: "Asaba", lat: 6.198, lon: 6.7319 },
+  Ebonyi: { city: "Abakaliki", lat: 6.3249, lon: 8.1137 },
+  Edo: { city: "Benin City", lat: 6.335, lon: 5.6037 },
+  Ekiti: { city: "Ado-Ekiti", lat: 7.6211, lon: 5.2215 },
+  Enugu: { city: "Enugu", lat: 6.4584, lon: 7.5464 },
+  Gombe: { city: "Gombe", lat: 10.2897, lon: 11.1673 },
+  Imo: { city: "Owerri", lat: 5.4836, lon: 7.0333 },
+  Jigawa: { city: "Dutse", lat: 11.7562, lon: 9.3389 },
+  Kaduna: { city: "Kaduna", lat: 10.5105, lon: 7.4165 },
+  Kano: { city: "Kano", lat: 12.0022, lon: 8.592 },
+  Katsina: { city: "Katsina", lat: 12.9908, lon: 7.6018 },
+  Kebbi: { city: "Birnin Kebbi", lat: 12.4539, lon: 4.1975 },
+  Kogi: { city: "Lokoja", lat: 7.8023, lon: 6.7333 },
+  Kwara: { city: "Ilorin", lat: 8.4966, lon: 4.5421 },
+  Lagos: { city: "Ikeja", lat: 6.6018, lon: 3.3515 },
+  Nasarawa: { city: "Lafia", lat: 8.4939, lon: 8.5153 },
+  Niger: { city: "Minna", lat: 9.6139, lon: 6.5569 },
+  Ogun: { city: "Abeokuta", lat: 7.1475, lon: 3.3619 },
+  Ondo: { city: "Akure", lat: 7.2571, lon: 5.2058 },
+  Osun: { city: "Osogbo", lat: 7.7827, lon: 4.5418 },
+  Oyo: { city: "Ibadan", lat: 7.3775, lon: 3.947 },
+  Plateau: { city: "Jos", lat: 9.8965, lon: 8.8583 },
+  Rivers: { city: "Port Harcourt", lat: 4.8156, lon: 7.0498 },
+  Sokoto: { city: "Sokoto", lat: 13.0059, lon: 5.2476 },
+  Taraba: { city: "Jalingo", lat: 8.8937, lon: 11.3594 },
+  Yobe: { city: "Damaturu", lat: 11.747, lon: 11.9608 },
+  Zamfara: { city: "Gusau", lat: 12.1704, lon: 6.6641 },
+};

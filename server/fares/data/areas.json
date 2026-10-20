@@ -1,0 +1,580 @@
+{
+  "note": "Approximate locations for nearest-terminal suggestions. Stop areas use GUO's published terminal coordinates where they match, otherwise OpenStreetMap (Nominatim). Unknown places are omitted rather than guessed.",
+  "generatedAt": "2026-10-15",
+  "stops": {
+    "lagos": {
+      "jibowu": {
+        "lat": 6.51878,
+        "lon": 3.36837,
+        "source": "GUO terminal Jibowu"
+      },
+      "ajah": {
+        "lat": 6.46664,
+        "lon": 3.58317,
+        "source": "GUO terminal Ajah"
+      },
+      "alaba": {
+        "lat": 6.45831,
+        "lon": 3.18512,
+        "source": "GUO terminal Alaba"
+      },
+      "ojo alaba": {
+        "lat": 6.45831,
+        "lon": 3.18512,
+        "source": "GUO terminal Alaba"
+      },
+      "ojo": {
+        "lat": 6.4625,
+        "lon": 3.16571,
+        "source": "OpenStreetMap: Ojo, Lagos, 102113, Nigeria"
+      },
+      "ojo barracks": {
+        "lat": 6.4756,
+        "lon": 3.22044,
+        "source": "OpenStreetMap: Ojo Cantonment, Ojo, Lagos, 102113, Nigeria"
+      },
+      "coker": {
+        "lat": 6.47273,
+        "lon": 3.33542,
+        "source": "GUO terminal Coker"
+      },
+      "ejigbo": {
+        "lat": 6.54069,
+        "lon": 3.29711,
+        "source": "GUO terminal Ejigbo"
+      },
+      "iba": {
+        "lat": 6.5034,
+        "lon": 3.19944,
+        "source": "GUO terminal Iba"
+      },
+      "iyana school": {
+        "lat": 6.5034,
+        "lon": 3.19944,
+        "source": "GUO terminal Iba"
+      },
+      "iyana iba": {
+        "lat": 6.46134,
+        "lon": 3.2042,
+        "source": "OpenStreetMap: Iyana-Iba Market, Lagos-Badagry Expressway, Okokomaiko, Ojo, Lagos, 102113, Nigeria"
+      },
+      "ikorodu": {
+        "lat": 6.62341,
+        "lon": 3.5048,
+        "source": "GUO terminal Ikorodu"
+      },
+      "ikotun": {
+        "lat": 6.54788,
+        "lon": 3.26734,
+        "source": "GUO terminal Ikotun"
+      },
+      "iyana ipaja": {
+        "lat": 6.61775,
+        "lon": 3.30303,
+        "source": "GUO terminal Iyana Ipaja"
+      },
+      "maza maza": {
+        "lat": 6.45971,
+        "lon": 3.30189,
+        "source": "GUO terminal Maza Maza"
+      },
+      "mazamaza": {
+        "lat": 6.45971,
+        "lon": 3.30189,
+        "source": "GUO terminal Maza Maza"
+      },
+      "first gate": {
+        "lat": 6.45971,
+        "lon": 3.30189,
+        "source": "GUO terminal Maza Maza"
+      },
+      "okota": {
+        "lat": 6.50847,
+        "lon": 3.32189,
+        "source": "GUO terminal Okota (Cele)"
+      },
+      "cele": {
+        "lat": 6.50847,
+        "lon": 3.32189,
+        "source": "GUO terminal Okota (Cele)"
+      },
+      "otto": {
+        "lat": 6.4834,
+        "lon": 3.3814,
+        "source": "OpenStreetMap: Oyingbo (Otto)"
+      },
+      "agege": {
+        "lat": 6.62632,
+        "lon": 3.32049,
+        "source": "GUO terminal Agege"
+      },
+      "ikosi": {
+        "lat": 6.60056,
+        "lon": 3.38361,
+        "source": "OpenStreetMap: Ikosi, Orisigun, Ketu, Kosofe, Lagos, 100247, Nigeria"
+      },
+      "ketu": {
+        "lat": 6.5928,
+        "lon": 3.39175,
+        "source": "OpenStreetMap: Ketu, Kosofe, Lagos, 100247, Nigeria"
+      },
+      "ojota": {
+        "lat": 6.5871,
+        "lon": 3.3791,
+        "source": "OpenStreetMap: Ojota"
+      },
+      "oshodi": {
+        "lat": 6.55703,
+        "lon": 3.34944,
+        "source": "OpenStreetMap: Oshodi, Oshodi/Isolo, Lagos, 100271, Nigeria"
+      },
+      "bolade": {
+        "lat": 6.55703,
+        "lon": 3.34944,
+        "source": "OpenStreetMap: Oshodi, Oshodi/Isolo, Lagos, 100271, Nigeria"
+      },
+      "amuwo": {
+        "lat": 6.44706,
+        "lon": 3.26632,
+        "source": "OpenStreetMap: Amuwo Odofin, Lagos, 102102, Nigeria"
+      },
+      "alafia": {
+        "lat": 6.46474,
+        "lon": 3.18197,
+        "source": "OpenStreetMap: Alafia Street, Kemberi, Ojo, Lagos, Nigeria"
+      },
+      "ogba": {
+        "lat": 6.6326,
+        "lon": 3.3408,
+        "source": "OpenStreetMap: Ogba"
+      },
+      "anthony": {
+        "lat": 6.55935,
+        "lon": 3.36958,
+        "source": "OpenStreetMap: Anthony Village Road, Anthony, Gbagada, Kosofe, Lagos, 100232, Nigeria"
+      },
+      "apapa": {
+        "lat": 6.44519,
+        "lon": 3.36837,
+        "source": "OpenStreetMap: Apapa, Lagos, Nigeria"
+      },
+      "berger": {
+        "lat": 6.63862,
+        "lon": 3.36989,
+        "source": "OpenStreetMap: Ojodu Berger Interchange, Lagos-Ibadan Expressway, Ojodu Berger, Ikeja, Ifo, Lagos, 100248"
+      },
+      "iddo": {
+        "lat": 6.47017,
+        "lon": 3.38111,
+        "source": "OpenStreetMap: Iddo, Lagos Mainland, Lagos, 101212, Nigeria"
+      },
+      "mile2": {
+        "lat": 6.45879,
+        "lon": 3.3134,
+        "source": "OpenStreetMap: Mile 2, Amuwo Odofin, Lagos, 102102, Nigeria"
+      },
+      "mile 2": {
+        "lat": 6.45879,
+        "lon": 3.3134,
+        "source": "OpenStreetMap: Mile 2, Amuwo Odofin, Lagos, 102102, Nigeria"
+      },
+      "volks": {
+        "lat": 6.46677,
+        "lon": 3.217,
+        "source": "OpenStreetMap: Volkswagen Assembly Plant, Ojo, Lagos, Nigeria"
+      },
+      "igando": {
+        "lat": 6.54866,
+        "lon": 3.231,
+        "source": "OpenStreetMap: Igando, Alimosho, Lagos, Nigeria"
+      },
+      "egbeda": {
+        "lat": 6.59121,
+        "lon": 3.28896,
+        "source": "OpenStreetMap: Egbeda, Alimosho, Lagos, 102213, Nigeria"
+      },
+      "epe": {
+        "lat": 6.5857,
+        "lon": 3.9757,
+        "source": "OpenStreetMap: Epe"
+      }
+    },
+    "abuja": {
+      "utako": {
+        "lat": 9.06894,
+        "lon": 7.44287,
+        "source": "GUO terminal Utako"
+      },
+      "jabi": {
+        "lat": 9.06462,
+        "lon": 7.42101,
+        "source": "OpenStreetMap: Jabi, Abuja, Municipal Area Council, Federal Capital Territory, Nigeria"
+      },
+      "zuba": {
+        "lat": 9.09223,
+        "lon": 7.21532,
+        "source": "GUO terminal Zuba"
+      },
+      "kubwa": {
+        "lat": 9.14733,
+        "lon": 7.32379,
+        "source": "GUO terminal Kubwa"
+      },
+      "nyanya": {
+        "lat": 9.022,
+        "lon": 7.5673,
+        "source": "OpenStreetMap: Nyanya"
+      },
+      "gwagwalada": {
+        "lat": 8.93603,
+        "lon": 7.08591,
+        "source": "OpenStreetMap: Gwagwalada, Federal Capital Territory, 902101, Nigeria"
+      },
+      "gwarimpa": {
+        "lat": 9.10982,
+        "lon": 7.39297,
+        "source": "OpenStreetMap: Gwarinpa, Municipal Area Council, Federal Capital Territory, Nigeria"
+      },
+      "lugbe": {
+        "lat": 8.99104,
+        "lon": 7.35749,
+        "source": "OpenStreetMap: CBN Quaters Lugbe Phase 2, Abuja, Municipal Area Council, Federal Capital Territory, Niger"
+      },
+      "deidei": {
+        "lat": 9.09983,
+        "lon": 7.27787,
+        "source": "OpenStreetMap: Dei-Dei Material Market, Sabojibi, Municipal Area Council, Federal Capital Territory, Nige"
+      },
+      "area 3": {
+        "lat": 9.01314,
+        "lon": 7.48135,
+        "source": "OpenStreetMap: Garki, Gudu, Abuja, Municipal Area Council, Federal Capital Territory, 900211, Nigeria"
+      },
+      "berger fct": {
+        "lat": 9.06707,
+        "lon": 7.45432,
+        "source": "OpenStreetMap: Berger, Herbert Macaulay Way, Wuse, Abuja, Municipal Area Council, Federal Capital Territo"
+      },
+      "mararaba": {
+        "lat": 9.02897,
+        "lon": 7.59316,
+        "source": "OpenStreetMap: CanalOlympia Mararaba, Abuja-Keffi Expressway, Ado, Karu, Nasarawa, 961105, Nigeria"
+      },
+      "maraba": {
+        "lat": 9.02897,
+        "lon": 7.59316,
+        "source": "OpenStreetMap: CanalOlympia Mararaba, Abuja-Keffi Expressway, Ado, Karu, Nasarawa, 961105, Nigeria"
+      }
+    },
+    "port-harcourt": {
+      "mile 1": {
+        "lat": 4.79999,
+        "lon": 7.00733,
+        "source": "OpenStreetMap: Diobu, Port-Harcourt, Rivers, 520052, Nigeria"
+      },
+      "rumuodumaya": {
+        "lat": 4.87786,
+        "lon": 7.00458,
+        "source": "OpenStreetMap: Rumuodumaya, Obio/Akpor, Rivers, 101014, Nigeria"
+      },
+      "choba": {
+        "lat": 4.89407,
+        "lon": 6.91587,
+        "source": "OpenStreetMap: Institute of Petroleum Studies, East - West Road, Choba, Alakahia, Obio/Akpor, Rivers, 500"
+      },
+      "uniport": {
+        "lat": 4.89407,
+        "lon": 6.91587,
+        "source": "OpenStreetMap: Institute of Petroleum Studies, East - West Road, Choba, Alakahia, Obio/Akpor, Rivers, 500"
+      }
+    }
+  },
+  "neighbourhoods": {
+    "lagos": [
+      {
+        "name": "Agege",
+        "lat": 6.62525,
+        "lon": 3.31121
+      },
+      {
+        "name": "Ajah",
+        "lat": 6.46947,
+        "lon": 3.56239
+      },
+      {
+        "name": "Apapa",
+        "lat": 6.44519,
+        "lon": 3.36837
+      },
+      {
+        "name": "Badore",
+        "lat": 6.50993,
+        "lon": 3.61595
+      },
+      {
+        "name": "Ebute Metta",
+        "lat": 6.48626,
+        "lon": 3.38561
+      },
+      {
+        "name": "Egbeda",
+        "lat": 6.59121,
+        "lon": 3.28896
+      },
+      {
+        "name": "Festac Town",
+        "lat": 6.46827,
+        "lon": 3.28394
+      },
+      {
+        "name": "Gbagada",
+        "lat": 6.55807,
+        "lon": 3.38362
+      },
+      {
+        "name": "Ikeja",
+        "lat": 6.60163,
+        "lon": 3.3516
+      },
+      {
+        "name": "Ikorodu",
+        "lat": 6.61912,
+        "lon": 3.50413
+      },
+      {
+        "name": "Ikotun",
+        "lat": 6.5523,
+        "lon": 3.26827
+      },
+      {
+        "name": "Ikoyi",
+        "lat": 6.45234,
+        "lon": 3.42805
+      },
+      {
+        "name": "Ilupeju",
+        "lat": 6.55505,
+        "lon": 3.35928
+      },
+      {
+        "name": "Ipaja",
+        "lat": 6.60955,
+        "lon": 3.26729
+      },
+      {
+        "name": "Isolo",
+        "lat": 6.5285,
+        "lon": 3.3188
+      },
+      {
+        "name": "Ketu",
+        "lat": 6.5928,
+        "lon": 3.39175
+      },
+      {
+        "name": "Lagos Island",
+        "lat": 6.4498,
+        "lon": 3.3937
+      },
+      {
+        "name": "Lekki Phase 1",
+        "lat": 6.4336,
+        "lon": 3.4491
+      },
+      {
+        "name": "Magodo",
+        "lat": 6.61808,
+        "lon": 3.37778
+      },
+      {
+        "name": "Maryland",
+        "lat": 6.57715,
+        "lon": 3.36619
+      },
+      {
+        "name": "Mushin",
+        "lat": 6.52477,
+        "lon": 3.35163
+      },
+      {
+        "name": "Ogba",
+        "lat": 6.63261,
+        "lon": 3.34078
+      },
+      {
+        "name": "Ojo",
+        "lat": 6.4625,
+        "lon": 3.16571
+      },
+      {
+        "name": "Ojodu",
+        "lat": 6.6416,
+        "lon": 3.3685
+      },
+      {
+        "name": "Ojota",
+        "lat": 6.58707,
+        "lon": 3.37915
+      },
+      {
+        "name": "Oshodi",
+        "lat": 6.55703,
+        "lon": 3.34944
+      },
+      {
+        "name": "Sangotedo",
+        "lat": 6.47102,
+        "lon": 3.63558
+      },
+      {
+        "name": "Surulere",
+        "lat": 6.48557,
+        "lon": 3.35399
+      },
+      {
+        "name": "Victoria Island",
+        "lat": 6.43003,
+        "lon": 3.42599
+      },
+      {
+        "name": "Yaba",
+        "lat": 6.50682,
+        "lon": 3.37549
+      }
+    ],
+    "abuja": [
+      {
+        "name": "Asokoro",
+        "lat": 9.04235,
+        "lon": 7.51969
+      },
+      {
+        "name": "Garki",
+        "lat": 9.01314,
+        "lon": 7.48135
+      },
+      {
+        "name": "Gwagwalada",
+        "lat": 8.93603,
+        "lon": 7.08591
+      },
+      {
+        "name": "Gwarinpa",
+        "lat": 9.10982,
+        "lon": 7.39297
+      },
+      {
+        "name": "Jabi",
+        "lat": 9.06462,
+        "lon": 7.42101
+      },
+      {
+        "name": "Karu",
+        "lat": 9.01135,
+        "lon": 7.57505
+      },
+      {
+        "name": "Kubwa",
+        "lat": 9.15268,
+        "lon": 7.34108
+      },
+      {
+        "name": "Life Camp",
+        "lat": 9.06747,
+        "lon": 7.40408
+      },
+      {
+        "name": "Lokogoma",
+        "lat": 8.9664,
+        "lon": 7.47328
+      },
+      {
+        "name": "Lugbe",
+        "lat": 8.99104,
+        "lon": 7.35749
+      },
+      {
+        "name": "Maitama",
+        "lat": 9.08051,
+        "lon": 7.4969
+      },
+      {
+        "name": "Mararaba",
+        "lat": 9.02897,
+        "lon": 7.59316
+      },
+      {
+        "name": "Nyanya",
+        "lat": 9.022,
+        "lon": 7.5673
+      },
+      {
+        "name": "Utako",
+        "lat": 9.06911,
+        "lon": 7.44353
+      },
+      {
+        "name": "Wuse",
+        "lat": 9.06205,
+        "lon": 7.46656
+      },
+      {
+        "name": "Wuye",
+        "lat": 9.0498,
+        "lon": 7.4425
+      },
+      {
+        "name": "Zuba",
+        "lat": 9.09324,
+        "lon": 7.21597
+      }
+    ],
+    "port-harcourt": [
+      {
+        "name": "Choba",
+        "lat": 4.8941,
+        "lon": 6.9159
+      },
+      {
+        "name": "Eliozu",
+        "lat": 4.86338,
+        "lon": 7.02316
+      },
+      {
+        "name": "GRA",
+        "lat": 4.77899,
+        "lon": 7.0125
+      },
+      {
+        "name": "Mile 1",
+        "lat": 4.8,
+        "lon": 7.0073
+      },
+      {
+        "name": "Rumuodumaya",
+        "lat": 4.87786,
+        "lon": 7.00458
+      },
+      {
+        "name": "Rumuokoro",
+        "lat": 4.86732,
+        "lon": 6.99382
+      },
+      {
+        "name": "Rumuola",
+        "lat": 4.83167,
+        "lon": 7.0118
+      },
+      {
+        "name": "Trans Amadi",
+        "lat": 4.82495,
+        "lon": 7.03908
+      },
+      {
+        "name": "Woji",
+        "lat": 4.81637,
+        "lon": 6.9894
+      }
+    ]
+  }
+}
