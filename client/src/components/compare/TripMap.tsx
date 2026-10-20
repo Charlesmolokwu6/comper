@@ -181,8 +181,9 @@ export default function TripMap({
       zoom: 10,
       // Credits sit in the caption under the map instead of a button on it.
       attributionControl: false,
-      // Behind a results screen the map is scenery: swiping should scroll the page.
-      interactive: !hero,
+      // Behind a results screen one finger scrolls the page; two fingers (or Ctrl + scroll)
+      // move and zoom the map.
+      cooperativeGestures: hero,
       dragRotate: false,
       pitchWithRotate: false,
       maxPitch: 60,
@@ -190,6 +191,11 @@ export default function TripMap({
     m.touchZoomRotate.disableRotation();
     // Our route layers live in the style, so they're re-added after every style load.
     m.on("style.load", () => setReady(n => n + 1));
+    // Zoomed out, the orange stops are just dots; their names show once zoomed in.
+    const far = () =>
+      box.current?.classList.toggle("map-far", m.getZoom() < 8.5);
+    m.on("zoom", far);
+    m.once("load", far);
     map.current = m;
     return () => {
       if (frame.current) cancelAnimationFrame(frame.current);
@@ -398,73 +404,8 @@ export default function TripMap({
       pts.push([b.lon, b.lat]);
     }
 
-    // Other terminals: by road when we have it, else a straight dashed line (the km on
-    // the cards are straight-line).
-    const legs = {
-      type: "FeatureCollection" as const,
-      features: extras.map(x => ({
-        type: "Feature" as const,
-        properties: { road: !!roads[x.name] },
-        geometry: {
-          type: "LineString" as const,
-          coordinates: roads[x.name]
-            ? roads[x.name].line.map(([lat, lon]) => [lon, lat])
-            : [
-                [x.from.lon, x.from.lat],
-                [x.lon, x.lat],
-              ],
-        },
-      })),
-    };
-    const legSrc = m.getSource("trip-extras") as
-      | maplibregl.GeoJSONSource
-      | undefined;
-    if (legSrc) legSrc.setData(legs);
-    else m.addSource("trip-extras", { type: "geojson", data: legs });
-    if (!m.getLayer("trip-extras"))
-      m.addLayer(
-        {
-          id: "trip-extras",
-          type: "line",
-          source: "trip-extras",
-          layout: { "line-cap": "round" },
-          filter: ["!", ["get", "road"]],
-          paint: {
-            "line-color": PUMPKIN,
-            "line-width": 3,
-            "line-dasharray": [1.5, 1.5],
-          },
-        },
-        m.getLayer(FIRST_LABEL_LAYER) ? FIRST_LABEL_LAYER : undefined
-      );
-    if (!m.getLayer("trip-extras-road"))
-      m.addLayer(
-        {
-          id: "trip-extras-road",
-          type: "line",
-          source: "trip-extras",
-          layout: { "line-cap": "round", "line-join": "round" },
-          filter: ["get", "road"],
-          paint: { "line-color": PUMPKIN, "line-width": 4 },
-        },
-        m.getLayer(FIRST_LABEL_LAYER) ? FIRST_LABEL_LAYER : undefined
-      );
-    for (const x of extras) {
-      markers.current.push(
-        new maplibregl.Marker({
-          element: altPin(
-            roads[x.name]
-              ? `${x.name} · ${roads[x.name].km} km by road`
-              : x.name
-          ),
-          anchor: "left",
-          offset: [-7, 0],
-        })
-          .setLngLat([x.lon, x.lat])
-          .addTo(m)
-      );
-      pts.push([x.lon, x.lat]);
-    }
+    // Other terminals count towards the view; they're drawn by the effect below.
+    for (const x of extras) pts.push([x.lon, x.lat]);
 
     if (frame.current) cancelAnimationFrame(frame.current);
     frame.current = null;
@@ -543,7 +484,86 @@ export default function TripMap({
     reveal(m, 0, look);
     frame.current = requestAnimationFrame(tick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon, extrasKey, roadsKey]);
+  }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon, extrasKey]);
+
+  // Orange stops and their roads: redrawn as roads arrive, without moving the camera.
+  const altMarkers = useRef<maplibregl.Marker[]>([]);
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !ready) return;
+    if (!(m as unknown as { style?: { _loaded?: boolean } }).style?._loaded)
+      return;
+    altMarkers.current.forEach(mk => mk.remove());
+    altMarkers.current = [];
+    // Other terminals: by road when we have it, else a straight dashed line (the km on
+    // the cards are straight-line).
+    const legs = {
+      type: "FeatureCollection" as const,
+      features: extras.map(x => ({
+        type: "Feature" as const,
+        properties: { road: !!roads[x.name] },
+        geometry: {
+          type: "LineString" as const,
+          coordinates: roads[x.name]
+            ? roads[x.name].line.map(([lat, lon]) => [lon, lat])
+            : [
+                [x.from.lon, x.from.lat],
+                [x.lon, x.lat],
+              ],
+        },
+      })),
+    };
+    const legSrc = m.getSource("trip-extras") as
+      | maplibregl.GeoJSONSource
+      | undefined;
+    if (legSrc) legSrc.setData(legs);
+    else m.addSource("trip-extras", { type: "geojson", data: legs });
+    if (!m.getLayer("trip-extras"))
+      m.addLayer(
+        {
+          id: "trip-extras",
+          type: "line",
+          source: "trip-extras",
+          layout: { "line-cap": "round" },
+          filter: ["!", ["get", "road"]],
+          paint: {
+            "line-color": PUMPKIN,
+            "line-width": 3,
+            "line-dasharray": [1.5, 1.5],
+          },
+        },
+        m.getLayer(FIRST_LABEL_LAYER) ? FIRST_LABEL_LAYER : undefined
+      );
+    if (!m.getLayer("trip-extras-road"))
+      m.addLayer(
+        {
+          id: "trip-extras-road",
+          type: "line",
+          source: "trip-extras",
+          layout: { "line-cap": "round", "line-join": "round" },
+          filter: ["get", "road"],
+          paint: { "line-color": PUMPKIN, "line-width": 4 },
+        },
+        m.getLayer(FIRST_LABEL_LAYER) ? FIRST_LABEL_LAYER : undefined
+      );
+    for (const x of extras) {
+      altMarkers.current.push(
+        new maplibregl.Marker({
+          element: altPin(
+            roads[x.name]
+              ? `${x.name} · ${roads[x.name].km} km by road`
+              : x.name
+          ),
+          anchor: "left",
+          offset: [-7, 0],
+        })
+          .setLngLat([x.lon, x.lat])
+          .addTo(m)
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, extrasKey, roadsKey]);
 
   // Stop the animation when the map goes away.
   useEffect(

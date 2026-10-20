@@ -286,6 +286,9 @@
   border: 3px solid #0a0c06;
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.5);
 }
+.map-far .pin-alt span {
+  display: none;
+}
 .pin-alt span {
   font: 700 11px/1 Inter, system-ui, sans-serif;
   color: #ff7518;

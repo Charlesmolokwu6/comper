@@ -30,6 +30,7 @@ export function MapHero({
   meta,
   credits = true,
   extras,
+  roadExtras,
   children,
 }: {
   pickup: CabPoint | null;
@@ -46,6 +47,8 @@ export function MapHero({
   credits?: boolean;
   /** Other terminals, in orange (TripMap). */
   extras?: MapExtra[];
+  /** Draw the real road to each extra (TripMap). */
+  roadExtras?: boolean;
   children: (route: RoadRoute | null) => ReactNode;
 }) {
   const [route, setRoute] = useState<RoadRoute | null>(null);
@@ -63,6 +66,7 @@ export function MapHero({
               dropoff={dropoff}
               pointZoom={pointZoom}
               extras={extras}
+              roadExtras={roadExtras}
               onRoute={(r, s) => {
                 setRoute(r);
                 setRouteState(s);
@@ -81,7 +85,8 @@ export function MapHero({
         </div>
       )}
 
-      <header className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 pt-5 sm:px-6">
+      {/* Touches between the buttons reach the map behind. */}
+      <header className="pointer-events-none mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 pt-5 sm:px-6 [&>*]:pointer-events-auto">
         <Link
           href="/"
           className="flex items-center gap-2.5 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
@@ -99,10 +104,17 @@ export function MapHero({
         </button>
       </header>
 
+      {/* The open stretch of map above the text: pinch to zoom, two fingers to move. */}
+      {hasMap && (
+        <div
+          aria-hidden
+          className="pointer-events-none h-[15.5rem] sm:h-[19rem]"
+        />
+      )}
       <div
         className={cn(
           "mx-auto max-w-3xl px-4 pb-10 sm:px-6",
-          hasMap ? "pt-[15.5rem] sm:pt-[19rem]" : "pt-8"
+          !hasMap && "pt-8"
         )}
       >
         <p className="flex items-center gap-1.5 text-sm font-bold text-foreground [&_svg]:size-4">

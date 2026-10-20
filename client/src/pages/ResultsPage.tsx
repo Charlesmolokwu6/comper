@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Bus, ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { MapCredits } from "@/components/compare/MapCredits";
@@ -25,13 +25,9 @@ import {
 import { formatDay, formatNaira, lagosDate } from "@/lib/format";
 import { groupByOperator } from "@/lib/group";
 import { centreOf } from "@/lib/cityCentres";
-import { distanceKm } from "@/lib/geo";
 import { parsePlace } from "@/lib/places";
 import { rememberSearch, resultsPath } from "@/lib/routes";
 import { cn } from "@/lib/utils";
-
-// The close-up map loads with the map library, only when there's something to show.
-const CloseUpMap = lazy(() => import("@/components/compare/TripMap"));
 
 const ICON: Record<Category, "coach" | "car" | "minibus"> = {
   luxury: "coach",
@@ -259,27 +255,6 @@ export default function ResultsPage({
       });
     }
   const rawExtras = Array.from(seen.values());
-  const mapExtras = (() => {
-    // Terminals a few km apart would sit on top of each other: one pin, both names.
-    const merged: MapExtra[] = [];
-    for (const x of rawExtras) {
-      const close = merged.find(
-        m => distanceKm(m, x) < 10 && m.from.lat === x.from.lat
-      );
-      if (close) close.name = `${close.name} · ${x.name}`;
-      else merged.push({ ...x });
-    }
-    return merged;
-  })();
-  // Close-up of the picked terminal's end, with the road to each orange stop.
-  const closeSide = rawExtras[0]?.side;
-  const closeAnchor =
-    closeSide === "to"
-      ? toTerminalAt
-      : closeSide === "from"
-        ? fromTerminalAt
-        : null;
-  const closeExtras = rawExtras.filter(x => x.side === closeSide);
 
   const activeLabel = CATEGORIES.find(c => c.id === active)!;
   const otherWithFares = CATEGORIES.filter(
@@ -307,7 +282,8 @@ export default function ResultsPage({
         <MapHero
           pickup={mapFrom}
           dropoff={mapTo}
-          extras={mapExtras}
+          extras={rawExtras}
+          roadExtras
           onBack={() => navigate("/")}
           eyebrow={
             <>
@@ -389,7 +365,7 @@ export default function ResultsPage({
                     </>
                   )}
                   . Companies that don't stop there show their nearest terminal
-                  {mapExtras.length > 0 && (
+                  {rawExtras.length > 0 && (
                     <>
                       {" "}
                       (
@@ -397,7 +373,7 @@ export default function ResultsPage({
                         aria-hidden
                         className="inline-block size-2.5 rounded-full bg-[#ff7518] align-middle"
                       />{" "}
-                      orange on the map)
+                      orange on the map; pinch the map to zoom in)
                     </>
                   )}
                   .{" "}
@@ -424,29 +400,6 @@ export default function ResultsPage({
                     onChange={n => setNear(fromPlace.city, n)}
                   />
                 )}
-
-              {closeAnchor && closeExtras.length > 0 && (
-                <div className="mt-5">
-                  <Suspense
-                    fallback={
-                      <div className="h-64 rounded-2xl border border-border bg-card sm:h-80" />
-                    }
-                  >
-                    <CloseUpMap
-                      pickup={closeSide === "from" ? closeAnchor : null}
-                      dropoff={closeSide === "to" ? closeAnchor : null}
-                      extras={closeExtras}
-                      roadExtras
-                      labels={{
-                        from: closeAnchor.name,
-                        to: closeAnchor.name,
-                      }}
-                      note={`Close-up of ${closeAnchor.name}`}
-                      pointZoom={12}
-                    />
-                  </Suspense>
-                </div>
-              )}
 
               {results && results.trips.length > 0 && (
                 <div className="mt-5 rounded-[1.4rem] border border-border bg-card p-4 sm:p-5">
