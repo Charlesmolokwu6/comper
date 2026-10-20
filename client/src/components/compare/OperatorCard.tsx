@@ -217,8 +217,6 @@ interface Props {
   /** More departures may still arrive for this operator. */
   loading: boolean;
   near: Near | null;
-  /** Names of the terminals the traveller picked, keyed by terminal key. */
-  picked?: Record<string, string>;
 }
 
 function TripList({
@@ -282,7 +280,6 @@ export function OperatorCard({
   toCityName,
   loading,
   near,
-  picked: pickedNames = {},
 }: Props) {
   const [open, setOpen] = useState(false);
   const [showOthers, setShowOthers] = useState(false);
@@ -341,16 +338,6 @@ export function OperatorCard({
               {nearest && others.length > 0 && ` from ${nearest.name}`} · {span}
               {loading && " · more loading"}
             </p>
-            {g.instead.map(i => (
-              <p
-                key={i.side}
-                className="mt-1.5 inline-flex rounded-lg bg-amber-400/10 px-2 py-1 text-[13px] text-warn"
-              >
-                Doesn't {i.side === "from" ? "board at" : "stop at"}{" "}
-                {pickedNames[i.wanted] ?? i.wanted}. Nearest: {i.terminalName},
-                about {Math.max(1, Math.round(i.km))} km away
-              </p>
-            ))}
             {elsewhere > 0 && (
               <button
                 type="button"

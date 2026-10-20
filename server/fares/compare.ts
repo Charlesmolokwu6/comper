@@ -16,7 +16,7 @@ import {
   type Trip,
 } from "../operators";
 import { resolveCity, type CityMatch } from "./cities";
-import { kmBetween, stopLocation, terminalPoint } from "./geo";
+import { stopLocation } from "./geo";
 import { terminalOf } from "./terminals";
 import {
   daysFromToday,
@@ -61,21 +61,6 @@ export interface ComparedTrip extends Trip {
   matchNotes: string[];
   fetchedAt: string;
   stale: boolean;
-  /** Set when these trips use the operator's nearest terminal, not the one picked. */
-  instead?: Instead[];
-}
-
-/**
- * The operator doesn't use the terminal the traveller picked, so its trips are from/to its
- * nearest terminal instead. `km` is straight-line between the two terminals.
- */
-export interface Instead {
-  side: "from" | "to";
-  /** Terminal key the traveller picked, e.g. "ajah". */
-  wanted: string;
-  terminal: string;
-  terminalName: string;
-  km: number;
 }
 
 export type CoverageStatus =
@@ -154,83 +139,31 @@ export async function findRoutes(
   toCity: string,
   choice: TerminalChoice = {}
 ) {
-  const origins = (await getOrigins(operatorId))
-    .map(o => ({ s: o, m: resolveCity(o.name, o.state) }))
-    .filter((x): x is Located => x.m?.city === fromCity);
-  const instead: Instead[] = [];
-
-  // An operator that doesn't use the terminal picked still shows, from its nearest one.
-  let fromTerminal = choice.fromTerminal ?? null;
-  if (
-    fromTerminal &&
-    !origins.some(x => terminalOf(x.s, x.m).key === fromTerminal)
-  ) {
-    const near = nearestTerminal(fromCity, fromTerminal, origins);
-    if (near) {
-      instead.push({ side: "from", ...near });
-      fromTerminal = near.terminal;
-    }
-  }
-  const perOriginAll: { o: Located; dests: Located[] }[] = [];
-  for (const o of origins) {
-    if (fromTerminal && terminalOf(o.s, o.m).key !== fromTerminal) continue;
-    const dests = (await getDestinations(operatorId, o.s.id))
-      .map(d => ({ s: d, m: resolveCity(d.name, d.state) }))
-      .filter((x): x is Located => x.m?.city === toCity)
-      .sort((a, b) => a.m.rank - b.m.rank);
-    perOriginAll.push({ o, dests });
-  }
-  let toTerminal = choice.toTerminal ?? null;
-  const allDests = perOriginAll.flatMap(p => p.dests);
-  if (
-    toTerminal &&
-    !allDests.some(x => terminalOf(x.s, x.m).key === toTerminal)
-  ) {
-    const near = nearestTerminal(toCity, toTerminal, allDests);
-    if (near) {
-      instead.push({ side: "to", ...near });
-      toTerminal = near.terminal;
-    }
-  }
-
   const perOrigin: { from: StopRef; to: StopRef }[][] = [];
   let total = 0;
-  for (const { o, dests } of perOriginAll) {
-    const picked = dests.filter(
-      x => !toTerminal || terminalOf(x.s, x.m).key === toTerminal
-    );
-    total += picked.length;
-    if (picked.length)
+  for (const o of await getOrigins(operatorId)) {
+    const om = resolveCity(o.name, o.state);
+    if (om?.city !== fromCity) continue;
+    if (choice.fromTerminal && terminalOf(o, om).key !== choice.fromTerminal)
+      continue;
+    const dests = (await getDestinations(operatorId, o.id))
+      .map(d => ({ d, m: resolveCity(d.name, d.state) }))
+      .filter((x): x is { d: Stop; m: CityMatch } => x.m?.city === toCity)
+      .filter(
+        x =>
+          !choice.toTerminal || terminalOf(x.d, x.m).key === choice.toTerminal
+      )
+      .sort((a, b) => a.m.rank - b.m.rank);
+    total += dests.length;
+    if (dests.length)
       perOrigin.push(
-        picked.map(d => ({ from: ref(o.s, o.m), to: ref(d.s, d.m) }))
+        dests.map(({ d, m }) => ({ from: ref(o, om), to: ref(d, m) }))
       );
   }
-  const pairs = toTerminal
+  const pairs = choice.toTerminal
     ? perOrigin.flat()
     : spreadPick(perOrigin, Math.max(ROUTES_PER_OPERATOR, perOrigin.length));
-  return { pairs, total, instead };
-}
-
-type Located = { s: Stop; m: CityMatch };
-
-/** The operator's terminal closest to the one the traveller picked, when both are located. */
-export function nearestTerminal(
-  city: string,
-  wanted: string,
-  stops: Located[]
-): Omit<Instead, "side"> | null {
-  const want = terminalPoint(city, wanted);
-  if (!want) return null;
-  let best: Omit<Instead, "side"> | null = null;
-  for (const x of stops) {
-    const at = stopLocation(x.m);
-    if (!at) continue;
-    const km = Math.round(kmBetween(want, at) * 10) / 10;
-    const t = terminalOf(x.s, x.m);
-    if (!best || km < best.km)
-      best = { terminal: t.key, terminalName: t.name, wanted, km };
-  }
-  return best;
+  return { pairs, total };
 }
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
@@ -307,7 +240,7 @@ export async function compare(
     };
     coverage.set(op.id, cov);
     try {
-      const { pairs, total, instead } = await findRoutes(
+      const { pairs, total } = await findRoutes(
         op.id,
         fromCity,
         toCity,
@@ -373,7 +306,6 @@ export async function compare(
               matchNotes: notes,
               fetchedAt: res.fetchedAt,
               stale: res.stale,
-              ...(instead.length && { instead }),
             });
           }
         } catch (err: any) {

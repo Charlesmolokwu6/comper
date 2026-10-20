@@ -4,7 +4,6 @@ import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import type { RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
-import type { MapExtra } from "./TripMap";
 import { cn } from "@/lib/utils";
 import { MapCredits } from "./MapCredits";
 import { LogoMark } from "./Logo";
@@ -29,8 +28,6 @@ export function MapHero({
   routeNote,
   meta,
   credits = true,
-  extras,
-  roadExtras,
   children,
 }: {
   pickup: CabPoint | null;
@@ -45,10 +42,6 @@ export function MapHero({
   meta?: ReactNode;
   /** False when the page shows MapCredits itself, further down. */
   credits?: boolean;
-  /** Other terminals, in orange (TripMap). */
-  extras?: MapExtra[];
-  /** Draw the real road to each extra (TripMap). */
-  roadExtras?: boolean;
   children: (route: RoadRoute | null) => ReactNode;
 }) {
   const [route, setRoute] = useState<RoadRoute | null>(null);
@@ -65,8 +58,6 @@ export function MapHero({
               pickup={pickup}
               dropoff={dropoff}
               pointZoom={pointZoom}
-              extras={extras}
-              roadExtras={roadExtras}
               onRoute={(r, s) => {
                 setRoute(r);
                 setRouteState(s);

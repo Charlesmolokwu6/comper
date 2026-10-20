@@ -50,22 +50,3 @@ export function placesNear(city: string) {
   }
   return Array.from(out.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
-
-/** Where a terminal the traveller picked ("ajah") is, from any located stop of that name. */
-export function terminalPoint(city: string, key: string): Point | null {
-  for (const [alias, p] of Object.entries(STOPS[city] ?? {}))
-    if (alias.toLowerCase().replace(/[^a-z0-9]+/g, "") === key)
-      return { lat: p.lat, lon: p.lon };
-  return null;
-}
-
-/** Straight-line km between two points. */
-export function kmBetween(a: Point, b: Point) {
-  const rad = (d: number) => (d * Math.PI) / 180;
-  const dLat = rad(b.lat - a.lat);
-  const dLon = rad(b.lon - a.lon);
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
-  return 6371 * 2 * Math.asin(Math.sqrt(h));
-}

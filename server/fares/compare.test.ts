@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { nearestTerminal, rankTrips } from "./compare";
+import { rankTrips } from "./compare";
 
 const trip = (
   id: string,
@@ -114,26 +114,5 @@ describe("spreadPick", () => {
     expect(spreadPick(lists, 10)).toEqual(["a1", "b1", "c1", "a2", "c2", "a3"]);
     // One origin with many drop-offs (Onitsha → Lagos): all of them, up to the budget.
     expect(spreadPick([["x1", "x2", "x3"]], 2)).toEqual(["x1", "x2"]);
-  });
-});
-
-describe("nearestTerminal", () => {
-  const stop = (name: string, area: string) => ({
-    s: { id: name, name } as any,
-    m: { city: "lagos", area, match: "exact", rank: 0 } as any,
-  });
-  it("picks the operator's terminal closest to the one picked", () => {
-    const near = nearestTerminal("lagos", "ajah", [
-      stop("JIBOWU", "jibowu"),
-      stop("AMUWO ODOFIN", "amuwo"),
-    ]);
-    expect(near?.terminalName).toBe("Jibowu");
-    expect(near?.wanted).toBe("ajah");
-    expect(near!.km).toBeGreaterThan(10);
-  });
-  it("gives up when the picked terminal isn't located", () => {
-    expect(
-      nearestTerminal("lagos", "nowhere", [stop("JIBOWU", "jibowu")])
-    ).toBeNull();
   });
 });

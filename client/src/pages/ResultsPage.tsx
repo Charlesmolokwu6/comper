@@ -3,7 +3,6 @@ import { Bus, ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { MapCredits } from "@/components/compare/MapCredits";
 import { MapHero, StatGrid } from "@/components/compare/MapHero";
-import type { MapExtra } from "@/components/compare/TripMap";
 import { NearPicker } from "@/components/compare/NearPicker";
 import { OperatorCard } from "@/components/compare/OperatorCard";
 import {
@@ -185,15 +184,10 @@ export default function ResultsPage({
   const stillLoading = state.phase === "loading" || (pending && !timedOut);
 
   const split = splitByCategory(results?.trips ?? []);
-  // "From" prices are for the terminal picked; other terminals count only when it has none.
-  const atPicked = (l: typeof split.luxury) => {
-    const exact = l.filter(t => !t.instead);
-    return exact.length ? exact : l;
-  };
   const fares = {
-    luxury: cheapestFare(atPicked(split.luxury)),
-    sienna: cheapestFare(atPicked(split.sienna)),
-    regular: cheapestFare(atPicked(split.regular)),
+    luxury: cheapestFare(split.luxury),
+    sienna: cheapestFare(split.sienna),
+    regular: cheapestFare(split.regular),
   };
   const counts = {
     luxury: split.luxury.length,
@@ -208,10 +202,7 @@ export default function ResultsPage({
     "luxury";
   const groups = groupByOperator(split[active], near);
   const cheapestOp =
-    groups.length > 1 &&
-    groups[0].best &&
-    !groups[0].bestIsApproximate &&
-    !groups[0].instead.length
+    groups.length > 1 && groups[0].best && !groups[0].bestIsApproximate
       ? groups[0].operator
       : null;
   const pendingOps = new Set(
@@ -228,7 +219,7 @@ export default function ResultsPage({
   const terminalAt = (side: "from" | "to", key: string | null) => {
     const stop = key
       ? results?.trips.find(
-          t => !t.instead && t[side].terminal === key && t[side].lat != null
+          t => t[side].terminal === key && t[side].lat != null
         )?.[side]
       : null;
     return stop
@@ -239,22 +230,6 @@ export default function ResultsPage({
   const toTerminalAt = terminalAt("to", toPlace.terminal);
   const mapFrom = fromTerminalAt ?? centreOf(fromPlace.city);
   const mapTo = toTerminalAt ?? centreOf(toPlace.city);
-  // Where companies that skip the picked terminal stop instead, in orange on the map.
-  const seen = new Map<string, MapExtra & { side: "from" | "to" }>();
-  for (const t of results?.trips ?? [])
-    for (const i of t.instead ?? []) {
-      const stop = t[i.side];
-      const anchor = i.side === "to" ? mapTo : mapFrom;
-      if (stop.lat == null || stop.lon == null || !anchor) continue;
-      seen.set(`${i.side}:${i.terminal}`, {
-        side: i.side,
-        name: i.terminalName,
-        lat: stop.lat,
-        lon: stop.lon,
-        from: anchor,
-      });
-    }
-  const rawExtras = Array.from(seen.values());
 
   const activeLabel = CATEGORIES.find(c => c.id === active)!;
   const otherWithFares = CATEGORIES.filter(
@@ -282,8 +257,6 @@ export default function ResultsPage({
         <MapHero
           pickup={mapFrom}
           dropoff={mapTo}
-          extras={rawExtras}
-          roadExtras
           onBack={() => navigate("/")}
           eyebrow={
             <>
@@ -348,7 +321,7 @@ export default function ResultsPage({
 
               {(fromTerminalName || toTerminalName) && (
                 <p className="mt-3 text-sm text-muted-foreground">
-                  Buses{" "}
+                  Only buses{" "}
                   {fromTerminalName && (
                     <>
                       from{" "}
@@ -362,18 +335,6 @@ export default function ResultsPage({
                     <>
                       to{" "}
                       <span className="text-foreground">{toTerminalName}</span>
-                    </>
-                  )}
-                  . Companies that don't stop there show their nearest terminal
-                  {rawExtras.length > 0 && (
-                    <>
-                      {" "}
-                      (
-                      <span
-                        aria-hidden
-                        className="inline-block size-2.5 rounded-full bg-[#ff7518] align-middle"
-                      />{" "}
-                      orange on the map; pinch the map to zoom in)
                     </>
                   )}
                   .{" "}
@@ -527,14 +488,6 @@ export default function ResultsPage({
                   toCityName={toName}
                   loading={pendingOps.has(g.operator)}
                   near={near}
-                  picked={{
-                    ...(fromPlace.terminal && fromTerminalName
-                      ? { [fromPlace.terminal]: fromTerminalName }
-                      : {}),
-                    ...(toPlace.terminal && toTerminalName
-                      ? { [toPlace.terminal]: toTerminalName }
-                      : {}),
-                  }}
                 />
               ))}
 
