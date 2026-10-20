@@ -15,6 +15,25 @@ const located = (p: CabPoint | null): p is Located =>
   p?.lat != null && p.lon != null;
 
 const LIME = "#c0f11c";
+/** Other terminals: where a company stops instead of the one picked. */
+const PUMPKIN = "#ff7518";
+
+export interface MapExtra {
+  name: string;
+  lat: number;
+  lon: number;
+  /** The picked terminal it stands in for; a dashed line joins them. */
+  from: { lat: number; lon: number };
+}
+
+function altPin(name: string) {
+  const el = document.createElement("div");
+  el.className = "pin-alt";
+  const label = document.createElement("span");
+  label.textContent = name;
+  el.appendChild(label);
+  return el;
+}
 const LAGOS: [number, number] = [3.3792, 6.5244];
 
 type Look = MapLook;
@@ -119,6 +138,7 @@ export default function TripMap({
   pointZoom = 14,
   hero = false,
   onRoute,
+  extras = [],
 }: {
   pickup: CabPoint | null;
   dropoff: CabPoint | null;
@@ -132,6 +152,8 @@ export default function TripMap({
   pointZoom?: number;
   /** Full-bleed, still backdrop behind a results screen (MapHero): no caption, no gestures. */
   hero?: boolean;
+  /** Other terminals to mark in orange, each joined to the picked one by a dashed line. */
+  extras?: MapExtra[];
   /** Told when the road route arrives (or fails), for text shown outside the map. */
   onRoute?: (
     route: RoadRoute | null,
@@ -204,6 +226,8 @@ export default function TripMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
+  const extrasKey = extras.map(x => `${x.name}@${x.lat},${x.lon}`).join("|");
+
   // Draw the road and the two dots, then fit them in view.
   useEffect(() => {
     const m = map.current;
@@ -211,11 +235,11 @@ export default function TripMap({
     // The running animation keeps the map from ever going idle, so stop it first.
     if (frame.current) cancelAnimationFrame(frame.current);
     frame.current = null;
-    // Right after a style switch the new style can still be loading; draw once it settles.
-    if (!m.isStyleLoaded()) {
-      m.once("idle", () => setReady(n => n + 1));
+    // Right after a style switch the new style can still be loading; "style.load" bumps
+    // `ready` and brings us back. Don't wait for tiles: on slow mobile data that left
+    // the pins with no route until every tile had arrived.
+    if (!(m as unknown as { style?: { _loaded?: boolean } }).style?._loaded)
       return;
-    }
     const line: [number, number][] = route
       ? route.line.map(([lat, lon]) => [lon, lat])
       : a && b
@@ -353,6 +377,54 @@ export default function TripMap({
       pts.push([b.lon, b.lat]);
     }
 
+    // Other terminals: straight dashed lines, because the km we show are straight-line.
+    const legs = {
+      type: "FeatureCollection" as const,
+      features: extras.map(x => ({
+        type: "Feature" as const,
+        properties: {},
+        geometry: {
+          type: "LineString" as const,
+          coordinates: [
+            [x.from.lon, x.from.lat],
+            [x.lon, x.lat],
+          ],
+        },
+      })),
+    };
+    const legSrc = m.getSource("trip-extras") as
+      | maplibregl.GeoJSONSource
+      | undefined;
+    if (legSrc) legSrc.setData(legs);
+    else m.addSource("trip-extras", { type: "geojson", data: legs });
+    if (!m.getLayer("trip-extras"))
+      m.addLayer(
+        {
+          id: "trip-extras",
+          type: "line",
+          source: "trip-extras",
+          layout: { "line-cap": "round" },
+          paint: {
+            "line-color": PUMPKIN,
+            "line-width": 3,
+            "line-dasharray": [1.5, 1.5],
+          },
+        },
+        m.getLayer(FIRST_LABEL_LAYER) ? FIRST_LABEL_LAYER : undefined
+      );
+    for (const x of extras) {
+      markers.current.push(
+        new maplibregl.Marker({
+          element: altPin(x.name),
+          anchor: "left",
+          offset: [-7, 0],
+        })
+          .setLngLat([x.lon, x.lat])
+          .addTo(m)
+      );
+      pts.push([x.lon, x.lat]);
+    }
+
     if (frame.current) cancelAnimationFrame(frame.current);
     frame.current = null;
     const still = reducedMotion();
@@ -430,7 +502,7 @@ export default function TripMap({
     reveal(m, 0, look);
     frame.current = requestAnimationFrame(tick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon]);
+  }, [ready, route, a?.lat, a?.lon, b?.lat, b?.lon, extrasKey]);
 
   // Stop the animation when the map goes away.
   useEffect(

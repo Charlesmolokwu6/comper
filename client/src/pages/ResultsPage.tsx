@@ -3,6 +3,7 @@ import { Bus, ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { MapCredits } from "@/components/compare/MapCredits";
 import { MapHero, StatGrid } from "@/components/compare/MapHero";
+import type { MapExtra } from "@/components/compare/TripMap";
 import { NearPicker } from "@/components/compare/NearPicker";
 import { OperatorCard } from "@/components/compare/OperatorCard";
 import {
@@ -24,6 +25,7 @@ import {
 import { formatDay, formatNaira, lagosDate } from "@/lib/format";
 import { groupByOperator } from "@/lib/group";
 import { centreOf } from "@/lib/cityCentres";
+import { distanceKm } from "@/lib/geo";
 import { parsePlace } from "@/lib/places";
 import { rememberSearch, resultsPath } from "@/lib/routes";
 import { cn } from "@/lib/utils";
@@ -223,6 +225,48 @@ export default function ResultsPage({
       .filter((f): f is number => f != null)
       .sort((a, b) => a - b)[0] ?? null;
   const operatorCount = new Set(results?.trips.map(t => t.operatorName)).size;
+  // Map ends: the picked terminal where a trip tells us where it is, else the town centre.
+  const terminalAt = (side: "from" | "to", key: string | null) => {
+    const stop = key
+      ? results?.trips.find(
+          t => !t.instead && t[side].terminal === key && t[side].lat != null
+        )?.[side]
+      : null;
+    return stop
+      ? { name: stop.terminalName, lat: stop.lat!, lon: stop.lon! }
+      : null;
+  };
+  const fromTerminalAt = terminalAt("from", fromPlace.terminal);
+  const toTerminalAt = terminalAt("to", toPlace.terminal);
+  const mapFrom = fromTerminalAt ?? centreOf(fromPlace.city);
+  const mapTo = toTerminalAt ?? centreOf(toPlace.city);
+  // Where companies that skip the picked terminal stop instead, in orange on the map.
+  const mapExtras = (() => {
+    const seen = new Map<string, MapExtra>();
+    for (const t of results?.trips ?? [])
+      for (const i of t.instead ?? []) {
+        const stop = t[i.side];
+        const anchor = i.side === "to" ? mapTo : mapFrom;
+        if (stop.lat == null || stop.lon == null || !anchor) continue;
+        seen.set(`${i.side}:${i.terminal}`, {
+          name: i.terminalName,
+          lat: stop.lat,
+          lon: stop.lon,
+          from: anchor,
+        });
+      }
+    // Terminals a few km apart would sit on top of each other: one pin, both names.
+    const merged: MapExtra[] = [];
+    for (const x of Array.from(seen.values())) {
+      const close = merged.find(
+        m => distanceKm(m, x) < 10 && m.from.lat === x.from.lat
+      );
+      if (close) close.name = `${close.name} · ${x.name}`;
+      else merged.push({ ...x });
+    }
+    return merged;
+  })();
+
   const activeLabel = CATEGORIES.find(c => c.id === active)!;
   const otherWithFares = CATEGORIES.filter(
     c => c.id !== active && fares[c.id] != null
@@ -247,8 +291,9 @@ export default function ResultsPage({
     <SiteShell
       hero={
         <MapHero
-          pickup={centreOf(fromPlace.city)}
-          dropoff={centreOf(toPlace.city)}
+          pickup={mapFrom}
+          dropoff={mapTo}
+          extras={mapExtras}
           onBack={() => navigate("/")}
           eyebrow={
             <>
@@ -274,7 +319,13 @@ export default function ResultsPage({
               )}
             </>
           }
-          routeNote="between city centres"
+          routeNote={
+            toTerminalAt
+              ? `to ${toTerminalAt.name}`
+              : fromTerminalAt
+                ? `from ${fromTerminalAt.name}`
+                : "between city centres"
+          }
           credits={false}
         >
           {route => (
@@ -323,7 +374,19 @@ export default function ResultsPage({
                       <span className="text-foreground">{toTerminalName}</span>
                     </>
                   )}
-                  . Companies that don't stop there show their nearest terminal.{" "}
+                  . Companies that don't stop there show their nearest terminal
+                  {mapExtras.length > 0 && (
+                    <>
+                      {" "}
+                      (
+                      <span
+                        aria-hidden
+                        className="inline-block size-2.5 rounded-full bg-[#ff7518] align-middle"
+                      />{" "}
+                      orange on the map)
+                    </>
+                  )}
+                  .{" "}
                   <Link
                     href={resultsPath({
                       from: fromPlace.city,
@@ -564,9 +627,7 @@ export default function ResultsPage({
             )}
           </>
         )}
-        {centreOf(fromPlace.city) && centreOf(toPlace.city) && (
-          <MapCredits className="block pt-4" />
-        )}
+        {mapFrom && mapTo && <MapCredits className="block pt-4" />}
       </div>
     </SiteShell>
   );

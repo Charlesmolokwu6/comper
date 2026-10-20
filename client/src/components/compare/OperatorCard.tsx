@@ -110,44 +110,7 @@ function DepartureRow({
         <span className="text-base font-bold tabular-nums text-foreground">
           {formatNaira(t.fare)}
         </span>
-        {t.deepLink ? (
-          <a
-            href={t.bookingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={BOOK_CLASS}
-          >
-            Book
-            <ArrowUpRight aria-hidden className="size-3.5" />
-            <span className="sr-only">
-              {t.operatorName} {formatTime(t.departure)} from{" "}
-              {prettyStop(t.from.name)} (opens in a new tab)
-            </span>
-          </a>
-        ) : (
-          <BookingGuide
-            operatorName={t.operatorName}
-            url={t.bookingUrl}
-            triggerClassName={BOOK_CLASS}
-            srLabel={`${t.operatorName} ${formatTime(t.departure)} from ${prettyStop(t.from.name)}`}
-            rows={[
-              {
-                label: "From",
-                value: prettyStop(t.from.name),
-                theirName: t.from.name,
-              },
-              {
-                label: "To",
-                value: prettyStop(t.to.name),
-                theirName: t.to.name,
-              },
-              { label: "Date", value: formatDay(t.departure.slice(0, 10)) },
-              { label: "Departs", value: formatTime(t.departure) },
-              { label: "Bus", value: prettyVehicle(t.vehicle) },
-              { label: "Fare", value: formatNaira(t.fare) },
-            ]}
-          />
-        )}
+        <BookTrip t={t} className={BOOK_CLASS} />
       </div>
     </li>
   );
@@ -193,6 +156,57 @@ function VehicleTile({
         {o.best ? `from ${formatNaira(o.best.fare)}` : "Sold out"}
       </span>
     </button>
+  );
+}
+
+/** Book a trip: straight to the operator's search, or a guide when it can't be deep-linked. */
+function BookTrip({
+  t,
+  className,
+  label = "Book",
+}: {
+  t: ComparedTrip;
+  className: string;
+  label?: string;
+}) {
+  return t.deepLink ? (
+    <a
+      href={t.bookingUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+    >
+      {label}
+      <ArrowUpRight aria-hidden className="size-3.5" />
+      <span className="sr-only">
+        {t.operatorName} {formatTime(t.departure)} from{" "}
+        {prettyStop(t.from.name)} (opens in a new tab)
+      </span>
+    </a>
+  ) : (
+    <BookingGuide
+      operatorName={t.operatorName}
+      url={t.bookingUrl}
+      triggerClassName={className}
+      triggerLabel={label}
+      srLabel={`${t.operatorName} ${formatTime(t.departure)} from ${prettyStop(t.from.name)}`}
+      rows={[
+        {
+          label: "From",
+          value: prettyStop(t.from.name),
+          theirName: t.from.name,
+        },
+        {
+          label: "To",
+          value: prettyStop(t.to.name),
+          theirName: t.to.name,
+        },
+        { label: "Date", value: formatDay(t.departure.slice(0, 10)) },
+        { label: "Departs", value: formatTime(t.departure) },
+        { label: "Bus", value: prettyVehicle(t.vehicle) },
+        { label: "Fare", value: formatNaira(t.fare) },
+      ]}
+    />
   );
 }
 
@@ -284,6 +298,11 @@ export function OperatorCard({
     ? atPoint.filter(t => prettyVehicle(t.vehicle) === picked)
     : atPoint;
   const others = nearest ? g.points.filter(p => p !== nearest) : [];
+  // The trip behind the "from" price, or the picked vehicle's cheapest seat.
+  const headline =
+    (picked
+      ? shown.filter(t => !t.soldOut).sort((a, b) => a.fare - b.fare)[0]
+      : best) ?? null;
   const count = atPoint.length;
   const times = atPoint.map(t => t.departure).sort();
   const first = formatTime(times[0]);
@@ -451,25 +470,37 @@ export function OperatorCard({
         </div>
       )}
 
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls={listId}
-        onClick={() => setOpen(o => !o)}
-        className="flex min-h-12 w-full items-center gap-1.5 px-4 py-3 text-left text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring sm:px-5"
-      >
-        {open
-          ? "Hide departures"
-          : picked
-            ? `See ${shown.length === 1 ? "the" : shown.length} ${picked} ${shown.length === 1 ? "departure" : "departures"}`
-            : nearest
-              ? `See ${count === 1 ? "departure" : `${count} departures`} from ${nearest.name}`
-              : `See ${count === 1 ? "departure" : `all ${count} departures`}`}
-        <ChevronDown
-          aria-hidden
-          className={cn("size-4 transition-transform", open && "rotate-180")}
-        />
-      </button>
+      <div className="flex items-center gap-2 pr-4 sm:pr-5">
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={listId}
+          onClick={() => setOpen(o => !o)}
+          className="flex min-h-12 min-w-0 flex-1 items-center gap-1.5 px-4 py-3 text-left text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring sm:px-5"
+        >
+          {open
+            ? "Hide departures"
+            : picked
+              ? `See ${shown.length === 1 ? "the" : shown.length} ${picked} ${shown.length === 1 ? "departure" : "departures"}`
+              : nearest
+                ? `See ${count === 1 ? "departure" : `${count} departures`} from ${nearest.name}`
+                : `See ${count === 1 ? "departure" : `all ${count} departures`}`}
+          <ChevronDown
+            aria-hidden
+            className={cn("size-4 transition-transform", open && "rotate-180")}
+          />
+        </button>
+        {/* The headline trip, bookable without opening the list. */}
+        {headline && !open && (
+          <BookTrip
+            t={headline}
+            label={
+              count === 1 ? "Book" : `Book ${formatTime(headline.departure)}`
+            }
+            className="inline-flex h-10 shrink-0 items-center gap-1 rounded-xl bg-primary px-3.5 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          />
+        )}
+      </div>
 
       <div
         id={listId}

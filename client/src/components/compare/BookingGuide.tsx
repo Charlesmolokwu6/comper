@@ -27,12 +27,14 @@ export function BookingGuide({
   url,
   rows,
   triggerClassName,
+  triggerLabel = "Book",
   srLabel,
 }: {
   operatorName: string;
   url: string;
   rows: GuideRow[];
   triggerClassName?: string;
+  triggerLabel?: string;
   srLabel: string;
 }) {
   const [copied, setCopied] = useState(false);
@@ -53,7 +55,7 @@ export function BookingGuide({
     <Dialog>
       <DialogTrigger asChild>
         <button type="button" className={triggerClassName}>
-          Book
+          {triggerLabel}
           <ArrowUpRight aria-hidden className="size-3.5" />
           <span className="sr-only">{srLabel}</span>
         </button>
