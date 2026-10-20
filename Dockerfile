@@ -12,6 +12,7 @@ ARG VITE_API_BASE=
 # Optional: Umami visit counts and the contact email on the Privacy/Terms pages.
 ARG VITE_UMAMI_WEBSITE_ID=
 ARG VITE_CONTACT_EMAIL=
+ARG VITE_FEEDBACK_WHATSAPP=
 RUN pnpm build && pnpm prune --prod
 
 FROM ${NODE_IMAGE}

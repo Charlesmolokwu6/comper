@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import type { RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
 import { cn } from "@/lib/utils";
+import { FeedbackLink } from "./Feedback";
 import { MapCredits } from "./MapCredits";
 import { LogoMark } from "./Logo";
 
@@ -139,7 +140,10 @@ export function MapHero({
 
         <div className="mt-6">{children(route)}</div>
 
-        {hasMap && credits && <MapCredits className="mt-8 block" />}
+        {credits && (
+          <FeedbackLink className="mt-8 block text-sm text-muted-foreground" />
+        )}
+        {hasMap && credits && <MapCredits className="mt-4 block" />}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bus, ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { FeedbackLink } from "@/components/compare/Feedback";
 import { MapCredits } from "@/components/compare/MapCredits";
 import { MapHero, StatGrid } from "@/components/compare/MapHero";
 import { NearPicker } from "@/components/compare/NearPicker";
@@ -570,6 +571,7 @@ export default function ResultsPage({
             )}
           </>
         )}
+        <FeedbackLink className="block pt-4 text-sm text-muted-foreground" />
         {mapFrom && mapTo && <MapCredits className="block pt-4" />}
       </div>
     </SiteShell>

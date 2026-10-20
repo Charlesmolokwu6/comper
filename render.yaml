@@ -20,3 +20,5 @@ services:
         sync: false
       - key: VITE_CONTACT_EMAIL # shown on the Privacy and Terms pages
         sync: false
+      - key: VITE_FEEDBACK_WHATSAPP # WhatsApp number for feedback, e.g. 2348012345678
+        sync: false
