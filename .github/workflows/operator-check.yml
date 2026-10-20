@@ -1,0 +1,19 @@
+# Every morning, ask the live site for real prices. If a bus company, the airlines or GIG
+# Logistics stop answering, this fails and GitHub emails the repository owner.
+name: Daily operator check
+on:
+  schedule:
+    - cron: "17 6 * * *" # 7:17am Lagos time
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-operators.mjs
+        env:
+          SITE_URL: https://compare-6ze8.onrender.com
