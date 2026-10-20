@@ -325,7 +325,14 @@ export const fetchDeliveryStations = (signal?: AbortSignal) =>
   getJson<{ stations: DeliveryStation[] }>("/api/delivery/stations", signal);
 
 export const fetchDeliveryQuote = (
-  q: { from: number; to: number; weight: number; value: number },
+  q: {
+    from: number;
+    to: number;
+    weight: number;
+    value: number;
+    pickup?: { lat: number; lon: number } | null;
+    dropoff?: { lat: number; lon: number } | null;
+  },
   signal?: AbortSignal
 ) =>
   getJson<DeliveryQuoteResponse>(
@@ -334,6 +341,14 @@ export const fetchDeliveryQuote = (
       to: String(q.to),
       weight: String(q.weight),
       value: String(q.value),
+      ...(q.pickup && q.dropoff
+        ? {
+            fromLat: String(q.pickup.lat),
+            fromLon: String(q.pickup.lon),
+            toLat: String(q.dropoff.lat),
+            toLon: String(q.dropoff.lon),
+          }
+        : {}),
     })}`,
     signal
   );

@@ -283,8 +283,9 @@ caption asks for a suggestion to place them.
 (`agility.giglogistics.com/api/portal/getStations` and `getpricequote`, no login), per state pair,
 weight and declared value; 2 s between requests, quotes cached 6 h. Not included: Kwik and Red
 Star (robot check), Fez (its estimate page logs in with an account built into the page).
-Shipbubble quotes 8–9 couriers without login but needs Google Places IDs for both addresses, so it
-waits for a Google Maps key of our own.
+Shipbubble (server/delivery/shipbubble.ts) quotes 8–12 couriers from its public rates calculator,
+without login, when both addresses are known. It needs each address as a Google place id, so it
+turns on once `GOOGLE_MAPS_API_KEY` (our own key, Geocoding API only) is set on the host.
 
 **Flight** is live: see `docs/flights.md`.
 

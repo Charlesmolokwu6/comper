@@ -136,7 +136,17 @@ export function DeliveryPanel() {
     setState("loading");
     setError(null);
     setResult(null);
-    fetchDeliveryQuote({ from: from!, to: to!, weight: kg, value: naira })
+    // Exact addresses (with map points) also bring door-to-door couriers.
+    const at = (p: CabPoint | null) =>
+      p?.lat != null && p.lon != null ? { lat: p.lat, lon: p.lon } : null;
+    fetchDeliveryQuote({
+      from: from!,
+      to: to!,
+      weight: kg,
+      value: naira,
+      pickup: at(pickup),
+      dropoff: at(dropoff),
+    })
       .then(r => {
         setResult(r);
         setState("idle");
@@ -437,79 +447,156 @@ export function DeliveryPanel() {
                         </button>
                       </div>
                     )}
-                    <div className="space-y-3">
-                      {result?.couriers.map(c => (
-                        <article
-                          key={c.id}
-                          className="rounded-[1.4rem] border border-border bg-card p-4 sm:p-5"
-                        >
-                          {c.status === "price" ? (
-                            <StatGrid
-                              stats={[
-                                {
-                                  label: c.name,
-                                  value: formatNaira(c.price),
-                                  tone: "lime",
-                                },
-                                route
-                                  ? {
-                                      label: "Distance",
-                                      value: route.km.toLocaleString("en-NG"),
-                                      unit: "km",
-                                      tone: "sky",
-                                    }
-                                  : {
-                                      label: "Route",
-                                      value:
-                                        mode === "within"
-                                          ? "In-state"
-                                          : "Interstate",
-                                      tone: "sky",
+                    {result &&
+                      (() => {
+                        const priced = result.couriers
+                          .filter(
+                            (c): c is Extract<typeof c, { status: "price" }> =>
+                              c.status === "price"
+                          )
+                          .sort((a, b) => a.price - b.price);
+                        const failed = result.couriers.filter(
+                          c => c.status === "error"
+                        );
+                        const [top, ...rest] = priced;
+                        const via = (id: string) => id.startsWith("shipbubble");
+                        const bookLabel = (c: { id: string; name: string }) =>
+                          via(c.id)
+                            ? "Book via Shipbubble"
+                            : `Book on ${c.name}`;
+                        return (
+                          <div className="space-y-3">
+                            {top && (
+                              <article className="rounded-[1.4rem] border border-border bg-card p-4 sm:p-5">
+                                {priced.length > 1 && (
+                                  <span className="mb-2 inline-block rounded-md bg-primary px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-primary-foreground">
+                                    Cheapest
+                                  </span>
+                                )}
+                                <StatGrid
+                                  stats={[
+                                    {
+                                      label: top.name,
+                                      value: formatNaira(top.price),
+                                      tone: "lime",
                                     },
-                                {
-                                  label: "Weight",
-                                  value: kg.toLocaleString("en-NG"),
-                                  unit: "kg",
-                                  tone: "amber",
-                                },
-                                {
-                                  label: "Item value",
-                                  value: formatNaira(naira),
-                                  tone: "rose",
-                                },
-                              ]}
-                            />
-                          ) : (
-                            <>
-                              <h3 className="text-lg font-semibold">
-                                {c.name}
-                              </h3>
-                              <p className="mt-0.5 text-sm text-muted-foreground">
-                                Couldn't get a price just now: {c.message}
-                              </p>
-                            </>
-                          )}
-                          <a
-                            href={c.bookingUrl}
-                            data-umami-event="Book delivery"
-                            data-umami-event-company={c.name}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-4 flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary text-[15px] font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                          >
-                            Book on {c.name}
-                            <ArrowUpRight aria-hidden className="size-4" />
-                          </a>
-                          <p className="mt-2.5 text-xs text-muted-foreground">
-                            {c.status === "price"
-                              ? `${c.note} Price from ${formatAge(c.fetchedAt)}.`
-                              : null}
-                            {(pickup || dropoff) &&
-                              " GIGL prices by state, weight and value, so the street address doesn't change it: give your addresses when you book."}
-                          </p>
-                        </article>
-                      ))}
-                    </div>
+                                    route
+                                      ? {
+                                          label: "Distance",
+                                          value:
+                                            route.km.toLocaleString("en-NG"),
+                                          unit: "km",
+                                          tone: "sky",
+                                        }
+                                      : {
+                                          label: "Route",
+                                          value:
+                                            mode === "within"
+                                              ? "In-state"
+                                              : "Interstate",
+                                          tone: "sky",
+                                        },
+                                    {
+                                      label: "Weight",
+                                      value: kg.toLocaleString("en-NG"),
+                                      unit: "kg",
+                                      tone: "amber",
+                                    },
+                                    {
+                                      label: "Item value",
+                                      value: formatNaira(naira),
+                                      tone: "rose",
+                                    },
+                                  ]}
+                                />
+                                <a
+                                  href={top.bookingUrl}
+                                  data-umami-event="Book delivery"
+                                  data-umami-event-company={top.name}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="mt-4 flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary text-[15px] font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                                >
+                                  {bookLabel(top)}
+                                  <ArrowUpRight
+                                    aria-hidden
+                                    className="size-4"
+                                  />
+                                </a>
+                                <p className="mt-2.5 text-xs text-muted-foreground">
+                                  {top.note.replace(/\.?$/, ".")} Price from{" "}
+                                  {formatAge(top.fetchedAt)}.
+                                  {top.id === "gigl" &&
+                                    (pickup || dropoff) &&
+                                    " GIGL prices by state, weight and value, so the street address doesn't change it: give your addresses when you book."}
+                                </p>
+                              </article>
+                            )}
+
+                            {(rest.length > 0 || failed.length > 0) && (
+                              <section
+                                aria-label="More couriers"
+                                className="rounded-[1.4rem] border border-border bg-card px-4 sm:px-5"
+                              >
+                                <h3 className="pt-4 text-sm font-bold">
+                                  More couriers
+                                </h3>
+                                <ul className="divide-y divide-border">
+                                  {rest.map(c => (
+                                    <li
+                                      key={c.id}
+                                      className="flex items-center justify-between gap-3 py-3"
+                                    >
+                                      <div className="min-w-0">
+                                        <p className="font-semibold text-foreground">
+                                          {c.name}
+                                        </p>
+                                        <p className="text-xs text-muted-foreground">
+                                          {c.note}
+                                        </p>
+                                      </div>
+                                      <div className="flex shrink-0 flex-col items-end gap-1">
+                                        <span className="font-bold tabular-nums">
+                                          {formatNaira(c.price)}
+                                        </span>
+                                        <a
+                                          href={c.bookingUrl}
+                                          data-umami-event="Book delivery"
+                                          data-umami-event-company={c.name}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="inline-flex items-center gap-0.5 text-sm font-semibold text-primary-ink hover:underline focus-visible:outline-2 focus-visible:outline-ring"
+                                        >
+                                          Book
+                                          <ArrowUpRight
+                                            aria-hidden
+                                            className="size-3.5"
+                                          />
+                                          <span className="sr-only">
+                                            {c.name}
+                                          </span>
+                                        </a>
+                                      </div>
+                                    </li>
+                                  ))}
+                                  {failed.map(c => (
+                                    <li
+                                      key={c.id}
+                                      className="py-3 text-sm text-muted-foreground"
+                                    >
+                                      <span className="font-semibold text-foreground">
+                                        {c.name}:
+                                      </span>{" "}
+                                      couldn't get a price just now (
+                                      {c.status === "error" ? c.message : ""})
+                                    </li>
+                                  ))}
+                                </ul>
+                              </section>
+                            )}
+                          </div>
+                        );
+                      })()}
                     {result && result.unavailable.length > 0 && (
                       <details className="mt-4 text-sm text-muted-foreground">
                         <summary className="cursor-pointer select-none">

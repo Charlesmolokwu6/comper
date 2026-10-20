@@ -2,12 +2,18 @@
  * Delivery tab:
  *   GET /api/delivery/stations                                   → states GIGL serves
  *   GET /api/delivery/quote?from=4&to=3&weight=2&value=10000     → live price per courier
+ *       [&fromLat=&fromLon=&toLat=&toLon=]  exact addresses add Shipbubble's couriers
  *
  * Only GIG Logistics publishes prices we can fetch without a login today. Couriers that
  * need a login or sit behind a robot check are listed as unavailable with the reason.
  */
 import { Router } from "express";
 import { getQuote, getStations } from "./gigl";
+import {
+  getShipbubbleRates,
+  shipbubbleEnabled,
+  type Point,
+} from "./shipbubble";
 
 export const deliveryRouter = Router();
 
@@ -70,5 +76,60 @@ deliveryRouter.get("/quote", async (req, res) => {
       bookingUrl: "https://giglogistics.com/",
     });
   }
-  res.json({ couriers, unavailable: unavailableCouriers });
+  // Shipbubble prices door to door, so it needs both addresses, not just the states.
+  const point = (lat: unknown, lon: unknown): Point | null => {
+    const p = { lat: Number(lat), lon: Number(lon) };
+    return Number.isFinite(p.lat) &&
+      Number.isFinite(p.lon) &&
+      p.lat > 4 &&
+      p.lat < 14 &&
+      p.lon > 2.6 &&
+      p.lon < 14.7
+      ? p
+      : null;
+  };
+  const a = point(req.query.fromLat, req.query.fromLon);
+  const b = point(req.query.toLat, req.query.toLon);
+  const unavailable = [...unavailableCouriers];
+  if (!shipbubbleEnabled())
+    unavailable.push({
+      name: "Dellyman, Routelift, Kwikpik, Speedaf and others (via Shipbubble)",
+      reason:
+        "Coming soon: they need a Google Maps key that Compare doesn't have yet.",
+    });
+  else if (!a || !b)
+    unavailable.push({
+      name: "Dellyman, Routelift, Kwikpik, Speedaf and others (via Shipbubble)",
+      reason:
+        "Add a pickup and a drop-off address to see their door-to-door prices.",
+    });
+  else
+    try {
+      const { list, fetchedAt } = await getShipbubbleRates(a, b, weight);
+      for (const r of list)
+        couriers.push({
+          id: `shipbubble:${r.id}`,
+          name: r.name,
+          status: "price" as const,
+          price: r.price,
+          fetchedAt,
+          bookingUrl: "https://shipbubble.com/rates-calculator",
+          note: [
+            "Via Shipbubble",
+            r.pickup ? "home pickup" : "you drop it off",
+            r.deliveryEta,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+        });
+    } catch (err: any) {
+      couriers.push({
+        id: "shipbubble",
+        name: "Shipbubble couriers",
+        status: "error" as const,
+        message: err.message ?? "Couldn't get prices",
+        bookingUrl: "https://shipbubble.com/",
+      });
+    }
+  res.json({ couriers, unavailable });
 });
