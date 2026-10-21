@@ -16,3 +16,16 @@ export function startAnalytics() {
   s.dataset.excludeSearch = "true";
   document.head.appendChild(s);
 }
+
+/** Count something that isn't a tap (e.g. which prices a search showed). No-op when off. */
+export function track(event: string, data?: Record<string, string | number>) {
+  try {
+    (
+      window as unknown as {
+        umami?: { track: (e: string, d?: object) => void };
+      }
+    ).umami?.track(event, data);
+  } catch {
+    // Counting must never break the page.
+  }
+}

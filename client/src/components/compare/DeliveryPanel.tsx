@@ -14,6 +14,7 @@ import {
 } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
 import { formatAge, formatNaira } from "@/lib/format";
+import { track } from "@/lib/analytics";
 import { STATE_CAPITALS } from "@/lib/stateCapitals";
 import { cn } from "@/lib/utils";
 import { LoadingResults } from "./Loader";
@@ -149,6 +150,15 @@ export function DeliveryPanel() {
     })
       .then(r => {
         setResult(r);
+        // Evidence for a Shipbubble partnership: how often their couriers were shown.
+        const shown = r.couriers.filter(
+          c => c.status === "price" && c.id.startsWith("shipbubble:")
+        );
+        if (shown.length)
+          track("Shipbubble prices shown", {
+            couriers: shown.length,
+            route: mode === "within" ? "In-state" : "Interstate",
+          });
         setState("idle");
       })
       .catch(e => {
@@ -513,6 +523,9 @@ export function DeliveryPanel() {
                                   href={top.bookingUrl}
                                   data-umami-event="Book delivery"
                                   data-umami-event-company={top.name}
+                                  data-umami-event-via={
+                                    via(top.id) ? "Shipbubble" : "Direct"
+                                  }
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="mt-4 flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary text-[15px] font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -563,6 +576,9 @@ export function DeliveryPanel() {
                                           href={c.bookingUrl}
                                           data-umami-event="Book delivery"
                                           data-umami-event-company={c.name}
+                                          data-umami-event-via={
+                                            via(c.id) ? "Shipbubble" : "Direct"
+                                          }
                                           target="_blank"
                                           rel="noopener noreferrer"
                                           className="inline-flex items-center gap-0.5 text-sm font-semibold text-primary-ink hover:underline focus-visible:outline-2 focus-visible:outline-ring"
