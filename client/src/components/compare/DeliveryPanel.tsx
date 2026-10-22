@@ -21,6 +21,7 @@ import { LoadingResults } from "./Loader";
 import { LocateButton, useCurrentLocation } from "./CurrentLocation";
 import { closeHero, HeroScreen, MapHero, StatGrid } from "./MapHero";
 import { PlaceInput } from "./PlaceInput";
+import { ShipbubbleSheet } from "./ShipbubbleSheet";
 
 const LAGOS = 4;
 
@@ -131,6 +132,7 @@ export function DeliveryPanel() {
     stations.find(s => s.id === id)?.name ?? "";
 
   const [open, setOpen] = useState(false);
+  const [sheet, setSheet] = useState(false);
   const submit = () => {
     if (!valid) return;
     setOpen(true);
@@ -627,10 +629,9 @@ export function DeliveryPanel() {
                               ? "Add a pickup and drop-off address above to see their prices here, or compare them on Shipbubble."
                               : "Compare their prices on Shipbubble's own calculator with the same addresses."}
                           </p>
-                          <a
-                            href="https://shipbubble.com/rates-calculator"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <button
+                            type="button"
+                            onClick={() => setSheet(true)}
                             data-umami-event="Open Shipbubble"
                             data-umami-event-route={
                               mode === "within" ? "In-state" : "Interstate"
@@ -639,7 +640,10 @@ export function DeliveryPanel() {
                           >
                             Compare on Shipbubble
                             <ArrowUpRight aria-hidden className="size-4" />
-                          </a>
+                          </button>
+                          {sheet && (
+                            <ShipbubbleSheet onClose={() => setSheet(false)} />
+                          )}
                         </article>
                       )}
                     {result && result.unavailable.length > 0 && (
