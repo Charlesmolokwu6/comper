@@ -91,18 +91,11 @@ deliveryRouter.get("/quote", async (req, res) => {
   const a = point(req.query.fromLat, req.query.fromLon);
   const b = point(req.query.toLat, req.query.toLon);
   const unavailable = [...unavailableCouriers];
-  if (!shipbubbleEnabled())
-    unavailable.push({
-      name: "Dellyman, Routelift, Kwikpik, Speedaf and others (via Shipbubble)",
-      reason:
-        "Coming soon: they need a Google Maps key that Compare doesn't have yet.",
-    });
-  else if (!a || !b)
-    unavailable.push({
-      name: "Dellyman, Routelift, Kwikpik, Speedaf and others (via Shipbubble)",
-      reason:
-        "Add a pickup and a drop-off address to see their door-to-door prices.",
-    });
+  // Without our Google key, or without both addresses, Shipbubble's couriers can't be
+  // priced here; the page links to Shipbubble's own calculator instead.
+  let shipbubble: "inline" | "link" | "needs-addresses" = "inline";
+  if (!shipbubbleEnabled()) shipbubble = "link";
+  else if (!a || !b) shipbubble = "needs-addresses";
   else
     try {
       const { list, fetchedAt } = await getShipbubbleRates(a, b, weight);
@@ -131,5 +124,5 @@ deliveryRouter.get("/quote", async (req, res) => {
         bookingUrl: "https://shipbubble.com/",
       });
     }
-  res.json({ couriers, unavailable });
+  res.json({ couriers, unavailable, shipbubble });
 });

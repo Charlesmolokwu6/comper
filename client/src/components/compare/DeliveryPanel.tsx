@@ -613,6 +613,35 @@ export function DeliveryPanel() {
                           </div>
                         );
                       })()}
+                    {result &&
+                      (result.shipbubble === "link" ||
+                        result.shipbubble === "needs-addresses") && (
+                        <article className="mt-3 rounded-[1.4rem] border border-border bg-card p-4 sm:p-5">
+                          <h3 className="font-bold">
+                            More couriers on Shipbubble
+                          </h3>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            Dellyman, Routelift, Kwikpik, Speedaf and others,
+                            door to door.{" "}
+                            {result.shipbubble === "needs-addresses"
+                              ? "Add a pickup and drop-off address above to see their prices here, or compare them on Shipbubble."
+                              : "Compare their prices on Shipbubble's own calculator with the same addresses."}
+                          </p>
+                          <a
+                            href="https://shipbubble.com/rates-calculator"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-umami-event="Open Shipbubble"
+                            data-umami-event-route={
+                              mode === "within" ? "In-state" : "Interstate"
+                            }
+                            className="mt-3 inline-flex h-11 items-center gap-1.5 rounded-xl border border-border px-4 text-sm font-bold text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
+                          >
+                            Compare on Shipbubble
+                            <ArrowUpRight aria-hidden className="size-4" />
+                          </a>
+                        </article>
+                      )}
                     {result && result.unavailable.length > 0 && (
                       <details className="mt-4 text-sm text-muted-foreground">
                         <summary className="cursor-pointer select-none">
