@@ -319,6 +319,11 @@ export type CourierQuote =
 export interface DeliveryQuoteResponse {
   couriers: CourierQuote[];
   unavailable: { name: string; reason: string }[];
+  /**
+   * inline: Shipbubble's couriers are in `couriers`. link: they can't be priced here, so
+   * the page links to Shipbubble's calculator. needs-addresses: they would be with both.
+   */
+  shipbubble?: "inline" | "link" | "needs-addresses";
 }
 
 export const fetchDeliveryStations = (signal?: AbortSignal) =>
