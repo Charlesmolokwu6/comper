@@ -84,3 +84,13 @@ export function centreOf(city: string) {
   const c = CENTRES[city];
   return c ? { name: city, lat: c[0], lon: c[1] } : null;
 }
+
+/** Every town we can place, with a display name from its id ("ijebu-ode" → "Ijebu Ode"). */
+export function allCentres() {
+  return Object.entries(CENTRES).map(([id, [lat, lon]]) => ({
+    id,
+    name: id.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+    lat,
+    lon,
+  }));
+}

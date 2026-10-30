@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { InstallButton } from "./InstallButton";
 import { FeedbackLink } from "./Feedback";
 import { LogoMark } from "./Logo";
+import { savedTrips } from "@/lib/trips";
 
 export function SiteShell({
   children,
@@ -12,6 +13,7 @@ export function SiteShell({
   /** Full-width top of a results page (MapHero), in place of the header. */
   hero?: ReactNode;
 }) {
+  const hasTrips = savedTrips().length > 0;
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       {hero}
@@ -26,7 +28,17 @@ export function SiteShell({
           <LogoMark />
           <span className="text-lg font-extrabold tracking-tight">Compare</span>
         </Link>
-        <InstallButton />
+        <div className="flex items-center gap-2">
+          {hasTrips && (
+            <Link
+              href="/trips"
+              className="inline-flex h-9 items-center rounded-full border border-border px-3 text-sm font-semibold hover:bg-accent"
+            >
+              My trips
+            </Link>
+          )}
+          <InstallButton />
+        </div>
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-16 sm:px-6">

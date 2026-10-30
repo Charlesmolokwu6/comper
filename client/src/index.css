@@ -227,6 +227,18 @@
   }
 }
 
+/* "You are here" on My trip: white dot in a lime ring, like a phone's own map. */
+.pin-me {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 5px solid #c0f11c;
+  box-shadow:
+    0 0 0 6px rgb(192 241 28 / 0.25),
+    0 2px 8px rgb(0 0 0 / 0.5);
+}
+
 /* Map pins (TripMap): pickup pulses like a radar ping; drop-off is a square pin. */
 .pin-pickup {
   position: relative;
