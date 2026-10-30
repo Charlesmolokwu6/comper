@@ -27,6 +27,7 @@ import {
 } from "@/lib/vehicles";
 import type { Near } from "./NearPicker";
 import { BookingGuide } from "./BookingGuide";
+import { rememberBooking } from "@/lib/trips";
 import { VehicleThumb } from "./VehicleIcon";
 import { cn } from "@/lib/utils";
 
@@ -169,6 +170,15 @@ function BookTrip({
   className: string;
   label?: string;
 }) {
+  // Remember the tap, to ask "Did you book?" when they come back (BookedPrompt).
+  return (
+    <span className="contents" onClickCapture={() => rememberBooking(t)}>
+      {bookControl(t, className, label)}
+    </span>
+  );
+}
+
+function bookControl(t: ComparedTrip, className: string, label: string) {
   return t.deepLink ? (
     <a
       href={t.bookingUrl}

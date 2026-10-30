@@ -94,6 +94,12 @@ export function PrivacyPage() {
         is filled in next time. This stays on your device; clear it any time by
         clearing this site's data in your browser.
       </p>
+      <p className="mt-3">
+        If you save a trip for offline ("My trip"), its route, map and your
+        positions along the way are kept on your phone only. Compare's server
+        never receives your location from My trip. Delete a trip any time from
+        My trips.
+      </p>
 
       <h2>Who else sees data</h2>
       <ul>

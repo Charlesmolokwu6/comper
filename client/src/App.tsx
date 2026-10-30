@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import ResultsPage from "./pages/ResultsPage";
 import FlightResultsPage from "./pages/FlightResultsPage";
 import { PrivacyPage, TermsPage } from "./pages/Legal";
+import { TripPage, TripsPage } from "./pages/TripPage";
+import { BookedPrompt } from "./components/compare/BookedPrompt";
 
 /** Old shared links (/?from=&to=&date=) open the results page. */
 function Home() {
@@ -45,10 +47,15 @@ function App({ locationHook }: { locationHook?: BaseLocationHook }) {
                   />
                 )}
               </Route>
+              <Route path="/trips" component={TripsPage} />
+              <Route path="/trip/:id">
+                {p => <TripPage id={decodeURIComponent(p.id)} />}
+              </Route>
               <Route path="/privacy" component={PrivacyPage} />
               <Route path="/terms" component={TermsPage} />
               <Route component={NotFound} />
             </Switch>
+            <BookedPrompt />
           </Router>
         </TooltipProvider>
       </ThemeProvider>
