@@ -232,6 +232,13 @@ export default function ResultsPage({
   const mapFrom = fromTerminalAt ?? centreOf(fromPlace.city);
   const mapTo = toTerminalAt ?? centreOf(toPlace.city);
 
+  // Companies that run between the two cities, just not from/to the terminal picked.
+  const atOtherTerminals =
+    results && !results.trips.length
+      ? results.coverage
+          .filter(c => c.status === "no_route" && c.message === "terminal")
+          .map(c => c.operatorName)
+      : [];
   const activeLabel = CATEGORIES.find(c => c.id === active)!;
   const otherWithFares = CATEGORIES.filter(
     c => c.id !== active && fares[c.id] != null
@@ -499,56 +506,95 @@ export default function ResultsPage({
                 />
               )}
 
-              {groups.length === 0 && !stillLoading && (
-                <div className="rounded-2xl border border-border bg-card p-6 text-center">
-                  <SearchX
-                    aria-hidden
-                    className="mx-auto size-8 text-muted-foreground"
-                  />
-                  {tooFarAhead ? (
-                    <>
-                      <p className="mt-3 font-semibold">
-                        Tickets for {formatDay(date)} aren't on sale yet
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Operators open bookings a few weeks ahead. The latest
-                        date you can book right now is{" "}
-                        {formatDay(latestOnSale!)}.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => go(latestOnSale!)}
-                        className="mt-4 h-10 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                      >
-                        See fares for {formatDay(latestOnSale!)}
-                      </button>
-                    </>
-                  ) : (
+              {/* A terminal was picked and nobody runs this trip from/to it: say so plainly
+                  and point at the companies that run it from elsewhere in the city. */}
+              {groups.length === 0 &&
+                !stillLoading &&
+                atOtherTerminals.length > 0 && (
+                  <div className="rounded-2xl border border-border bg-card p-6 text-center">
+                    <SearchX
+                      aria-hidden
+                      className="mx-auto size-8 text-muted-foreground"
+                    />
                     <p className="mt-3 font-semibold">
-                      No {activeLabel.label.toLowerCase()} fares for this date
+                      No bus goes
+                      {fromTerminalName
+                        ? ` from ${fromTerminalName}`
+                        : ""} to{" "}
+                      {toTerminalName
+                        ? `${toName} · ${toTerminalName}`
+                        : toName}
                     </p>
-                  )}
-                  {tooFarAhead ? null : otherWithFares.length > 0 ? (
-                    <div className="mt-3 flex flex-wrap justify-center gap-2">
-                      {otherWithFares.map(c => (
-                        <button
-                          key={c.id}
-                          type="button"
-                          onClick={() => setPicked(c.id)}
-                          className="h-10 rounded-xl border border-border px-4 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
-                        >
-                          See {c.label} from {formatNaira(fares[c.id]!)}
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Try another date. Some operators only sell a few days
-                      ahead.
+                      {atOtherTerminals.join(" and ")}{" "}
+                      {atOtherTerminals.length === 1 ? "runs" : "run"}{" "}
+                      {fromName} → {toName} from other terminals.
                     </p>
-                  )}
-                </div>
-              )}
+                    <Link
+                      href={resultsPath({
+                        from: fromPlace.city,
+                        to: toPlace.city,
+                        date,
+                      })}
+                      className="mt-4 inline-flex h-11 items-center rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    >
+                      Show all {fromTerminalName ? fromName : toName} terminals
+                    </Link>
+                  </div>
+                )}
+
+              {groups.length === 0 &&
+                !stillLoading &&
+                atOtherTerminals.length === 0 && (
+                  <div className="rounded-2xl border border-border bg-card p-6 text-center">
+                    <SearchX
+                      aria-hidden
+                      className="mx-auto size-8 text-muted-foreground"
+                    />
+                    {tooFarAhead ? (
+                      <>
+                        <p className="mt-3 font-semibold">
+                          Tickets for {formatDay(date)} aren't on sale yet
+                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          Operators open bookings a few weeks ahead. The latest
+                          date you can book right now is{" "}
+                          {formatDay(latestOnSale!)}.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => go(latestOnSale!)}
+                          className="mt-4 h-10 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        >
+                          See fares for {formatDay(latestOnSale!)}
+                        </button>
+                      </>
+                    ) : (
+                      <p className="mt-3 font-semibold">
+                        No {activeLabel.label.toLowerCase()} fares for this date
+                      </p>
+                    )}
+                    {tooFarAhead ? null : otherWithFares.length > 0 ? (
+                      <div className="mt-3 flex flex-wrap justify-center gap-2">
+                        {otherWithFares.map(c => (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onClick={() => setPicked(c.id)}
+                            className="h-10 rounded-xl border border-border px-4 text-sm font-medium hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
+                          >
+                            See {c.label} from {formatNaira(fares[c.id]!)}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Try another date. Some operators only sell a few days
+                        ahead.
+                      </p>
+                    )}
+                  </div>
+                )}
 
               {(groups.length > 0 || !stillLoading) && (
                 <p className="text-xs text-muted-foreground">
