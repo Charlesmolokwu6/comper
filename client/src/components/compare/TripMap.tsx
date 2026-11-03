@@ -195,7 +195,15 @@ export default function TripMap({
     if (!a || !b) return setState("idle");
     const ctrl = new AbortController();
     setState("loading");
+    // One retry: the free routing service sometimes drops a request.
     fetchRoute(a, b, ctrl.signal)
+      .catch(err =>
+        ctrl.signal.aborted
+          ? Promise.reject(err)
+          : new Promise(r => setTimeout(r, 2500)).then(() =>
+              fetchRoute(a, b, ctrl.signal)
+            )
+      )
       .then(r => {
         setRoute(r);
         setState("idle");
@@ -217,14 +225,11 @@ export default function TripMap({
     // the pins with no route until every tile had arrived.
     if (!(m as unknown as { style?: { _loaded?: boolean } }).style?._loaded)
       return;
+    // Only ever the road itself: a straight stand-in line while it loads looked like the
+    // bus's route, which it never is.
     const line: [number, number][] = route
       ? route.line.map(([lat, lon]) => [lon, lat])
-      : a && b
-        ? [
-            [a.lon, a.lat],
-            [b.lon, b.lat],
-          ]
-        : [];
+      : [];
     const data = {
       type: "Feature" as const,
       properties: {},
@@ -332,7 +337,7 @@ export default function TripMap({
         },
       });
     }
-    m.setPaintProperty("trip-line", "line-opacity", route ? 1 : 0.5);
+    m.setPaintProperty("trip-line", "line-opacity", 1);
 
     markers.current.forEach(mk => mk.remove());
     markers.current = [];
