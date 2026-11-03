@@ -3,10 +3,11 @@ import { chisco } from "./chisco";
 import { guo } from "./guo";
 import { okeyson } from "./okeyson";
 import { pmt } from "./pmt";
+import { ysg } from "./ysg";
 import type { Operator, UnavailableOperator } from "./types";
 
 /** Operators with verified live fares over plain HTTP. */
-export const operators: Operator[] = [guo, abc, chisco, pmt, okeyson];
+export const operators: Operator[] = [guo, abc, chisco, pmt, okeyson, ysg];
 
 export const getOperator = (id: string) => operators.find(o => o.id === id);
 
