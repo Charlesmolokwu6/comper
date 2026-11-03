@@ -274,19 +274,33 @@ export interface RoadRoute {
   km: number;
   /** Driving time with empty roads; real trips in traffic take longer. */
   minutes: number;
+  /** Turn-by-turn steps, only when asked for. */
+  steps?: RouteStep[];
   /** [lat, lon] pairs along the road. */
   line: [number, number][];
+}
+
+export interface RouteStep {
+  /** [lat, lon] of the manoeuvre. */
+  at: [number, number];
+  text: string;
+  /** Metres to the next manoeuvre. */
+  metres: number;
+  type: string;
+  modifier: string | null;
 }
 
 export const fetchRoute = (
   from: { lat: number; lon: number },
   to: { lat: number; lon: number },
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  steps = false
 ) =>
   getJson<RoadRoute>(
     `/api/places/route?${new URLSearchParams({
       from: `${from.lat},${from.lon}`,
       to: `${to.lat},${to.lon}`,
+      ...(steps ? { steps: "1" } : {}),
     })}`,
     signal
   );

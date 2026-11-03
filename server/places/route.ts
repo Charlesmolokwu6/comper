@@ -10,7 +10,7 @@ import { Router } from "express";
 export const routeRouter = Router();
 
 const UA =
-  "CompareNG/1.0 (transport price comparison; charlesmolokwu6@gmail.com)";
+  "CompareNG/1.0 (transport price comparison; +https://compare-6ze8.onrender.com)";
 const TTL_MS = 24 * 3600_000;
 const MAX_POINTS = 400;
 const cache = new Map<string, { at: number; body: RouteBody }>();
@@ -22,6 +22,64 @@ export interface RouteBody {
   minutes: number;
   /** [lat, lon] pairs along the road. */
   line: [number, number][];
+  /** Turn-by-turn steps, when asked for with ?steps=1. */
+  steps?: RouteStep[];
+}
+
+export interface RouteStep {
+  /** Where the manoeuvre happens, [lat, lon]. */
+  at: [number, number];
+  /** "Turn left onto Awolowo Road". */
+  text: string;
+  /** Metres from this manoeuvre to the next one. */
+  metres: number;
+  /** OSRM manoeuvre type and direction, for the arrow. */
+  type: string;
+  modifier: string | null;
+}
+
+const road = (name: unknown, ref?: unknown) => String(name || ref || "").trim();
+
+/** OSRM's manoeuvre in plain words. */
+export function stepText(s: any): string {
+  const m = s?.maneuver ?? {};
+  const type: string = m.type ?? "";
+  const mod: string = m.modifier ?? "";
+  const name = road(s?.name, s?.ref);
+  const onto = name ? ` onto ${name}` : "";
+  const dir = mod === "uturn" ? "make a U-turn" : `turn ${mod || "ahead"}`;
+  switch (type) {
+    case "depart":
+      return name ? `Head off on ${name}` : "Head off";
+    case "arrive":
+      return "You've arrived";
+    case "roundabout":
+    case "rotary":
+    case "roundabout turn":
+      return m.exit
+        ? `At the roundabout, take exit ${m.exit}${onto}`
+        : `Go round the roundabout${onto}`;
+    case "exit roundabout":
+    case "exit rotary":
+      return `Leave the roundabout${onto}`;
+    case "fork":
+      return `Keep ${mod.includes("left") ? "left" : mod.includes("right") ? "right" : "straight"} at the fork${onto}`;
+    case "merge":
+      return `Merge${onto || " ahead"}`;
+    case "on ramp":
+      return `Take the ramp${onto}`;
+    case "off ramp":
+      return `Take the exit${onto}`;
+    case "end of road":
+      return `At the end of the road, ${dir}${onto}`;
+    case "new name":
+    case "continue":
+      return mod && mod !== "straight"
+        ? `${dir[0].toUpperCase()}${dir.slice(1)}${onto}`
+        : `Continue${onto || " straight"}`;
+    default:
+      return `${dir[0].toUpperCase()}${dir.slice(1)}${onto}`;
+  }
 }
 
 function throttled<T>(fn: () => Promise<T>): Promise<T> {
@@ -62,11 +120,12 @@ routeRouter.get("/", async (req, res) => {
     return res
       .status(400)
       .json({ error: "from and to must be lat,lon points in Nigeria" });
-  const key = `${from}|${to}`;
+  const withSteps = req.query.steps === "1";
+  const key = `${from}|${to}|${withSteps}`;
   const hit = cache.get(key);
   if (hit && Date.now() - hit.at < TTL_MS) return res.json(hit.body);
   try {
-    const url = `https://router.project-osrm.org/route/v1/driving/${from[1]},${from[0]};${to[1]},${to[0]}?overview=full&geometries=geojson`;
+    const url = `https://router.project-osrm.org/route/v1/driving/${from[1]},${from[0]};${to[1]},${to[0]}?overview=full&geometries=geojson${withSteps ? "&steps=true" : ""}`;
     const json: any = await throttled(async () => {
       const r = await fetch(url, {
         headers: { "User-Agent": UA },
@@ -85,9 +144,19 @@ routeRouter.get("/", async (req, res) => {
       line: thin(
         (route.geometry.coordinates as [number, number][]).map(
           ([lon, lat]) => [lat, lon] as [number, number]
-        )
+        ),
+        // Directions follow the line closely, so keep more of it.
+        withSteps ? 2000 : MAX_POINTS
       ),
     };
+    if (withSteps)
+      body.steps = (route.legs?.[0]?.steps ?? []).map((s: any) => ({
+        at: [s.maneuver.location[1], s.maneuver.location[0]],
+        text: stepText(s),
+        metres: Math.round(s.distance),
+        type: s.maneuver.type,
+        modifier: s.maneuver.modifier ?? null,
+      }));
     cache.set(key, { at: Date.now(), body });
     res.json(body);
   } catch (err: any) {

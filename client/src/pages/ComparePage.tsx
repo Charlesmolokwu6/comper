@@ -1,5 +1,13 @@
 import { useRef, useState } from "react";
-import { Bus, CarTaxiFront, Package, Plane } from "lucide-react";
+import {
+  Bus,
+  CarTaxiFront,
+  ChevronRight,
+  MapPin,
+  Package,
+  Plane,
+} from "lucide-react";
+import { Link } from "wouter";
 import { BusPanel } from "@/components/compare/BusPanel";
 import { CabPanel } from "@/components/compare/CabPanel";
 import { DeliveryPanel } from "@/components/compare/DeliveryPanel";
@@ -130,6 +138,20 @@ export default function ComparePage() {
       </div>
 
       <ModeTabs mode={mode} onChange={setMode} />
+
+      <Link
+        href="/share"
+        className="mt-3 flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
+      >
+        <MapPin aria-hidden className="size-5 shrink-0 text-primary-ink" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-bold">Share a location</span>
+          <span className="block text-xs text-muted-foreground">
+            Send a link; they get the way there, with spoken directions
+          </span>
+        </span>
+        <ChevronRight aria-hidden className="size-4 text-muted-foreground" />
+      </Link>
 
       <div className="mt-6">
         {MODES.map(m => (
