@@ -10,6 +10,7 @@ import ResultsPage from "./pages/ResultsPage";
 import FlightResultsPage from "./pages/FlightResultsPage";
 import { PrivacyPage, TermsPage } from "./pages/Legal";
 import { TripPage, TripsPage } from "./pages/TripPage";
+import { PinPage, SharePinPage } from "./pages/PinPages";
 import { BookedPrompt } from "./components/compare/BookedPrompt";
 
 /** Old shared links (/?from=&to=&date=) open the results page. */
@@ -47,6 +48,8 @@ function App({ locationHook }: { locationHook?: BaseLocationHook }) {
                   />
                 )}
               </Route>
+              <Route path="/share" component={SharePinPage} />
+              <Route path="/pin" component={PinPage} />
               <Route path="/trips" component={TripsPage} />
               <Route path="/trip/:id">
                 {p => <TripPage id={decodeURIComponent(p.id)} />}

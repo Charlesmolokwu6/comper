@@ -100,6 +100,12 @@ export function PrivacyPage() {
         never receives your location from My trip. Delete a trip any time from
         My trips.
       </p>
+      <p className="mt-3">
+        A shared location link carries the spot, name and note inside the link
+        itself; Compare doesn't store it. When you open one and ask for the way,
+        your position is used on your phone to plan the route: the start and end
+        points go to the routing service for that, and nothing is kept.
+      </p>
 
       <h2>Who else sees data</h2>
       <ul>

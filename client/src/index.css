@@ -227,6 +227,36 @@
   }
 }
 
+/* A shared location: a lime map pin. */
+.pin-share {
+  width: 34px;
+  height: 44px;
+  position: relative;
+}
+.pin-share::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: #c0f11c;
+  border: 3px solid #0a0c06;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+}
+.pin-share::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0a0c06;
+}
+
 /* "You are here" on My trip: white dot in a lime ring, like a phone's own map. */
 .pin-me {
   width: 20px;

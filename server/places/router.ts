@@ -13,7 +13,7 @@ export { knownMatches, type Place };
 export const placesRouter = Router();
 
 const UA =
-  "CompareNG/1.0 (transport price comparison; charlesmolokwu6@gmail.com)";
+  "CompareNG/1.0 (transport price comparison; +https://compare-6ze8.onrender.com)";
 const TTL_MS = 24 * 3600_000;
 const cache = new Map<string, { at: number; places: Place[] }>();
 let last = 0;
