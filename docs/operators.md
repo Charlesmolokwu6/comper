@@ -97,6 +97,21 @@ calls **Next.js Server Actions**. Each one is `POST /en/availability` with a
 - **Data quirk:** Okeyson shows identical buses and fares for Jibowu → Enugu and Jibowu → Owerri.
   Its own website shows the same, so this isn't a parsing error.
 
+### Young Shall Grow, through TripEase
+
+YSG's own site is down; tripease.ng sells its tickets. `server/operators/ysg.ts` uses the calls
+tripease.ng makes, with no login or key: `GET api.tripease.ng/api/routes` (YSG parks with street
+addresses) and `POST /api/trips/search-ysg-city` (trips between two cities, e.g. Lagos → Onitsha,
+6:00am, Luxurious ₦32,500). Search is by city, so stop ids are `<city slug>|<park id>` and results
+are filtered per park. The data is a fare list: the same fares on every date and every bus shown
+empty, so seat counts aren't shown and the fare is labelled as YSG's listed fare. Each card shows
+the boarding park's address. Checked Nov 2026: routes from Lagos (Alaba, Iyana Ipaja) to Onitsha,
+Neni, Aba, Umuahia, Uyo, Oron, Ogoja and Calabar, and Neni → Lagos.
+
+Also checked and left out: AKTC, Plateau Riders and Benue Links have public prices but no park
+addresses; Intercity.ng and Cross Country need keys built into their sites; Quickteller needs a
+login; Intertransport has a robot check; Brit Transport, Efex and InTransit list no trips yet.
+
 ### Libra Motors and GIGM: stopped, need your decision
 
 Both sites get their API token by **logging in with a username and password hardcoded in their

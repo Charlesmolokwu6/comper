@@ -223,6 +223,12 @@ function bookControl(t: ComparedTrip, className: string, label: string) {
   );
 }
 
+/** Whose site Book opens: YSG's tickets are sold through TripEase. */
+const bookingSite = (g: OperatorGroup) =>
+  /tripease\.ng/.test(g.website)
+    ? "TripEase, which sells YSG tickets"
+    : `${g.operatorName}'s site`;
+
 interface Props {
   group: OperatorGroup;
   cheapest: boolean;
@@ -564,8 +570,8 @@ export function OperatorCard({
         )}
         <p className="pb-4 pt-1 text-xs text-muted-foreground">
           {shown.some(t => t.deepLink)
-            ? `Book opens this search on ${g.operatorName}'s site.`
-            : `Book shows the exact trip to pick, then opens ${g.operatorName}'s site.`}
+            ? `Book opens this search on ${bookingSite(g)}.`
+            : `Book shows the exact trip to pick, then opens ${bookingSite(g)}.`}
         </p>
       </div>
     </article>
