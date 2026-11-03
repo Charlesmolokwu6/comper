@@ -258,6 +258,22 @@ export default function ResultsPage({
           .at(-1)!
       : null;
   const tooFarAhead = latestOnSale != null && date > latestOnSale;
+  // Companies that run this route but don't sell this date yet: when their sales open.
+  const opensLater = tooFarAhead
+    ? []
+    : (results?.coverage ?? [])
+        .filter(c => c.status === "not_on_sale" && c.onSaleUntil)
+        .map(c => {
+          const ahead = Math.round(
+            (Date.parse(c.onSaleUntil!) - Date.parse(today)) / 86_400_000
+          );
+          return {
+            name: c.operatorName,
+            ahead,
+            opens: shiftDate(date, -ahead),
+          };
+        })
+        .filter(c => c.ahead >= 0 && c.opens > today);
 
   return (
     <SiteShell
@@ -479,6 +495,18 @@ export default function ResultsPage({
               aria-labelledby={`class-tab-${active}`}
               className="space-y-4"
             >
+              {opensLater.map(c => (
+                <p
+                  key={c.name}
+                  className="rounded-xl border border-amber-200/30 bg-amber-400/10 px-4 py-3 text-sm text-warn"
+                >
+                  <span className="font-semibold">{c.name}</span> sells tickets{" "}
+                  {c.ahead} {c.ahead === 1 ? "day" : "days"} before travel.
+                  Their buses for {formatDay(date)} go on sale on{" "}
+                  {formatDay(c.opens)}.
+                </p>
+              ))}
+
               {groups.length > 0 && (
                 <p className="text-sm text-muted-foreground">
                   {groups.length}{" "}

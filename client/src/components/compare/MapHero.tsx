@@ -131,6 +131,10 @@ export function MapHero({
           <p className="mt-2 text-sm font-semibold text-muted-foreground">
             Finding the road…
           </p>
+        ) : routeState === "error" ? (
+          <p className="mt-2 text-sm font-semibold text-muted-foreground">
+            Couldn't load the road just now; the map shows the two ends only.
+          </p>
         ) : null}
         {meta && (
           <p className="mt-1.5 text-[15px] font-medium text-muted-foreground">
