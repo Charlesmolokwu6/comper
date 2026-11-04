@@ -8,6 +8,7 @@ import { flightsRouter } from "./flights/router";
 import { placesRouter } from "./places/router";
 import { routeRouter } from "./places/route";
 import { deliveryRouter } from "./delivery/router";
+import { convoyRouter } from "./convoy/router";
 import { startScheduler } from "./fares/scheduler";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,8 +37,8 @@ async function startServer() {
     if (origin && allowed.has(origin)) {
       res.setHeader("Access-Control-Allow-Origin", origin);
       res.setHeader("Vary", "Origin");
-      res.setHeader("Access-Control-Allow-Methods", "GET");
-      res.setHeader("Access-Control-Allow-Headers", "Accept");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+      res.setHeader("Access-Control-Allow-Headers", "Accept, Content-Type");
     }
     if (req.method === "OPTIONS") return res.sendStatus(204);
     next();
@@ -46,6 +47,7 @@ async function startServer() {
   app.use("/api/guo", guoRouter);
   app.use("/api/flights", flightsRouter);
   app.use("/api/delivery", deliveryRouter);
+  app.use("/api/convoy", convoyRouter);
   app.use("/api/places/route", routeRouter);
   app.use("/api/places", placesRouter);
   app.use("/api", faresRouter);

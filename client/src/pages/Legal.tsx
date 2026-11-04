@@ -106,6 +106,13 @@ export function PrivacyPage() {
         your position is used on your phone to plan the route: the start and end
         points go to the routing service for that, and nothing is kept.
       </p>
+      <p className="mt-3">
+        In a convoy, the names you type and each car's latest position are held
+        on Compare's server so the others can see them, and only while the
+        convoy runs: it's deleted when the leader ends it, after an hour without
+        the leader's position, or after 12 hours. Anyone with the convoy link
+        can watch.
+      </p>
 
       <h2>Who else sees data</h2>
       <ul>

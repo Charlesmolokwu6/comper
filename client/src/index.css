@@ -227,6 +227,45 @@
   }
 }
 
+/* Convoy cars (ConvoyMap): a coloured numbered dot with a name; the leader is a lime star. */
+.convoy-car {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.convoy-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--car);
+  color: #000;
+  font: 900 12px/1 Inter, system-ui, sans-serif;
+  border: 3px solid #0a0c06;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
+}
+.convoy-car[data-leader="true"] .convoy-dot {
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  box-shadow:
+    0 0 0 6px rgb(192 241 28 / 0.3),
+    0 2px 8px rgb(0 0 0 / 0.5);
+}
+.convoy-name {
+  font: 800 11px/1 Inter, system-ui, sans-serif;
+  color: #fff;
+  background: rgb(10 12 6 / 0.8);
+  padding: 3px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.convoy-car[data-stale="true"] {
+  opacity: 0.55;
+}
+
 /* A shared location: a lime map pin. */
 .pin-share {
   width: 34px;
