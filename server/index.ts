@@ -10,6 +10,7 @@ import { routeRouter } from "./places/route";
 import { deliveryRouter } from "./delivery/router";
 import { convoyRouter } from "./convoy/router";
 import { startScheduler } from "./fares/scheduler";
+import { rateLimit, securityHeaders } from "./security";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +18,39 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  const production = process.env.NODE_ENV === "production";
+
+  // Render puts one proxy in front of us; trust it for the visitor's real IP.
+  app.set("trust proxy", 1);
+  app.disable("x-powered-by");
+  app.use(securityHeaders(production));
+
+  // Per-visitor limits. Generous, because many mobile users share one IP.
+  const MIN = 60_000;
+  app.use("/api", rateLimit({ name: "api", windowMs: MIN, max: 300 }));
+  app.use("/api/places", rateLimit({ name: "places", windowMs: MIN, max: 60 }));
+  app.use(
+    "/api/delivery",
+    rateLimit({ name: "delivery", windowMs: MIN, max: 30 })
+  );
+  app.use(
+    "/api/convoy",
+    rateLimit({
+      name: "convoy-start",
+      windowMs: 10 * MIN,
+      max: 10,
+      when: req => req.method === "POST" && req.path === "/",
+    })
+  );
+  app.use(
+    "/api/convoy",
+    rateLimit({
+      name: "convoy-join",
+      windowMs: 10 * MIN,
+      max: 30,
+      when: req => req.method === "POST" && req.path.endsWith("/join"),
+    })
+  );
 
   // Serve static files from dist/public in production
   const staticPath =
