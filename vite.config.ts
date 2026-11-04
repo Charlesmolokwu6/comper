@@ -209,17 +209,17 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [
-  react(),
-  tailwindcss(),
+// The Manus editor helpers (source-location tags, a 366 KB inline runtime, log collector)
+// only matter in the editor's dev server; the built site leaves them out.
+const devOnly = [
   jsxLocPlugin(),
   vitePluginManusRuntime(),
   vitePluginManusDebugCollector(),
   vitePluginStorageProxy(),
 ];
 
-export default defineConfig({
-  plugins,
+export default defineConfig(({ command }) => ({
+  plugins: [react(), tailwindcss(), ...(command === "serve" ? devOnly : [])],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -253,4 +253,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

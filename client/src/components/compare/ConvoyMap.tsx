@@ -30,13 +30,18 @@ function carEl(c: Car) {
   d.className = "convoy-car";
   return d;
 }
+/** Names are set as plain text, never as HTML, whatever people type. */
 function paint(el: HTMLElement, c: Car, index: number) {
   el.dataset.leader = String(c.leader);
   el.dataset.stale = String(c.stale);
   el.style.setProperty("--car", c.color);
-  el.innerHTML = `<span class="convoy-dot">${c.leader ? "★" : index}</span><span class="convoy-name">${
-    c.me ? "You" : c.name.replace(/[<>&]/g, "")
-  }</span>`;
+  const dot = document.createElement("span");
+  dot.className = "convoy-dot";
+  dot.textContent = c.leader ? "★" : String(index);
+  const name = document.createElement("span");
+  name.className = "convoy-name";
+  name.textContent = c.me ? "You" : c.name;
+  el.replaceChildren(dot, name);
 }
 
 /** The convoy: every car, the leader with a star, and the road from you to the leader. */
