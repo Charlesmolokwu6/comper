@@ -246,13 +246,61 @@
   border: 3px solid #0a0c06;
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
 }
+/* The leader: just a lime star, pulsing. */
 .convoy-car[data-leader="true"] .convoy-dot {
-  width: 34px;
-  height: 34px;
-  font-size: 16px;
-  box-shadow:
-    0 0 0 6px rgb(192 241 28 / 0.3),
-    0 2px 8px rgb(0 0 0 / 0.5);
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: #c0f11c;
+  font-size: 40px;
+  line-height: 1;
+  text-shadow:
+    0 0 2px #0a0c06,
+    0 0 2px #0a0c06,
+    0 2px 6px rgb(0 0 0 / 0.6);
+  animation: leader-pulse 1.8s ease-in-out infinite;
+}
+.convoy-car[data-leader="true"] .convoy-dot::after {
+  content: "★";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c0f11c;
+  text-shadow: none;
+  animation: leader-ping 1.8s ease-out infinite;
+}
+@keyframes leader-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+@keyframes leader-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .convoy-car[data-leader="true"] .convoy-dot,
+  .convoy-car[data-leader="true"] .convoy-dot::after {
+    animation: none;
+  }
+  .convoy-car[data-leader="true"] .convoy-dot::after {
+    opacity: 0;
+  }
 }
 .convoy-name {
   font: 800 11px/1 Inter, system-ui, sans-serif;
