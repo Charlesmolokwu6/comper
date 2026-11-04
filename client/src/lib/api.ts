@@ -371,3 +371,86 @@ export const fetchDeliveryQuote = (
     })}`,
     signal
   );
+
+// ---- Convoy (server/convoy) --------------------------------------------------------------
+
+export interface ConvoyMember {
+  id: string;
+  name: string;
+  role: "leader" | "follower";
+  position: {
+    lat: number;
+    lon: number;
+    accuracy: number | null;
+    at: number;
+  } | null;
+}
+
+export interface ConvoyView {
+  id: string;
+  title: string;
+  createdAt: number;
+  endsAt: number;
+  /** Server time, to judge "last seen" on phones with a wrong clock. */
+  now: number;
+  members: ConvoyMember[];
+}
+
+async function postJson<T>(url: string, body: unknown): Promise<T> {
+  const res = await fetch(API_BASE + url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(body),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok)
+    throw Object.assign(
+      new Error(json?.error ?? `Request failed (HTTP ${res.status})`),
+      {
+        status: res.status,
+      }
+    );
+  return json as T;
+}
+
+export const startConvoy = (title: string, name: string) =>
+  postJson<{ convoy: ConvoyView; member: string; key: string }>("/api/convoy", {
+    title,
+    name,
+  });
+
+export const fetchConvoy = async (id: string, signal?: AbortSignal) => {
+  const res = await fetch(`${API_BASE}/api/convoy/${encodeURIComponent(id)}`, {
+    signal,
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok)
+    throw Object.assign(new Error(json?.error ?? `HTTP ${res.status}`), {
+      status: res.status,
+    });
+  return json as ConvoyView;
+};
+
+export const joinConvoy = (id: string, name: string) =>
+  postJson<{ member: string; key: string }>(
+    `/api/convoy/${encodeURIComponent(id)}/join`,
+    { name }
+  );
+
+export const sendConvoyPosition = (
+  id: string,
+  me: { member: string; key: string },
+  p: { lat: number; lon: number; accuracy: number }
+) =>
+  postJson<ConvoyView>(`/api/convoy/${encodeURIComponent(id)}/position`, {
+    ...me,
+    ...p,
+  });
+
+export const leaveConvoy = (id: string, me: { member: string; key: string }) =>
+  postJson<{ result: "ended" | "left" }>(
+    `/api/convoy/${encodeURIComponent(id)}/leave`,
+    me
+  );

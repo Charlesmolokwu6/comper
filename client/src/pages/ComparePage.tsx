@@ -6,6 +6,7 @@ import {
   MapPin,
   Package,
   Plane,
+  Users,
 } from "lucide-react";
 import { Link } from "wouter";
 import { BusPanel } from "@/components/compare/BusPanel";
@@ -139,19 +140,34 @@ export default function ComparePage() {
 
       <ModeTabs mode={mode} onChange={setMode} />
 
-      <Link
-        href="/share"
-        className="mt-3 flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
-      >
-        <MapPin aria-hidden className="size-5 shrink-0 text-primary-ink" />
-        <span className="min-w-0 flex-1">
-          <span className="block text-sm font-bold">Share a location</span>
-          <span className="block text-xs text-muted-foreground">
-            Send a link; they get the way there, with spoken directions
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <Link
+          href="/share"
+          className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          <MapPin aria-hidden className="size-5 shrink-0 text-primary-ink" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold">Share a location</span>
+            <span className="block text-xs text-muted-foreground">
+              Send a link; they get spoken directions there
+            </span>
           </span>
-        </span>
-        <ChevronRight aria-hidden className="size-4 text-muted-foreground" />
-      </Link>
+          <ChevronRight aria-hidden className="size-4 text-muted-foreground" />
+        </Link>
+        <Link
+          href="/convoy"
+          className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          <Users aria-hidden className="size-5 shrink-0 text-primary-ink" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold">Lead a convoy</span>
+            <span className="block text-xs text-muted-foreground">
+              Others follow your car live on the map
+            </span>
+          </span>
+          <ChevronRight aria-hidden className="size-4 text-muted-foreground" />
+        </Link>
+      </div>
 
       <div className="mt-6">
         {MODES.map(m => (
