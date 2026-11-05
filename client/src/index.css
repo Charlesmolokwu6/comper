@@ -338,6 +338,24 @@
   opacity: 0.55;
 }
 
+/* The address at a shared pin, in a bubble above it. */
+.pin-label {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 220px;
+  width: max-content;
+  padding: 5px 9px;
+  border-radius: 9px;
+  background: rgb(10 12 6 / 0.88);
+  color: #fff;
+  font: 700 11.5px/1.25 Inter, system-ui, sans-serif;
+  text-align: center;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
+  pointer-events: none;
+}
+
 /* A shared location: a lime map pin. */
 .pin-share {
   width: 34px;
