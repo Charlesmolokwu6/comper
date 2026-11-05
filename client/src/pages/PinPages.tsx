@@ -72,22 +72,30 @@ export function SharePinPage() {
   const [note, setNote] = useState("");
   const [expiry, setExpiry] = useState(EXPIRY[0].ms);
   const [copied, setCopied] = useState(false);
-  const gps = useCurrentLocation(p => {
+  // Where the pin really is, when moved by hand from the searched spot.
+  const [moved, setMoved] = useState<{ lat: number; lon: number } | null>(null);
+  const choose = (p: CabPoint | null) => {
     setPlace(p);
-  });
+    setMoved(null);
+  };
+  const gps = useCurrentLocation(choose);
 
   const at =
-    place?.lat != null && place.lon != null
+    moved ??
+    (place?.lat != null && place.lon != null
       ? { lat: place.lat, lon: place.lon }
-      : null;
+      : null);
   const pin: Pin | null = at
     ? {
         ...at,
-        name: name.trim() || place!.name,
-        address:
-          [place!.gps ? null : place!.name, place!.address]
-            .filter(Boolean)
-            .join(", ") || undefined,
+        name: name.trim() || place?.name || "Shared location",
+        address: moved
+          ? place
+            ? `Near ${[place.name, place.address].filter(Boolean).join(", ")}`
+            : undefined
+          : [place!.gps ? null : place!.name, place!.address]
+              .filter(Boolean)
+              .join(", ") || undefined,
         note: note.trim() || undefined,
         expires: expiry ? Date.now() + expiry : undefined,
       }
@@ -134,7 +142,7 @@ export function SharePinPage() {
             compact
             label="Where"
             value={place}
-            onChange={setPlace}
+            onChange={choose}
             placeholder="Search an address or place"
             extra={
               <LocateButton onClick={gps.locate} locating={gps.locating} />
@@ -147,17 +155,25 @@ export function SharePinPage() {
           )}
           {place && !at && (
             <p className="text-sm text-warn">
-              Pick a suggestion from the list, or use your current location, so
-              the link has an exact spot.
+              That address isn't on the map yet. Search the area instead (e.g.
+              “Festac Town” or a nearby road), then drag the pin to the exact
+              spot.
             </p>
           )}
 
           {at && (
-            <div className="h-48 overflow-hidden rounded-xl border border-border">
-              <Suspense fallback={<div className="size-full bg-surface" />}>
-                <PinMap pin={at} me={null} line={null} />
-              </Suspense>
-            </div>
+            <>
+              <div className="h-64 overflow-hidden rounded-xl border border-border">
+                <Suspense fallback={<div className="size-full bg-surface" />}>
+                  <PinMap pin={at} me={null} line={null} onPick={setMoved} />
+                </Suspense>
+              </div>
+              <p className="-mt-1 text-xs text-muted-foreground">
+                {moved
+                  ? "Pin moved by hand. Drag it again or tap the map to adjust."
+                  : "Not quite right? Drag the pin, or tap the map, to the exact spot."}
+              </p>
+            </>
           )}
 
           <label className="block">

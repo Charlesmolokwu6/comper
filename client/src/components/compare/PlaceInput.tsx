@@ -23,6 +23,8 @@ export function PlaceInput({
 }) {
   const [text, setText] = useState(value?.name ?? "");
   const [results, setResults] = useState<Place[]>([]);
+  // The exact address wasn't on the map; these are places near it.
+  const [near, setNear] = useState(false);
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const listId = useId();
@@ -50,6 +52,7 @@ export function PlaceInput({
       fetchPlaces(text.trim(), ctrl.signal)
         .then(r => {
           setResults(r.places);
+          setNear(!!r.near);
           setState("idle");
         })
         .catch(() => !ctrl.signal.aborted && setState("error"));
@@ -165,6 +168,12 @@ export function PlaceInput({
               </span>
             </button>
           </li>
+          {near && results.length > 0 && (
+            <li className="px-3 pb-1 pt-2.5 text-xs text-muted-foreground">
+              Not on the map exactly. Places nearby; pick one, then move the pin
+              if you need to:
+            </li>
+          )}
           {results.map(p => (
             <li key={`${p.lat},${p.lon}`} role="option" aria-selected={false}>
               <button
