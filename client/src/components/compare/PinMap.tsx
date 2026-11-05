@@ -33,18 +33,24 @@ export default function PinMap({
   me,
   line,
   guiding = false,
+  onPick,
 }: {
   pin: LatLon;
   me: LatLon | null;
   /** [lat, lon] along the road. */
   line: [number, number][] | null;
   guiding?: boolean;
+  /** Lets the person drag the pin, or tap the map, to set the exact spot. */
+  onPick?: (p: LatLon) => void;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const meMarker = useRef<maplibregl.Marker | null>(null);
   const ready = useRef(false);
   const fitted = useRef(false);
+  const pinMarker = useRef<maplibregl.Marker | null>(null);
+  const pick = useRef(onPick);
+  pick.current = onPick;
 
   useEffect(() => {
     if (!box.current) return;
@@ -58,9 +64,24 @@ export default function PinMap({
       pitchWithRotate: false,
     });
     m.touchZoomRotate.disableRotation();
-    new maplibregl.Marker({ element: el("pin-share"), anchor: "bottom" })
+    const marker = new maplibregl.Marker({
+      element: el("pin-share"),
+      anchor: "bottom",
+      draggable: !!onPick,
+    })
       .setLngLat([pin.lon, pin.lat])
       .addTo(m);
+    pinMarker.current = marker;
+    if (onPick) {
+      marker.on("dragend", () => {
+        const at = marker.getLngLat();
+        pick.current?.({ lat: at.lat, lon: at.lng });
+      });
+      m.on("click", e => {
+        marker.setLngLat(e.lngLat);
+        pick.current?.({ lat: e.lngLat.lat, lon: e.lngLat.lng });
+      });
+    }
     m.on("style.load", () => {
       m.addSource("way", {
         type: "geojson",
@@ -103,8 +124,23 @@ export default function PinMap({
       m.remove();
       map.current = null;
       meMarker.current = null;
+      pinMarker.current = null;
       ready.current = false;
     };
+    // The map is made once; the pin moves below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // The pin moved (a new search, or dragged): follow it, bringing it into view if needed.
+  useEffect(() => {
+    const m = map.current;
+    pinMarker.current?.setLngLat([pin.lon, pin.lat]);
+    if (m && !m.getBounds().contains([pin.lon, pin.lat]))
+      m.easeTo({
+        center: [pin.lon, pin.lat],
+        zoom: Math.max(m.getZoom(), 15),
+        duration: 600,
+      });
   }, [pin.lat, pin.lon]);
 
   // The road.

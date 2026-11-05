@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { fromPhoton, knownMatches, toPlaces, toReverse } from "./router";
+import {
+  fromPhoton,
+  knownMatches,
+  nearQueries,
+  toPlaces,
+  toReverse,
+} from "./router";
 
 describe("places", () => {
   it("matches airports by any word typed, ignoring filler words", () => {
@@ -100,5 +106,16 @@ describe("fromPhoton", () => {
       ],
     };
     expect(fromPhoton(json, 6.4, 3.4)?.name).toBe("Admiralty Way");
+  });
+});
+
+describe("nearQueries", () => {
+  it("tries shorter forms, ending with the area", () => {
+    expect(nearQueries("Fha field 23 road Festac lagos")).toEqual([
+      "field 23 road Festac lagos",
+      "23 road Festac lagos",
+      "Festac lagos",
+    ]);
+    expect(nearQueries("Ikeja")).toEqual([]);
   });
 });

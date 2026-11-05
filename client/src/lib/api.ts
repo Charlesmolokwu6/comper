@@ -244,7 +244,7 @@ export interface Place {
 }
 
 export const fetchPlaces = (q: string, signal?: AbortSignal) =>
-  getJson<{ places: Place[] }>(
+  getJson<{ places: Place[]; near?: boolean }>(
     `/api/places?${new URLSearchParams({ q })}`,
     signal
   );

@@ -15,7 +15,10 @@ export const placesRouter = Router();
 const UA =
   "CompareNG/1.0 (transport price comparison; +https://compare-6ze8.onrender.com)";
 const TTL_MS = 24 * 3600_000;
-const cache = new Map<string, { at: number; places: Place[] }>();
+const cache = new Map<
+  string,
+  { at: number; places: Place[]; near?: boolean }
+>();
 let last = 0;
 let queue: Promise<unknown> = Promise.resolve();
 
@@ -45,6 +48,22 @@ export function toPlaces(json: any[]): Place[] {
     .filter(p => p.name && Number.isFinite(p.lat) && Number.isFinite(p.lon));
 }
 
+/**
+ * Shorter searches to try when the full address finds nothing: drop the first word, then
+ * the first two ("FHA field 23 road Festac" → "field 23 road Festac" → "23 road Festac"),
+ * then just the last two words, usually the area ("Festac Lagos"). At most three.
+ */
+export function nearQueries(q: string): string[] {
+  const w = q.split(/[\s,]+/).filter(Boolean);
+  const out: string[] = [];
+  if (w.length >= 3) out.push(w.slice(1).join(" "));
+  if (w.length >= 4) out.push(w.slice(2).join(" "));
+  if (w.length >= 3) out.push(w.slice(-2).join(" "));
+  return Array.from(new Set(out))
+    .filter(x => x.length >= 3 && x !== q)
+    .slice(0, 3);
+}
+
 placesRouter.get("/", async (req, res) => {
   const q = String(req.query.q ?? "")
     .trim()
@@ -53,7 +72,7 @@ placesRouter.get("/", async (req, res) => {
   const key = q.toLowerCase();
   const hit = cache.get(key);
   if (hit && Date.now() - hit.at < TTL_MS)
-    return res.json({ places: hit.places });
+    return res.json({ places: hit.places, near: hit.near });
   try {
     const url = (query: string) =>
       "https://nominatim.openstreetmap.org/search?" +
@@ -81,6 +100,17 @@ placesRouter.get("/", async (req, res) => {
       .replace(/\s+/g, " ")
       .trim();
     if (!found.length && shorter !== q) found = await search(shorter);
+    // Still nothing (OpenStreetMap is thin in parts of Nigeria, e.g. no "23 Road" in
+    // Festac): offer what's near, from shorter forms of the same words, marked as near.
+    let near = false;
+    if (!found.length && !knownMatches(q).length)
+      for (const alt of nearQueries(shorter)) {
+        found = await search(alt);
+        if (found.length) {
+          near = true;
+          break;
+        }
+      }
     const local = knownMatches(q);
     const places = [
       ...local,
@@ -91,8 +121,8 @@ placesRouter.get("/", async (req, res) => {
           )
       ),
     ].slice(0, 6);
-    cache.set(key, { at: Date.now(), places });
-    res.json({ places });
+    cache.set(key, { at: Date.now(), places, near });
+    res.json({ places, near });
   } catch (err: any) {
     res.status(502).json({ error: err.message });
   }
