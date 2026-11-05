@@ -24,7 +24,7 @@ import {
 import { SiteShell } from "@/components/compare/SiteShell";
 import { useGps, useWakeLock } from "@/hooks/useGps";
 import { track } from "@/lib/analytics";
-import { fetchRoute, type RoadRoute } from "@/lib/api";
+import { fetchReverse, fetchRoute, type RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
 import { pinPath, readPin, type Pin } from "@/lib/pins";
 import { alongRoute } from "@/lib/trips";
@@ -80,6 +80,42 @@ export function SharePinPage() {
   };
   const gps = useCurrentLocation(choose);
 
+  // The street where the pin is now, looked up each time it's moved by hand.
+  const [spot, setSpot] = useState<{ text: string | null; loading: boolean }>({
+    text: null,
+    loading: false,
+  });
+  useEffect(() => {
+    if (!moved) return setSpot({ text: null, loading: false });
+    setSpot(s => ({ ...s, loading: true }));
+    const ctrl = new AbortController();
+    const t = setTimeout(() => {
+      fetchReverse(moved.lat, moved.lon, ctrl.signal)
+        .then(r =>
+          setSpot({
+            text: [r.name, r.address].filter(Boolean).join(", "),
+            loading: false,
+          })
+        )
+        .catch(
+          () => !ctrl.signal.aborted && setSpot({ text: null, loading: false })
+        );
+    }, 500);
+    return () => {
+      clearTimeout(t);
+      ctrl.abort();
+    };
+  }, [moved]);
+  const searchedAddress = place
+    ? [place.gps ? null : place.name, place.address].filter(Boolean).join(", ")
+    : "";
+  const spotAddress = moved
+    ? (spot.text ??
+      (place
+        ? `Near ${[place.name, place.address].filter(Boolean).join(", ")}`
+        : ""))
+    : searchedAddress;
+
   const at =
     moved ??
     (place?.lat != null && place.lon != null
@@ -89,13 +125,7 @@ export function SharePinPage() {
     ? {
         ...at,
         name: name.trim() || place?.name || "Shared location",
-        address: moved
-          ? place
-            ? `Near ${[place.name, place.address].filter(Boolean).join(", ")}`
-            : undefined
-          : [place!.gps ? null : place!.name, place!.address]
-              .filter(Boolean)
-              .join(", ") || undefined,
+        address: spotAddress || undefined,
         note: note.trim() || undefined,
         expires: expiry ? Date.now() + expiry : undefined,
       }
@@ -165,13 +195,32 @@ export function SharePinPage() {
             <>
               <div className="h-64 overflow-hidden rounded-xl border border-border">
                 <Suspense fallback={<div className="size-full bg-surface" />}>
-                  <PinMap pin={at} me={null} line={null} onPick={setMoved} />
+                  <PinMap
+                    pin={at}
+                    me={null}
+                    line={null}
+                    onPick={setMoved}
+                    label={
+                      spot.loading ? "Finding address…" : spotAddress || null
+                    }
+                  />
                 </Suspense>
               </div>
+              <p className="-mt-1 flex items-start gap-1.5 text-sm">
+                <MapPin
+                  aria-hidden
+                  className="mt-0.5 size-4 shrink-0 text-primary-ink"
+                />
+                <span>
+                  {spot.loading
+                    ? "Finding the address at the pin…"
+                    : spotAddress ||
+                      "Address unknown here; your note can describe it."}
+                </span>
+              </p>
               <p className="-mt-1 text-xs text-muted-foreground">
-                {moved
-                  ? "Pin moved by hand. Drag it again or tap the map to adjust."
-                  : "Not quite right? Drag the pin, or tap the map, to the exact spot."}
+                Drag the pin, or tap the map, to the exact spot. The address
+                updates as you move it.
               </p>
             </>
           )}
@@ -470,6 +519,7 @@ export function PinPage() {
             me={fix}
             line={route?.line ?? null}
             guiding={guiding}
+            label={guiding ? null : pin.name}
           />
         </Suspense>
         {!guiding && (

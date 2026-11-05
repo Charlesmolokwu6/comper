@@ -34,6 +34,7 @@ export default function PinMap({
   line,
   guiding = false,
   onPick,
+  label = null,
 }: {
   pin: LatLon;
   me: LatLon | null;
@@ -42,6 +43,8 @@ export default function PinMap({
   guiding?: boolean;
   /** Lets the person drag the pin, or tap the map, to set the exact spot. */
   onPick?: (p: LatLon) => void;
+  /** Address shown in a bubble above the pin. */
+  label?: string | null;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -130,6 +133,20 @@ export default function PinMap({
     // The map is made once; the pin moves below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // The address bubble above the pin, as plain text.
+  useEffect(() => {
+    const host = pinMarker.current?.getElement();
+    if (!host) return;
+    let tag = host.querySelector<HTMLElement>(".pin-label");
+    if (!label) return tag?.remove();
+    if (!tag) {
+      tag = document.createElement("span");
+      tag.className = "pin-label";
+      host.appendChild(tag);
+    }
+    tag.textContent = label;
+  }, [label]);
 
   // The pin moved (a new search, or dragged): follow it, bringing it into view if needed.
   useEffect(() => {
