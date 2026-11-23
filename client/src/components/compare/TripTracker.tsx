@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { fastMapOptions, keepMapAlive } from "@/lib/mapRuntime";
 import {
   compareMapStyle,
   FIRST_LABEL_LAYER,
@@ -61,6 +62,7 @@ export default function TripTracker({
       pitchWithRotate: false,
       // Saved map pieces go up to zoom 12; closer than this would be blank offline.
       maxZoom: 13,
+      ...fastMapOptions(),
     });
     m.touchZoomRotate.disableRotation();
     m.on("style.load", () => {
@@ -109,7 +111,9 @@ export default function TripTracker({
       .setLngLat(line[line.length - 1])
       .addTo(m);
     map.current = m;
+    const stopAlive = keepMapAlive(m, box.current);
     return () => {
+      stopAlive();
       m.remove();
       map.current = null;
       me.current = null;
