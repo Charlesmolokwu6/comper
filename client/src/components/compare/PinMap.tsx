@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { fastMapOptions, keepMapAlive } from "@/lib/mapRuntime";
 import {
   compareMapStyle,
   FIRST_LABEL_LAYER,
@@ -52,6 +53,17 @@ export default function PinMap({
   const ready = useRef(false);
   const fitted = useRef(false);
   const pinMarker = useRef<maplibregl.Marker | null>(null);
+  // The person's finger is on the map: the camera leaves it alone.
+  const handling = useRef(false);
+  const aimed = useRef(false);
+  const glide = useRef<{
+    from: [number, number];
+    to: [number, number];
+    start: number;
+  }>({ from: [0, 0], to: [0, 0], start: 0 });
+  const frame = useRef<number | null>(null);
+  const guidingRef = useRef(guiding);
+  guidingRef.current = guiding;
   const pick = useRef(onPick);
   pick.current = onPick;
 
@@ -65,8 +77,17 @@ export default function PinMap({
       attributionControl: false,
       dragRotate: false,
       pitchWithRotate: false,
+      ...fastMapOptions(),
     });
     m.touchZoomRotate.disableRotation();
+    const byHand = (e: { originalEvent?: unknown }) => {
+      if (e.originalEvent) handling.current = true;
+    };
+    m.on("dragstart", byHand);
+    m.on("zoomstart", byHand);
+    m.on("moveend", () => {
+      handling.current = false;
+    });
     const marker = new maplibregl.Marker({
       element: el("pin-share"),
       anchor: "bottom",
@@ -123,7 +144,11 @@ export default function PinMap({
       m.fire("compare:redraw");
     });
     map.current = m;
+    const stopAlive = keepMapAlive(m, box.current);
     return () => {
+      stopAlive();
+      if (frame.current) cancelAnimationFrame(frame.current);
+      frame.current = null;
       m.remove();
       map.current = null;
       meMarker.current = null;
@@ -191,20 +216,61 @@ export default function PinMap({
     const m = map.current;
     if (!m) return;
     if (me) {
-      if (!meMarker.current)
+      const to: [number, number] = [me.lon, me.lat];
+      if (!meMarker.current) {
         meMarker.current = new maplibregl.Marker({ element: el("pin-me") })
-          .setLngLat([me.lon, me.lat])
+          .setLngLat(to)
           .addTo(m);
-      else meMarker.current.setLngLat([me.lon, me.lat]);
+        glide.current = { from: to, to, start: 0 };
+      } else if (
+        to[0] !== glide.current.to[0] ||
+        to[1] !== glide.current.to[1]
+      ) {
+        // Glide to the new fix over a second rather than jumping; while guiding, the map
+        // rides along so you stay in the middle.
+        const at = meMarker.current.getLngLat();
+        glide.current = {
+          from: [at.lng, at.lat],
+          to,
+          start: performance.now(),
+        };
+        if (!frame.current) {
+          let last = 0;
+          const step = () => {
+            const t = performance.now();
+            if (t - last < 30) {
+              frame.current = requestAnimationFrame(step);
+              return;
+            }
+            last = t;
+            const g = glide.current;
+            const k = Math.min(1, (t - g.start) / 1_000);
+            const here: [number, number] = [
+              g.from[0] + (g.to[0] - g.from[0]) * k,
+              g.from[1] + (g.to[1] - g.from[1]) * k,
+            ];
+            meMarker.current?.setLngLat(here);
+            if (guidingRef.current && !handling.current)
+              m.jumpTo({ center: here });
+            frame.current = k < 1 ? requestAnimationFrame(step) : null;
+          };
+          frame.current = requestAnimationFrame(step);
+        }
+      }
     }
     if (guiding && me) {
-      m.easeTo({
-        center: [me.lon, me.lat],
-        zoom: Math.max(m.getZoom(), 16),
-        duration: 700,
-      });
+      // Guiding starts: bring you to the middle at street level, once.
+      if (!aimed.current && !handling.current) {
+        aimed.current = true;
+        m.easeTo({
+          center: [me.lon, me.lat],
+          zoom: Math.min(Math.max(m.getZoom(), 16), 17),
+          duration: 700,
+        });
+      }
       return;
     }
+    aimed.current = false;
     if (fitted.current && !guiding) return;
     const pts: [number, number][] = [[pin.lon, pin.lat]];
     if (me) pts.push([me.lon, me.lat]);

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { fastMapOptions, keepMapAlive } from "@/lib/mapRuntime";
 import { fetchRoute, type RoadRoute } from "@/lib/api";
 import type { CabPoint } from "@/lib/cab";
 import { MapCredits } from "./MapCredits";
@@ -162,12 +163,15 @@ export default function TripMap({
       dragRotate: false,
       pitchWithRotate: false,
       maxPitch: 60,
+      ...fastMapOptions(),
     });
     m.touchZoomRotate.disableRotation();
     // Our route layers live in the style, so they're re-added after every style load.
     m.on("style.load", () => setReady(n => n + 1));
     map.current = m;
+    const stopAlive = keepMapAlive(m, box.current);
     return () => {
+      stopAlive();
       if (frame.current) cancelAnimationFrame(frame.current);
       m.remove();
       map.current = null;
